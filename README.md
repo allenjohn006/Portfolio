@@ -1,4 +1,4 @@
-# 👨‍💻 Allen John Isac | Full-Stack Developer & AI/ML Enthusiast
+# Allen John Isac | Full-Stack Developer & AI/ML Enthusiast
 
 > **Building intelligent web applications and AI-powered solutions** | B.Tech (AI & DS Specialization) | Problem Solver | Tech Innovator
 
@@ -6,19 +6,19 @@
 
 ---
 
-## 🌟 About Me
+## About Me
 
 I'm a passionate full-stack developer with a strong foundation in **web development, machine learning, and IoT systems**. Currently pursuing B.Tech with AI & DS specialization, I combine technical expertise with creative problem-solving to build end-to-end applications that make an impact.
 
 **What drives me:**
-- 💡 Building intelligent solutions using AI/ML
-- 🚀 Creating intuitive user experiences with modern web technologies  
-- 🔍 Solving complex problems with data-driven approaches
-- 🌐 Continuous learning and exploring emerging technologies
+-  Building intelligent solutions using AI/ML
+-  Creating intuitive user experiences with modern web technologies  
+-  Solving complex problems with data-driven approaches
+-  Continuous learning and exploring emerging technologies
 
 ---
 
-## 💼 Core Competencies
+## Core Competencies
 
 | **Domain** | **Skills** |
 |-----------|-----------|
@@ -36,7 +36,7 @@ I'm a passionate full-stack developer with a strong foundation in **web developm
 
 ---
 
-## 🎯 Featured Projects
+##  Featured Projects
 
 ### 1. **Blind Man Stick** - IoT Navigation System
 **Impact:** Assistive technology for visually impaired individuals
@@ -65,7 +65,7 @@ I'm a passionate full-stack developer with a strong foundation in **web developm
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 **Frontend Ecosystem:**
 ```
@@ -89,19 +89,19 @@ Predictive Modeling, Feature Engineering
 
 ---
 
-## 📊 Portfolio Statistics
+##  Portfolio Statistics
 
 ✅ **5+ Completed Projects** | ✅ **10+ Technical Skills** | ✅ **2nd Year B.Tech (AI & DS)** | ✅ **Continuous Learner**
 
-- 🎨 Modern, responsive portfolio with smooth animations
-- 📱 Mobile-first design (works flawlessly on all devices)
-- ⚡ Performance optimized with Vite for fast load times
-- 🔧 Clean, maintainable component architecture
-- 🎯 SEO-friendly and accessibility-focused
+-  Modern, responsive portfolio with smooth animations
+-  Mobile-first design (works flawlessly on all devices)
+-  Performance optimized with Vite for fast load times
+-  Clean, maintainable component architecture
+-  SEO-friendly and accessibility-focused
 
 ---
 
-## 🚀 Live Portfolio Features
+## Live Portfolio Features
 
 | Feature | Benefit |
 |---------|---------|
@@ -115,44 +115,33 @@ Predictive Modeling, Feature Engineering
 
 ---
 
-## 🎓 Education & Specialization
+##  Education & Specialization
 
 **B.Tech - Artificial Intelligence & Data Science**  
 Currently in 2nd Year | Focus on ML, AI, and Data-Driven Solutions
 
 ---
 
-## 📱 Contact & Connect
+##  Contact & Connect
 
 - 📧 **Email:** allenjohn24@karunya.edu.in
 - 🔗 **LinkedIn:** [Allen John Isac](https://www.linkedin.com/in/allen-john-isac-7b6730363/)
-- 💻 **GitHub:** [Allenjohn2006](https://github.com/Allenjohn2006)
-- 📍 **Location:** India
+-  **GitHub:** [Allenjohn2006](https://github.com/Allenjohn2006)
+-  **Location:** India
 
 ---
 
-## 🎯 What I'm Looking For
+##  What I'm Looking For
 
 I'm actively seeking opportunities in:
-- 🌐 **Web Development** - Full-stack or Frontend roles
-- 🤖 **AI/ML Engineering** - Building intelligent systems
-- 📊 **Data Science** - Predictive analytics & analytics projects
-- 💼 **Internships** - Learning-focused opportunities with growth potential
+-  **Web Development** - Full-stack or Frontend roles
+-  **AI/ML Engineering** - Building intelligent systems
+-  **Data Science** - Predictive analytics & analytics projects
+-  **Internships** - Learning-focused opportunities with growth potential 
 
 ---
 
-## 🏆 Why Work With Me?
-
-✨ **Fast Learner** - Quick to grasp new technologies and frameworks  
-🚀 **Initiative-Driven** - Proactively identify and solve problems  
-💻 **Full-Stack Capability** - Can work across frontend, backend, and ML pipelines  
-🤝 **Team Player** - Excellent collaboration and communication skills  
-📈 **Growth Mindset** - Committed to continuous learning and self-improvement  
-🎯 **Results-Oriented** - Focus on delivering quality, production-ready code  
-
----
-
-## 📚 Technical Approach
+## Technical Approach
 
 **Web Development:**
 - Component-driven architecture with React best practices
@@ -166,46 +155,32 @@ I'm actively seeking opportunities in:
 - NLP and predictive analytics
 - Real-world problem solving with data-driven solutions
 
-**Software Quality:**
-- Version control with Git workflows
-- Code organization and scalability
-- Testing and debugging practices
-- Documentation and code comments
+
 
 ---
 
-## 💡 Why This Portfolio Stands Out
 
-1. **Live Demo Ready** - Experience my work directly at this portfolio
-2. **Full-Stack Capabilities** - Demonstrates both frontend and AI/ML expertise
-3. **Real-World Projects** - Projects solve actual problems (accessibility, recruitment)
-4. **Modern Tech Stack** - Uses current industry standards and best practices
-5. **Professional Presentation** - Clean, well-organized code and documentation
-6. **Multi-Disciplinary** - Showcases versatility across web, AI/ML, and IoT domains
+##  Growth & Achievements
 
----
-
-## 📈 Growth & Achievements
-
-- 🎓 Pursuing B.Tech in AI & Data Science specialization
-- 💻 Developed 5+ projects spanning web development, AI/ML, and IoT
-- 🤖 Built ML models with real-world applications
-- 🌐 Created responsive, production-quality web applications
-- 📚 Continuously learning new frameworks and technologies
-- 🔧 Strong problem-solving and debugging skills
+-  Pursuing B.Tech in AI & Data Science specialization
+-  Developed 5+ projects spanning web development, AI/ML, and IoT
+-  Built ML models with real-world applications
+-  Created responsive, production-quality web applications
+-  Continuously learning new frameworks and technologies
+-  Strong problem-solving and debugging skills
 
 ---
 
-## 🔗 Quick Links for Recruiters
+##  Quick Links for Recruiters
 
 - **Live Portfolio:** Explore this responsive web application
 - **GitHub:** [Allenjohn2006](https://github.com/Allenjohn2006)
 - **LinkedIn:** [Allen John Isac](https://www.linkedin.com/in/allen-john-isac-7b6730363/)
-- **Email:** allenjohn24@karunya.edu.in
+- **Email:** allen15022006@gmail.com.edu.in
 
 ---
 
-## ⭐ Let's Work Together
+## Let's Work Together
 
 Interested in collaborating? Feel free to:
 
@@ -217,6 +192,6 @@ Interested in collaborating? Feel free to:
 
 ---
 
-**💬 "Great code is not just about functionality; it's about solving real problems for real people."**
+**"Great code is not just about functionality; it's about solving real problems for real people."**
 
 Made with ❤️ using **React**, **Vite**, and **Modern Web Technologies**
