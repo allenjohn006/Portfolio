@@ -1,0 +1,43 @@
+:root {
+  font-family: 'Poppins', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: dark;
+  color: #e0e6ff;
+  background-color: #0a0e27;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden; /* Prevents unwanted horizontal scrolling */
+}
+
+/* --- THE FIX START --- */
+#root {
+  width: 100% !important;      /* Force full width */
+  max-width: none !important;  /* Remove the default size limit */
+  margin: 0 !important;        /* Remove auto margins */
+  padding: 0 !important;       /* Remove default padding */
+  display: flex;
+  flex-direction: column;
+  text-align: left;            /* Reset text alignment */
+}
+
+.app {
+  width: 100%;
+  min-height: 100vh;
+}
+/* --- THE FIX END --- */
