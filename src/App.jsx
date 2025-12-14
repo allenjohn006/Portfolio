@@ -40,8 +40,8 @@ export default function App() {
       <nav className={`navbar ${scrollPos > 50 ? 'scrolled' : ''}`}>
         <div className="nav-container">
           <div className="logo-container">
-            <img src="/logo1.png" alt="Logo" className="logo" />
-            <span className="logo-text">AJI</span>
+            <img src="Logo-removebg.png" alt="Logo" className="logo" />
+           
           </div>
           
           <button 
@@ -93,7 +93,6 @@ export default function App() {
           </div>
           <div className="hero-image">
             <div className="image-container">
-              <img src="/photo-removebg.png" alt="Allen John Isac" />
               <div className="glow-effect"></div>
               <div className="floating-shape shape-1"></div>
               <div className="floating-shape shape-2"></div>
