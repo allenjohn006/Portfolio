@@ -158,68 +158,146 @@ export default function App() {
         </div>
       </section>
 
-      {/* Skills Section */}
-      <section id="skills" className="skills">
-        <div className="section-container">
-          <div className="section-header">
-            <h2>Technical Skills</h2>
-            <p>Technologies and tools I used for Projects</p>
+      {/* Skills Section (new design) */}
+      <section id="skills" className="skills skills-section">
+        <div className="skills-wrap">
+          <div className="header">
+            <h1>Technical Skills</h1>
+            <p>Technologies and expertise demonstrated through real-world projects</p>
           </div>
 
-          <div className="skills-content">
-            <div className="skills-category">
-              <h3>Languages</h3>
-              <div className="skills-list">
-                {[
-                  { name: 'Python', level: 88 },
-                  { name: 'JavaScript', level: 87 },
-                  { name: 'C', level: 85 },
-                  { name: 'Java', level: 75 },
-                ].map((skill, idx) => (
-                  <div key={idx} className="skill-item">
-                    <div className="skill-header">
-                      <span className="skill-name">{skill.name}</span>
-                      <span className="skill-percent">{skill.level}%</span>
-                    </div>
-                    <div className="skill-bar">
-                      <div className="skill-fill" style={{ width: `${skill.level}%` }}></div>
-                    </div>
-                  </div>
-                ))}
+          <div className="skills-grid">
+            <div className="skill-card">
+              <div className="skill-header">
+                <div className="skill-icon">
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" />
+                </div>
+                <h3>Python & Data Science</h3>
+              </div>
+              <div className="skill-items">
+                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg" alt="NumPy"/> NumPy</span>
+                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg" alt="Pandas"/> Pandas</span>
+                <span className="skill-tag"><i className="fas fa-brain" style={{color: '#F7931E'}}></i> Scikit-learn</span>
+                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" alt="TensorFlow"/> TensorFlow</span>
+                <span className="skill-tag"><i className="fas fa-chart-line" style={{color: '#11557c'}}></i> Matplotlib</span>
+                <span className="skill-tag"><i className="fas fa-chart-area" style={{color: '#4C9BDF'}}></i> Seaborn</span>
+                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg" alt="Jupyter"/> Jupyter</span>
               </div>
             </div>
 
-            <div className="skills-category">
-              <h3>Technologies</h3>
-              <div className="skills-list">
-                {[
-                  { name: 'React.js', level: 85 },
-                  { name: 'HTML/CSS', level: 92 },
-                  { name: 'Node.js', level: 80 },
-                  { name: 'MongoDB', level: 80 },
-                ].map((skill, idx) => (
-                  <div key={idx} className="skill-item">
-                    <div className="skill-header">
-                      <span className="skill-name">{skill.name}</span>
-                      <span className="skill-percent">{skill.level}%</span>
-                    </div>
-                    <div className="skill-bar">
-                      <div className="skill-fill" style={{ width: `${skill.level}%` }}></div>
-                    </div>
-                  </div>
-                ))}
+            <div className="skill-card">
+              <div className="skill-header">
+                <div className="skill-icon"><i className="fas fa-robot" style={{color: '#00d4ff'}}></i></div>
+                <h3>Machine Learning & AI</h3>
+              </div>
+              <div className="skill-items">
+                <span className="skill-tag">Random Forest</span>
+                <span className="skill-tag">Gradient Boosting</span>
+                <span className="skill-tag">Model Evaluation</span>
+                <span className="skill-tag">Predictive Analytics</span>
               </div>
             </div>
 
-            <div className="skills-category">
-              <h3>Specializations</h3>
-              <div className="skills-tags">
-                {['Data Science', 'Machine Learning', 'AI', 'IoT', 'Web Design', 'Git/GitHub'].map((skill, idx) => (
-                  <span key={idx} className="skill-tag">{skill}</span>
-                ))}
+            <div className="skill-card">
+              <div className="skill-header">
+                <div className="skill-icon"><i className="fas fa-language" style={{color: '#00d4ff'}}></i></div>
+                <h3>Natural Language Processing</h3>
+              </div>
+              <div className="skill-items">
+                <span className="skill-tag"><i className="fas fa-book" style={{color: '#4B8BBE'}}></i> NLTK</span>
+                <span className="skill-tag"><i className="fas fa-comments" style={{color: '#09A3D5'}}></i> spaCy</span>
+                <span className="skill-tag">Text Classification</span>
+                <span className="skill-tag">Sentiment Analysis</span>
+                <span className="skill-tag">Word Embeddings</span>
+              </div>
+            </div>
+
+            <div className="skill-card">
+              <div className="skill-header">
+                <div className="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React"/></div>
+                <h3>Web Development</h3>
+              </div>
+              <div className="skill-items">
+                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React"/> React.js</span>
+                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js"/> Node.js</span>
+                <span className="skill-tag"><i className="fas fa-server" style={{color: '#000'}}></i> Express.js</span>
+                <span className="skill-tag"><i className="fas fa-stream" style={{color: '#FF4B4B'}}></i> Streamlit</span>
+                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5"/> HTML5/CSS3</span>
+                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JS"/> JavaScript</span>
+                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind"/> Tailwind CSS</span>
+              </div>
+            </div>
+
+            <div className="skill-card">
+              <div className="skill-header">
+                <div className="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java"/></div>
+                <h3>Java & Software Engineering</h3>
+              </div>
+              <div className="skill-items">
+                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java"/> Java SE</span>
+                <span className="skill-tag">Swing Framework</span>
+                <span className="skill-tag">MVC Architecture</span>
+                <span className="skill-tag">OOP Design</span>
+                <span className="skill-tag">Desktop Apps</span>
+              </div>
+            </div>
+
+            <div className="skill-card">
+              <div className="skill-header">
+                <div className="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="DB"/></div>
+                <h3>Database & Cloud</h3>
+              </div>
+              <div className="skill-items">
+                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB"/> MongoDB</span>
+                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="SQL"/> SQL</span>
+                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" alt="AWS"/> AWS</span>
+                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker"/> Docker</span>
+                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git"/> Git & GitHub</span>
+                <span className="skill-tag"><i className="fas fa-plug" style={{color: '#00d4ff'}}></i> REST APIs</span>
+              </div>
+            </div>
+
+            <div className="skill-card">
+              <div className="skill-header">
+                <div className="skill-icon"><i className="fas fa-chart-bar" style={{color: '#E97627'}}></i></div>
+                <h3>Data Visualization & BI</h3>
+              </div>
+              <div className="skill-items">
+                <span className="skill-tag"><i className="fas fa-chart-line" style={{color: '#E97627'}}></i> Tableau</span>
+                <span className="skill-tag">Dashboard Design</span>
+                <span className="skill-tag">Interactive Charts</span>
+                <span className="skill-tag">Business Analytics</span>
+              </div>
+            </div>
+
+            <div className="skill-card">
+              <div className="skill-header">
+                <div className="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" alt="C"/></div>
+                <h3>Systems & Embedded</h3>
+              </div>
+              <div className="skill-items">
+                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" alt="C"/> C Programming</span>
+                <span className="skill-tag"><i className="fas fa-microchip" style={{color: '#00979D'}}></i> Embedded Systems</span>
+                <span className="skill-tag"><i className="fas fa-wifi" style={{color: '#00d4ff'}}></i> IoT</span>
+                <span className="skill-tag">Hardware Integration</span>
+                <span className="skill-tag">Low-level Programming</span>
               </div>
             </div>
           </div>
+
+          <div className="specializations">
+            <h2>Specializations</h2>
+            <div className="spec-grid">
+              <div className="spec-card"><h3>Machine Learning</h3></div>
+              <div className="spec-card"><h3>NLP & Text Analytics</h3></div>
+              <div className="spec-card"><h3>Predictive Analytics</h3></div>
+              <div className="spec-card"><h3>Full-Stack Development</h3></div>
+              <div className="spec-card"><h3>Data Science</h3></div>
+              <div className="spec-card"><h3>IoT Solutions</h3></div>
+            </div>
+          </div>
+
+          {/* Certifications removed per request */}
         </div>
       </section>
 
