@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-
+import ModernSkillsSection from './components/ModernSkillsSection';
 export default function App() {
   const [scrollPos, setScrollPos] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [typedText, setTypedText] = useState('');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,6 +28,40 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Typewriter effect for hero subtitle
+  useEffect(() => {
+    const words = ['Full-Stack Developer', 'ML & AI Enthusiast', 'Problem Solver'];
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let timeoutId;
+
+    function tick() {
+      const current = words[wordIndex];
+      if (!isDeleting) {
+        charIndex++;
+        setTypedText(current.slice(0, charIndex));
+        if (charIndex === current.length) {
+          isDeleting = true;
+          timeoutId = setTimeout(tick, 1100);
+          return;
+        }
+      } else {
+        charIndex--;
+        setTypedText(current.slice(0, charIndex));
+        if (charIndex === 0) {
+          isDeleting = false;
+          wordIndex = (wordIndex + 1) % words.length;
+        }
+      }
+      const speed = isDeleting ? 60 : 110;
+      timeoutId = setTimeout(tick, speed);
+    }
+
+    tick();
+    return () => clearTimeout(timeoutId);
+  }, []);
+
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
     element?.scrollIntoView({ behavior: 'smooth' });
@@ -36,6 +71,13 @@ export default function App() {
 
   return (
     <div className="app">
+      {/* Global animated background (grid + floating blobs) */}
+      <div className="global-bg" aria-hidden="true">
+        <div className="bg-grid"></div>
+        <div className="blob b1"></div>
+        <div className="blob b2"></div>
+        <div className="blob b3"></div>
+      </div>
       {/* Navigation */}
       <nav className={`navbar ${scrollPos > 50 ? 'scrolled' : ''}`}>
         <div className="nav-container">
@@ -74,9 +116,10 @@ export default function App() {
               <span className="title-word">John</span>
               <span className="title-word gradient">Isac</span>
             </h1>
-            <p className="hero-subtitle">
-              Web Developer • ML & AI Enthusiast • Problem Solver
-            </p>
+            <div className="hero-subtitle typewriter">
+              <span className="typed">{typedText}</span>
+              <span className="cursor" aria-hidden="true">|</span>
+            </div>
             <p className="hero-description">
              Passionate about predictive analytics, data-driven decision making, and building end-to-end applications.<p>Currently pursuing my B.Tech degree with AI & DS Specialization.</p>
             </p>
@@ -92,10 +135,18 @@ export default function App() {
             </div>
           </div>
           <div className="hero-image">
-            <div className="image-container">
-              <div className="glow-effect"></div>
-              <div className="floating-shape shape-1"></div>
-              <div className="floating-shape shape-2"></div>
+            <div className="image-container photo-frame">
+              <div className="photo-glow" aria-hidden="true"></div>
+              <img src="/photo1.jpg" alt="Allen John Isac" className="profile-photo"/>
+              <div className="orbit-dots" aria-hidden="true">
+                <span className="dot d1"></span>
+                <span className="dot d2"></span>
+                <span className="dot d3"></span>
+                <span className="dot d4"></span>
+                <span className="dot d5"></span>
+                <span className="dot d6"></span>
+                <span className="dot d7"></span>
+              </div>
             </div>
           </div>
         </div>
@@ -158,148 +209,8 @@ export default function App() {
         </div>
       </section>
 
-      {/* Skills Section (new design) */}
-      <section id="skills" className="skills skills-section">
-        <div className="skills-wrap">
-          <div className="header">
-            <h1>Technical Skills</h1>
-            <p>Technologies and expertise demonstrated through real-world projects</p>
-          </div>
-
-          <div className="skills-grid">
-            <div className="skill-card">
-              <div className="skill-header">
-                <div className="skill-icon">
-                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" />
-                </div>
-                <h3>Python & Data Science</h3>
-              </div>
-              <div className="skill-items">
-                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg" alt="NumPy"/> NumPy</span>
-                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg" alt="Pandas"/> Pandas</span>
-                <span className="skill-tag"><i className="fas fa-brain" style={{color: '#F7931E'}}></i> Scikit-learn</span>
-                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" alt="TensorFlow"/> TensorFlow</span>
-                <span className="skill-tag"><i className="fas fa-chart-line" style={{color: '#11557c'}}></i> Matplotlib</span>
-                <span className="skill-tag"><i className="fas fa-chart-area" style={{color: '#4C9BDF'}}></i> Seaborn</span>
-                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg" alt="Jupyter"/> Jupyter</span>
-              </div>
-            </div>
-
-            <div className="skill-card">
-              <div className="skill-header">
-                <div className="skill-icon"><i className="fas fa-robot" style={{color: '#00d4ff'}}></i></div>
-                <h3>Machine Learning & AI</h3>
-              </div>
-              <div className="skill-items">
-                <span className="skill-tag">Random Forest</span>
-                <span className="skill-tag">Gradient Boosting</span>
-                <span className="skill-tag">Model Evaluation</span>
-                <span className="skill-tag">Predictive Analytics</span>
-              </div>
-            </div>
-
-            <div className="skill-card">
-              <div className="skill-header">
-                <div className="skill-icon"><i className="fas fa-language" style={{color: '#00d4ff'}}></i></div>
-                <h3>Natural Language Processing</h3>
-              </div>
-              <div className="skill-items">
-                <span className="skill-tag"><i className="fas fa-book" style={{color: '#4B8BBE'}}></i> NLTK</span>
-                <span className="skill-tag"><i className="fas fa-comments" style={{color: '#09A3D5'}}></i> spaCy</span>
-                <span className="skill-tag">Text Classification</span>
-                <span className="skill-tag">Sentiment Analysis</span>
-                <span className="skill-tag">Word Embeddings</span>
-              </div>
-            </div>
-
-            <div className="skill-card">
-              <div className="skill-header">
-                <div className="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React"/></div>
-                <h3>Web Development</h3>
-              </div>
-              <div className="skill-items">
-                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React"/> React.js</span>
-                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js"/> Node.js</span>
-                <span className="skill-tag"><i className="fas fa-server" style={{color: '#000'}}></i> Express.js</span>
-                <span className="skill-tag"><i className="fas fa-stream" style={{color: '#FF4B4B'}}></i> Streamlit</span>
-                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5"/> HTML5/CSS3</span>
-                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JS"/> JavaScript</span>
-                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind"/> Tailwind CSS</span>
-              </div>
-            </div>
-
-            <div className="skill-card">
-              <div className="skill-header">
-                <div className="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java"/></div>
-                <h3>Java & Software Engineering</h3>
-              </div>
-              <div className="skill-items">
-                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java"/> Java SE</span>
-                <span className="skill-tag">Swing Framework</span>
-                <span className="skill-tag">MVC Architecture</span>
-                <span className="skill-tag">OOP Design</span>
-                <span className="skill-tag">Desktop Apps</span>
-              </div>
-            </div>
-
-            <div className="skill-card">
-              <div className="skill-header">
-                <div className="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="DB"/></div>
-                <h3>Database & Cloud</h3>
-              </div>
-              <div className="skill-items">
-                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB"/> MongoDB</span>
-                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="SQL"/> SQL</span>
-                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" alt="AWS"/> AWS</span>
-                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker"/> Docker</span>
-                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git"/> Git & GitHub</span>
-                <span className="skill-tag"><i className="fas fa-plug" style={{color: '#00d4ff'}}></i> REST APIs</span>
-              </div>
-            </div>
-
-            <div className="skill-card">
-              <div className="skill-header">
-                <div className="skill-icon"><i className="fas fa-chart-bar" style={{color: '#E97627'}}></i></div>
-                <h3>Data Visualization & BI</h3>
-              </div>
-              <div className="skill-items">
-                <span className="skill-tag"><i className="fas fa-chart-line" style={{color: '#E97627'}}></i> Tableau</span>
-                <span className="skill-tag">Dashboard Design</span>
-                <span className="skill-tag">Interactive Charts</span>
-                <span className="skill-tag">Business Analytics</span>
-              </div>
-            </div>
-
-            <div className="skill-card">
-              <div className="skill-header">
-                <div className="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" alt="C"/></div>
-                <h3>Systems & Embedded</h3>
-              </div>
-              <div className="skill-items">
-                <span className="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" alt="C"/> C Programming</span>
-                <span className="skill-tag"><i className="fas fa-microchip" style={{color: '#00979D'}}></i> Embedded Systems</span>
-                <span className="skill-tag"><i className="fas fa-wifi" style={{color: '#00d4ff'}}></i> IoT</span>
-                <span className="skill-tag">Hardware Integration</span>
-                <span className="skill-tag">Low-level Programming</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="specializations">
-            <h2>Specializations</h2>
-            <div className="spec-grid">
-              <div className="spec-card"><h3>Machine Learning</h3></div>
-              <div className="spec-card"><h3>NLP & Text Analytics</h3></div>
-              <div className="spec-card"><h3>Predictive Analytics</h3></div>
-              <div className="spec-card"><h3>Full-Stack Development</h3></div>
-              <div className="spec-card"><h3>Data Science</h3></div>
-              <div className="spec-card"><h3>IoT Solutions</h3></div>
-            </div>
-          </div>
-
-          {/* Certifications removed per request */}
-        </div>
-      </section>
+      {/* Skills Section (modern) */}
+      <ModernSkillsSection />
 
       {/* Projects Section */}
       <section id="projects" className="projects">

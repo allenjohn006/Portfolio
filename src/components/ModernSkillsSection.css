@@ -1,0 +1,93 @@
+.modern-skills-section {
+  padding: 80px 0;
+  background-color: #0a0e1a; /* Matches your portfolio theme */
+}
+
+.skills-rows-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.skill-row-container {
+  display: flex;
+  align-items: stretch;
+  background: rgba(16, 24, 40, 0.6);
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 217, 255, 0.1);
+}
+
+/* Side Labels with Gradients */
+.category-side-label {
+  width: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* Gradient Classes */
+.languages { background: linear-gradient(135deg, #ff8a00, #e52e71); }
+.frontend { background: linear-gradient(135deg, #6366f1, #a855f7); }
+.backend { background: linear-gradient(135deg, #06b6d4, #3b82f6); }
+.devops { background: linear-gradient(135deg, #f43f5e, #fb7185); }
+
+/* Horizontal Chip List */
+.skills-chips-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; /* Key fix for horizontal alignment */
+  gap: 12px;
+  padding: 25px 35px;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.skill-chip-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 10px 20px;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.skill-chip-pill i {
+  font-size: 1.1rem;
+  color: #00d9ff; /* Matches your --accent-color */
+}
+
+.skill-chip-pill:hover {
+  background: rgba(0, 217, 255, 0.1);
+  border-color: rgba(0, 217, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Responsive adjustment for Mobile */
+@media (max-width: 768px) {
+  .skill-row-container {
+    flex-direction: column;
+  }
+  .category-side-label {
+    width: 100%;
+    padding: 15px;
+  }
+  .skills-chips-list {
+    justify-content: center;
+    padding: 20px;
+  }
+}
