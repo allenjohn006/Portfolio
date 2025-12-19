@@ -43,6 +43,16 @@ const ModernSkillsSection = () => {
         { name: "GitHub Actions", icon: "fab fa-github" },
         { name: "AWS", icon: "fab fa-aws" }
       ]
+    },
+    {
+      title: "DATABASE",
+      class: "database",
+      skills: [
+        { name: "MongoDB", icon: "fas fa-database" },
+        { name: "MySQL", icon: "fas fa-database" },
+        { name: "PostgreSQL", icon: "fas fa-database" },
+        { name: "SQLite", icon: "fas fa-database" }
+      ]
     }
   ];
 

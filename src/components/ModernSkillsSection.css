@@ -40,6 +40,7 @@
 .frontend { background: linear-gradient(135deg, #6366f1, #a855f7); }
 .backend { background: linear-gradient(135deg, #06b6d4, #3b82f6); }
 .devops { background: linear-gradient(135deg, #f43f5e, #fb7185); }
+.database { background: linear-gradient(135deg, #10b981, #059669); }
 
 /* Horizontal Chip List */
 .skills-chips-list {
