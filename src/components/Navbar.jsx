@@ -1,0 +1,1 @@
+<img src={logoImage} alt="Logo" className="logo" onClick={scrollToTop} />
