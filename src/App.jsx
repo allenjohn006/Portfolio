@@ -3,6 +3,7 @@ import './App.css';
 import ModernSkillsSection from './components/ModernSkillsSection';
 import Connect from './pages/Connect';
 export default function App() {
+  const base = import.meta.env.BASE_URL;
   const [scrollPos, setScrollPos] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
@@ -174,7 +175,7 @@ export default function App() {
       <nav className={`navbar ${scrollPos > 50 ? 'scrolled' : ''}`}>
         <div className="nav-container">
           <div className="logo-container">
-            <img src="Logo-removebg.png" alt="Logo" className="logo" />
+            <img src={`${base}Logo-removebg.png`} alt="Logo" className="logo" />
            
           </div>
           
@@ -236,7 +237,7 @@ export default function App() {
               <div className="hero-image">
                 <div className="image-container photo-frame">
                   <div className="photo-glow" aria-hidden="true"></div>
-                  <img src="/photo1.jpg" alt="Allen John Isac" className="profile-photo"/>
+                  <img src={`${base}photo1.jpg`} alt="Allen John Isac" className="profile-photo"/>
                   <div className="orbit-dots" aria-hidden="true">
                     <span className="dot d1"></span>
                     <span className="dot d2"></span>
@@ -267,7 +268,7 @@ export default function App() {
               
               <div className="about-content">
                 <div className="about-image">
-                  <img src="/photo1.jpg" alt="About" />
+                  <img src={`${base}photo1.jpg`} alt="About" />
                   <div className="image-frame"></div>
                 </div>
                 
@@ -324,21 +325,21 @@ export default function App() {
                   {
                     title: 'Blind Man Stick',
                     desc: 'IoT-enabled navigation system using ultrasonic sensors to assist visually impaired individuals. Features real-time obstacle detection and audio feedback.',
-                    image: '/blind-man.jpeg',
+                    image: `${base}blind-man.jpeg`,
                     tags: ['IoT', 'Arduino', 'Sensors', 'Hardware'],
                     color: 'gradient-blue'
                   },
                   {
                     title: 'Scientific Calculator',
                     desc: 'Advanced calculator application built with Python supporting mathematical operations, trigonometry, and complex calculations with a user-friendly GUI.',
-                    image: '/calc.png',
+                    image: `${base}calc.png`,
                     tags: ['Python', 'Math Library', 'GUI', 'Tkinter'],
                     color: 'gradient-purple'
                   },
                   {
                     title: 'Resume Filter AI',
                     desc: 'AI-powered resume screening tool using NLP and machine learning to automatically filter and rank candidates based on job requirements.',
-                    image: '/resume.jpeg',
+                    image: `${base}resume.jpeg`,
                     tags: ['AI/ML', 'NLP', 'Python', 'Data Processing'],
                     color: 'gradient-green'
                   },
