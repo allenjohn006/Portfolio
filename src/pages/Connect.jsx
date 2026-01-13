@@ -1,7 +1,38 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export default function Connect({ onBack }) {
   const canvasRef = useRef(null);
+  const [showDialog, setShowDialog] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const form = e.target;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch('https://formspree.io/f/xzddbbor', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Accept: 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        setShowDialog(true);
+        form.reset();
+      } else {
+        alert('Something went wrong. Please try again.');
+      }
+    } catch (error) {
+      alert('Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -117,30 +148,51 @@ export default function Connect({ onBack }) {
 
           <div className="connect-form">
             <h3>Send a Message</h3>
-            <form onSubmit={(e) => e.preventDefault()} className="connect-form-grid">
+            <form
+              onSubmit={handleSubmit}
+              className="connect-form-grid"
+            >
               <div className="form-field">
                 <label>Your Name</label>
-                <input type="text" placeholder="ALLEN JOHN" />
+                <input name="name" type="text" placeholder="ALLEN JOHN" required />
               </div>
               <div className="form-field">
                 <label>Your Email</label>
-                <input type="email" placeholder="allen@example.com" />
+                <input name="email" type="email" placeholder="allen@example.com" required />
               </div>
               <div className="form-field span-2">
                 <label>Subject</label>
-                <input type="text" placeholder="What's this about?" />
+                <input name="subject" type="text" placeholder="What's this about?" />
               </div>
               <div className="form-field span-2">
                 <label>Message</label>
-                <textarea rows="5" placeholder="Tell me about your project or idea..."></textarea>
+                <textarea name="message" rows="5" placeholder="Tell me about your project or idea..." required></textarea>
               </div>
               <div className="actions span-2">
-                <button className="btn btn-primary" type="submit">Send Message</button>
+                <button className="btn btn-primary" type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
+                </button>
               </div>
             </form>
           </div>
         </div>
       </div>
+
+      {/* Thank You Dialog */}
+      {showDialog && (
+        <div className="dialog-overlay" onClick={() => setShowDialog(false)}>
+          <div className="dialog-box" onClick={(e) => e.stopPropagation()}>
+            <div className="dialog-icon">
+              <i className="fas fa-check-circle"></i>
+            </div>
+            <h3>Thank You!</h3>
+            <p>Your message has been sent successfully. I'll get back to you soon!</p>
+            <button className="btn btn-primary" onClick={() => setShowDialog(false)}>
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

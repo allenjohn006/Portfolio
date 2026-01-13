@@ -234,10 +234,10 @@ export default function App() {
                   </button>
                 </div>
               </div>
-              <div className="hero-image">
+              <div className="hero-right">
                 <div className="image-container photo-frame">
                   <div className="photo-glow" aria-hidden="true"></div>
-                  <img src={`${base}photo1.jpg`} alt="Allen John Isac" className="profile-photo"/>
+                  <img src={`${base}pic 1.jpeg`} alt="Allen John Isac" className="profile-photo"/>
                   <div className="orbit-dots" aria-hidden="true">
                     <span className="dot d1"></span>
                     <span className="dot d2"></span>
@@ -248,6 +248,7 @@ export default function App() {
                     <span className="dot d7"></span>
                   </div>
                 </div>
+
               </div>
             </div>
             <div className="scroll-indicator">
@@ -267,11 +268,6 @@ export default function App() {
               </div>
               
               <div className="about-content">
-                <div className="about-image">
-                  <img src={`${base}photo1.jpg`} alt="About" />
-                  <div className="image-frame"></div>
-                </div>
-                
                 <div className="about-text">
                   <h3>Hi! I'm Allen John Isac</h3>
                   <p>
@@ -303,6 +299,24 @@ export default function App() {
                     <a href="https://www.linkedin.com/in/allen-john-isac-7b6730363/" target="_blank" rel="noopener noreferrer" className="about-btn">
                       <i className="fab fa-linkedin"></i> LinkedIn
                     </a>
+                  </div>
+                </div>
+                
+                <div className="about-info-cards-section">
+                  <div className="about-info-card">
+                    <div className="card-label">Education</div>
+                    <div className="about-info-card-icon"><i className="fas fa-graduation-cap"></i></div>
+                    <h4>Karunya Institute of Technology &amp; Sciences</h4>
+                  </div>
+                  <div className="about-info-card">
+                    <div className="card-label">Focus</div>
+                    <div className="about-info-card-icon"><i className="fas fa-target"></i></div>
+                    <h4>AI, DS, ML &amp; Full Stack Development</h4>
+                  </div>
+                  <div className="about-info-card">
+                    <div className="card-label">Beyond Code</div>
+                    <div className="about-info-card-icon"><i className="fas fa-flag"></i></div>
+                    <h4>NSS - Parade Team Member</h4>
                   </div>
                 </div>
               </div>
@@ -376,31 +390,6 @@ export default function App() {
               </div>
 
               <div className="contact-wrapper">
-                <div className="contact-info-grid">
-                  <div className="contact-card">
-                    <div className="contact-icon">
-                      <i className="fas fa-envelope"></i>
-                    </div>
-                    <h4>Email</h4>
-                    <a href="mailto:allen15022006@gmail.com">allen15022006@gmail.com</a>
-                  </div>
-
-                  <div className="contact-card">
-                    <div className="contact-icon">
-                      <i className="fas fa-map-marker-alt"></i>
-                    </div>
-                    <h4>Location</h4>
-                    <p>India</p>
-                  </div>
-
-                  <div className="contact-card">
-                    <div className="contact-icon">
-                      <i className="fas fa-code"></i>
-                    </div>
-                    <h4>GitHub</h4>
-                    <a href="https://github.com/allenjohn006" target="_blank" rel="noopener noreferrer">allenjohn006</a>
-                  </div>
-                </div>
 
                 {/* Connect With Me (icons only) */}
                 <div className="social-section">
@@ -409,7 +398,7 @@ export default function App() {
                     <a className="social-link" href="https://github.com/allenjohn006" target="_blank" rel="noreferrer" aria-label="GitHub">
                       <i className="fab fa-github"></i>
                     </a>
-                    <a className="social-link" href="https://www.linkedin.com/in/allenjohn006" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+                    <a className="social-link" href="https://www.linkedin.com/in/allen-john-isac-7b6730363/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
                       <i className="fab fa-linkedin-in"></i>
                     </a>
                     <a className="social-link" href="mailto:allen15022006@gmail.com" aria-label="Email">
