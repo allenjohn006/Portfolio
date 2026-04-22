@@ -60,6 +60,7 @@ const ModernSkillsSection = () => {
     <section id="skills" className="modern-skills-section">
       <div className="section-container">
         <div className="section-header">
+          <span className="label">Expertise</span>
           <h2>Technical Skills</h2>
           <p>Technologies and expertise demonstrated through real-world projects</p>
         </div>
