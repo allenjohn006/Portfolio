@@ -251,24 +251,24 @@ export default function App() {
               <div className="projects-grid">
                 {[
                   {
-                    title: 'Blind Man Stick',
-                    desc: 'IoT-enabled navigation system using ultrasonic sensors to assist visually impaired individuals. Features real-time obstacle detection and audio feedback.',
+                    title: 'Vox',
+                    desc: 'AI-driven accessibility-focused examination platform with 100% hands-free voice-controlled workflow. Enables voice-based navigation, biometric authentication, and supports hybrid question formats with real-time speech recognition.',
                     image: `${base}blind-man.jpeg`,
-                    tags: ['IoT', 'Arduino', 'Sensors', 'Hardware'],
+                    tags: ['React', 'FastAPI', 'STT', 'TTS'],
                     color: 'gradient-blue'
                   },
                   {
-                    title: 'Scientific Calculator',
-                    desc: 'Advanced calculator application built with Python supporting mathematical operations, trigonometry, and complex calculations with a user-friendly GUI.',
+                    title: 'OmniFlow Sales AI',
+                    desc: 'Production-grade MLOps platform for large-scale sales forecasting with XGBoost, automated retraining, and intelligent drift detection using statistical hypothesis testing.',
                     image: `${base}calc.png`,
-                    tags: ['Python', 'Math Library', 'GUI', 'Tkinter'],
+                    tags: ['MLOps', 'XGBoost', 'FastAPI', 'Django'],
                     color: 'gradient-purple'
                   },
                   {
-                    title: 'Resume Filter AI',
-                    desc: 'AI-powered resume screening tool using NLP and machine learning to automatically filter and rank candidates based on job requirements.',
+                    title: 'CVScope',
+                    desc: 'AI-powered resume evaluation system using semantic embeddings, FAISS vector search, and RAG pipeline to analyze resume-job compatibility with actionable recommendations.',
                     image: `${base}resume.jpeg`,
-                    tags: ['AI/ML', 'NLP', 'Python', 'Data Processing'],
+                    tags: ['RAG', 'NLP', 'FastAPI', 'Streamlit'],
                     color: 'gradient-green'
                   },
                 ].map((project, idx) => (
