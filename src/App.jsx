@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import ModernSkillsSection from './components/ModernSkillsSection';
 import Connect from './pages/Connect';
+import Resume from './pages/Resume';
 export default function App() {
   const base = import.meta.env.BASE_URL;
   const [scrollPos, setScrollPos] = useState(0);
@@ -9,6 +10,7 @@ export default function App() {
   const [activeSection, setActiveSection] = useState('home');
   const [typedText, setTypedText] = useState('');
   const [showConnect, setShowConnect] = useState(false);
+  const [showResume, setShowResume] = useState(false);
 
 
   useEffect(() => {
@@ -16,7 +18,7 @@ export default function App() {
       setScrollPos(window.scrollY);
       
       // Update active section
-      const sections = ['home', 'about', 'skills', 'projects', 'contact'];
+      const sections = ['home', 'about', 'skills', 'projects', 'contact', 'resume'];
       for (let section of sections) {
         const element = document.getElementById(section);
         if (element) {
@@ -104,11 +106,14 @@ export default function App() {
             <li><button onClick={() => scrollToSection('about')} className={activeSection === 'about' ? 'active' : ''}>About</button></li>
             <li><button onClick={() => scrollToSection('skills')} className={activeSection === 'skills' ? 'active' : ''}>Skills</button></li>
             <li><button onClick={() => scrollToSection('projects')} className={activeSection === 'projects' ? 'active' : ''}>Projects</button></li>
+            <li><button onClick={() => { setShowResume(true); setMenuOpen(false); }} className={showResume ? 'active' : ''}>Resume</button></li>
             <li><button onClick={openConnect} className={showConnect ? 'active' : ''}>Connect</button></li>
           </ul>
         </div>
       </nav>
-      {showConnect ? (
+      {showResume ? (
+        <Resume onBack={() => setShowResume(false)} />
+      ) : showConnect ? (
         <Connect onBack={closeConnect} />
       ) : (
         <>
@@ -118,7 +123,7 @@ export default function App() {
               <div className="hero-text">
                 <div className="hero-eyebrow">
                   <span className="eyebrow-line"></span>
-                  <span className="eyebrow-text">Portfolio 2025</span>
+                  <span className="eyebrow-text">Portfolio</span>
                 </div>
                 <h1 className="hero-title">
                   <span className="title-word">Allen</span>{' '}
@@ -253,23 +258,26 @@ export default function App() {
                   {
                     title: 'Vox',
                     desc: 'AI-driven accessibility-focused examination platform with 100% hands-free voice-controlled workflow. Enables voice-based navigation, biometric authentication, and supports hybrid question formats with real-time speech recognition.',
-                    image: `${base}blind-man.jpeg`,
-                    tags: ['React', 'FastAPI', 'STT', 'TTS'],
-                    color: 'gradient-blue'
+                    image: `${base}vox-demo.jpeg`,
+                    tags: ['React', 'FastAPI', 'Speech-to-Text', 'Biometric Auth'],
+                    color: 'gradient-blue',
+                    link: 'https://github.com/allenjohn006/VOX-'
                   },
                   {
                     title: 'OmniFlow Sales AI',
                     desc: 'Production-grade MLOps platform for large-scale sales forecasting with XGBoost, automated retraining, and intelligent drift detection using statistical hypothesis testing.',
-                    image: `${base}calc.png`,
-                    tags: ['MLOps', 'XGBoost', 'FastAPI', 'Django'],
-                    color: 'gradient-purple'
+                    image: `${base}omniflow-demo.jpeg`,
+                    tags: ['MLOps', 'XGBoost', 'FastAPI', 'Data Drift Detection'],
+                    color: 'gradient-purple',
+                    link: 'https://github.com/allenjohn006/OmniFlow'
                   },
                   {
                     title: 'CVScope',
                     desc: 'AI-powered resume evaluation system using semantic embeddings, FAISS vector search, and RAG pipeline to analyze resume-job compatibility with actionable recommendations.',
-                    image: `${base}resume.jpeg`,
+                    image: `${base}cvscope-demo.jpeg`,
                     tags: ['RAG', 'NLP', 'FastAPI', 'Streamlit'],
-                    color: 'gradient-green'
+                    color: 'gradient-green',
+                    link: 'https://github.com/allenjohn006/CVScope'
                   },
                 ].map((project, idx) => (
                   <div key={idx} className="project-card">
@@ -285,7 +293,7 @@ export default function App() {
                           <span key={i} className="project-tag">{tag}</span>
                         ))}
                       </div>
-                      <button className="project-link">Learn More →</button>
+                      <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-link">Learn More →</a>
                     </div>
                   </div>
                 ))}

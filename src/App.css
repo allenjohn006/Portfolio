@@ -261,7 +261,7 @@ section{padding:6rem 2rem;position:relative;background:var(--bg);}
   display:inline-flex;align-items:center;gap:.35rem;
   font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
   color:var(--accent);background:none;border:none;cursor:pointer;padding:0;
-  transition:gap .2s;
+  transition:gap .2s;text-decoration:none;
 }
 .project-link:hover{gap:.6rem;}
 
@@ -386,4 +386,56 @@ section{padding:6rem 2rem;position:relative;background:var(--bg);}
   .about-highlight{grid-template-columns:repeat(3,1fr);}
   .connect-form-grid{grid-template-columns:1fr;}
   .span-2{grid-column:span 1;}
+}
+
+/* ── RESUME SECTION ── */
+.resume-section{
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  padding:6rem 2rem;
+  background:var(--bg);
+}
+.resume-container{
+  max-width:900px;width:100%;
+}
+.close-btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.5rem 1rem;
+  font-family:'Inter',sans-serif;font-size:.7rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);background:none;border:1px solid var(--hairline);
+  border-radius:var(--r);cursor:pointer;
+  transition:all .2s;margin-bottom:2rem;
+}
+.close-btn:hover{
+  border-color:var(--accent);background:rgba(173,125,86,.1);
+}
+.resume-header{margin-bottom:2.5rem;}
+.resume-content{
+  display:flex;flex-direction:column;gap:2rem;
+}
+.resume-viewer{
+  width:100%;height:600px;border:1px solid var(--hairline);
+  border-radius:var(--rl);overflow:hidden;background:rgba(255,255,255,.02);
+}
+.resume-iframe{
+  width:100%;height:100%;border:none;
+}
+.resume-download{
+  display:flex;justify-content:center;
+}
+.download-btn{
+  display:inline-flex;align-items:center;gap:.6rem;
+  padding:.82rem 2rem;
+  font-family:'Inter',sans-serif;font-size:.72rem;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;
+  background:var(--accent);color:#0a0a0a;border:none;border-radius:var(--rl);
+  cursor:pointer;text-decoration:none;
+  transition:all .2s;
+}
+.download-btn:hover{
+  transform:translateY(-2px);box-shadow:0 8px 24px rgba(173,125,86,.2);
+}
+.full-screen{
+  min-height:100vh;padding-top:6rem;
 }
