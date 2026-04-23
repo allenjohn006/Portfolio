@@ -149,6 +149,10 @@ export default function App() {
                     <span>Let's Connect</span>
                     <i className="fas fa-arrow-down"></i>
                   </button>
+                  <button className="btn btn-outline" onClick={() => setShowResume(true)}>
+                     <i className="fas fa-file-pdf"></i> Resume
+
+                  </button>
                 </div>
               </div>
               <div className="hero-right">
@@ -217,6 +221,9 @@ export default function App() {
                     <a href="https://www.linkedin.com/in/allen-john-isac-7b6730363/" target="_blank" rel="noopener noreferrer" className="about-btn">
                       <i className="fab fa-linkedin"></i> LinkedIn
                     </a>
+                    <button onClick={() => setShowResume(true)} className="about-btn">
+                      <i className="fas fa-file-pdf"></i> Resume
+                    </button>
                   </div>
                 </div>
                 
@@ -259,7 +266,7 @@ export default function App() {
                     title: 'Vox',
                     desc: 'AI-driven accessibility-focused examination platform with 100% hands-free voice-controlled workflow. Enables voice-based navigation, biometric authentication, and supports hybrid question formats with real-time speech recognition.',
                     image: `${base}vox-demo.jpeg`,
-                    tags: ['React', 'FastAPI', 'Speech-to-Text', 'Biometric Auth'],
+                    tags: ['React', 'FastAPI', 'Web Speech API', 'JWT Auth','MongoDB','Docker'],
                     color: 'gradient-blue',
                     link: 'https://github.com/allenjohn006/VOX-'
                   },
@@ -267,7 +274,7 @@ export default function App() {
                     title: 'OmniFlow Sales AI',
                     desc: 'Production-grade MLOps platform for large-scale sales forecasting with XGBoost, automated retraining, and intelligent drift detection using statistical hypothesis testing.',
                     image: `${base}omniflow-demo.jpeg`,
-                    tags: ['MLOps', 'XGBoost', 'FastAPI', 'Data Drift Detection'],
+                    tags: ['Pandas','XGBoost', 'FastAPI','Django','Python','Scikit-learn','Numpy','Docker'],
                     color: 'gradient-purple',
                     link: 'https://github.com/allenjohn006/OmniFlow'
                   },
@@ -275,7 +282,7 @@ export default function App() {
                     title: 'CVScope',
                     desc: 'AI-powered resume evaluation system using semantic embeddings, FAISS vector search, and RAG pipeline to analyze resume-job compatibility with actionable recommendations.',
                     image: `${base}cvscope-demo.jpeg`,
-                    tags: ['RAG', 'NLP', 'FastAPI', 'Streamlit'],
+                    tags: ['RAG','Openrouter','FAISS'   , 'FastAPI', 'Streamlit','Embeddings','OCR','Python'],
                     color: 'gradient-green',
                     link: 'https://github.com/allenjohn006/CVScope'
                   },
@@ -337,7 +344,7 @@ export default function App() {
           <footer className="footer">
             <div className="footer-content">
               <p>&copy; 2025 Allen John Isac. All rights reserved.</p>
-              <p className="footer-credit">Crafted with passion and modern web technologies</p>
+            
             </div>
           </footer>
         </>

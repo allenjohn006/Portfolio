@@ -215,6 +215,9 @@ section{padding:6rem 2rem;position:relative;background:var(--bg);}
   text-decoration:none;
   border:1px solid var(--hairline);border-radius:6px;color:var(--muted);
   transition:all .2s;
+  background:none;
+  cursor:pointer;
+  font-family:inherit;
 }
 .about-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(173,125,86,.06);}
 
