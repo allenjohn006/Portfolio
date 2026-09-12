@@ -1,94 +1,141 @@
-/* ─── SKILLS SECTION ─── */
+/* ── iOS 26 Liquid Glass — Skills Section ── */
+
 .modern-skills-section {
   padding: 6rem 2rem;
   background: var(--bg);
+  position: relative;
+  z-index: 1;
 }
 
+/* Skills wrapper — glass platter container */
 .skills-rows-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 1rem;
   max-width: 1100px;
   margin: 0 auto;
-  background: var(--hairline);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
 }
 
+/* Individual skill row — glass platter */
 .skill-row-container {
   display: flex;
   align-items: stretch;
-  background: var(--bg);
-  transition: background 0.2s ease;
-}
-.skill-row-container:hover {
-  background: rgba(255,255,255,0.03);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  border-left: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 18px;
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.12),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.22),
+    0 4px 16px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  transition: all 0.28s var(--ease-smooth);
 }
 
-/* Category label */
+.skill-row-container:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-top-color: rgba(255, 255, 255, 0.32);
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.18),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.28),
+    0 12px 36px rgba(0, 0, 0, 0.5);
+  transform: translateY(-1px);
+}
+
+/* Category side label — amber glass pill */
 .category-side-label {
+  min-width: 140px;
   width: 140px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--accent);
   padding: 1.25rem;
   text-align: center;
-  border-right: 1px solid var(--hairline);
-  background: rgba(173,125,86,0.04);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  border-right: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(173, 125, 86, 0.06);
 }
 
-/* Remove the old gradient classes */
-.languages, .frontend, .backend, .devops, .database {
-  background: rgba(173,125,86,0.04);
+/* Override per-category colors — all uniform amber glass */
+.languages,
+.frontend,
+.backend,
+.devops,
+.database {
+  background: rgba(173, 125, 86, 0.05);
 }
 
-/* Chips */
+/* Chips list */
 .skills-chips-list {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   gap: 0.5rem;
-  padding: 1.25rem 1.75rem;
+  padding: 1.2rem 1.75rem;
   align-items: center;
   flex-grow: 1;
 }
 
+/* Liquid glass skill chip — iOS 26 capsule pill */
 .skill-chip-pill {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: rgba(255,255,255,0.04);
-  backdrop-filter: blur(12px) saturate(150%);
-  -webkit-backdrop-filter: blur(12px) saturate(150%);
-  padding: 0.45rem 0.9rem;
-  border-radius: 6px;
-  border: 1px solid rgba(255,255,255,0.08);
-  color: var(--text-muted);
-  font-size: 0.8rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  padding: 0.42rem 0.9rem;
+  border-radius: 9999px;
+  border-top: 1px solid rgba(255, 255, 255, 0.24);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+  border-left: 1px solid rgba(255, 255, 255, 0.10);
+  color: rgba(240, 237, 232, 0.60);
+  font-size: 0.78rem;
   font-weight: 500;
   white-space: nowrap;
-  transition: all 0.2s ease;
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.12),
+    0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: all 0.22s var(--spring-fast);
+  position: relative;
+  overflow: hidden;
 }
 
 .skill-chip-pill i {
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   color: var(--accent);
+  transition: color 0.22s ease;
 }
 
+/* Hover — jelly spring stretch + specular lift */
 .skill-chip-pill:hover {
-  background: rgba(255,255,255,0.08);
-  border-color: rgba(173,125,86,0.35);
-  color: var(--secondary);
-  transform: translateY(-2px);
+  background: rgba(173, 125, 86, 0.10);
+  border-top-color: rgba(255, 255, 255, 0.38);
+  color: var(--accent2);
+  transform: translateY(-3px) scale(1.04);
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.20),
+    0 8px 24px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(173, 125, 86, 0.14);
+}
+
+.skill-chip-pill:hover i {
+  color: var(--accent2);
+}
+
+.skill-chip-pill:active {
+  transform: scale(0.97);
+  transition: transform 0.06s ease;
 }
 
 /* Section header inside skills */
@@ -99,10 +146,12 @@
   .modern-skills-section { padding: 4rem 1.25rem; }
   .skill-row-container { flex-direction: column; }
   .category-side-label {
-    width: 100%; border-right: none;
-    border-bottom: 1px solid var(--hairline);
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     padding: 0.75rem 1.25rem;
     justify-content: flex-start;
+    border-radius: 0;
   }
   .skills-chips-list { padding: 1rem 1.25rem; justify-content: flex-start; }
 }

@@ -1,14 +1,57 @@
+/* ── iOS 26 Liquid Glass — Design Tokens & Global Reset ── */
+
 :root {
   font-family: 'Inter', system-ui, sans-serif;
   line-height: 1.6;
   font-weight: 400;
   color-scheme: dark;
   color: #F0EDE8;
-  background-color: #0a0a0a;
+  background-color: #050508;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* ── Liquid Glass Core Tokens (from liquid_glass_widgets) ── */
+  --glass-bg:               rgba(255, 255, 255, 0.055);
+  --glass-bg-hover:         rgba(255, 255, 255, 0.09);
+  --glass-blur:             blur(28px) saturate(180%);
+  --glass-blur-heavy:       blur(40px) saturate(200%);
+
+  /* 135° specular lighting (0.75 * π) — Apple iOS 26 standard */
+  --glass-border-top:       rgba(255, 255, 255, 0.38);  /* specular meniscus rim */
+  --glass-border-right:     rgba(255, 255, 255, 0.08);
+  --glass-border-bottom:    rgba(255, 255, 255, 0.04);
+  --glass-border-left:      rgba(255, 255, 255, 0.12);
+
+  /* Meniscus inner bevel — from render.glsl inset shadow */
+  --glass-meniscus:
+    inset 1px 1px 0px rgba(255, 255, 255, 0.28),
+    inset -1px -1px 0px rgba(0, 0, 0, 0.35),
+    0 8px 32px rgba(0, 0, 0, 0.55),
+    0 2px 8px rgba(0, 0, 0, 0.35);
+
+  /* Jelly spring physics */
+  --spring-press:   cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --spring-fast:    cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth:    cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Color palette */
+  --bg:             #050508;
+  --accent:         #AD7D56;
+  --accent2:        #CDB49E;
+  --accent-glow:    rgba(173, 125, 86, 0.25);
+  --text:           #F0EDE8;
+  --muted:          #7A7068;
+  --dim:            #3A3530;
+  --hairline:       rgba(255, 255, 255, 0.07);
+  --r:              14px;
+  --rl:             20px;
+  --pill:           9999px;
+
+  /* Chromatic aberration dispersion (0.5 amount) */
+  --dispersion-cyan:    rgba(0, 200, 255, 0.12);
+  --dispersion-amber:   rgba(255, 140, 0, 0.10);
 }
 
 *, *::before, *::after {
@@ -23,10 +66,9 @@ html {
 }
 
 body {
-  /* DO NOT set height:100% — it caps scrollable area to viewport */
   width: 100%;
   overflow-x: hidden;
-  background: #0a0a0a;
+  background: var(--bg);
 }
 
 #root {
@@ -34,11 +76,12 @@ body {
   max-width: none !important;
   margin: 0 !important;
   padding: 0 !important;
-  display: block; /* NOT flex — flex with column can break scroll height */
+  display: block;
   text-align: left;
 }
 
 .app {
   width: 100%;
-  background: #0a0a0a;
+  background: var(--bg);
+  position: relative;
 }
