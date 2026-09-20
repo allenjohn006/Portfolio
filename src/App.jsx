@@ -13,6 +13,11 @@ export default function App() {
   const [typedText, setTypedText] = useState('');
   const [showConnect, setShowConnect] = useState(false);
   const [showResume, setShowResume] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = darkMode ? 'dark' : 'light';
+  }, [darkMode]);
 
 
   useEffect(() => {
@@ -112,6 +117,16 @@ export default function App() {
             <li><button onClick={() => { setShowResume(true); setMenuOpen(false); }} className={showResume ? 'active' : ''}>Resume</button></li>
             <li><button onClick={openConnect} className={showConnect ? 'active' : ''}>Connect</button></li>
           </ul>
+
+          <button
+            type="button"
+            className={`theme-toggle ${darkMode ? 'on' : ''}`}
+            onClick={() => setDarkMode(!darkMode)}
+            aria-label="Toggle dark mode"
+            aria-pressed={darkMode}
+          >
+            <span className="theme-toggle-knob"></span>
+          </button>
         </div>
       </nav>
       {showResume ? (

@@ -20,6 +20,7 @@
   align-items: stretch;
   background: var(--surface);
   border: 2.5px solid var(--text);
+  border-radius: var(--r);
   box-shadow: 5px 5px 0 var(--hairline);
   transition: box-shadow 0.2s ease, transform 0.2s ease;
   overflow: hidden;
@@ -36,7 +37,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--pixel-font);
+  font-family: var(--font-mono);
   font-size: 0.62rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -71,6 +72,7 @@
   background: var(--bg);
   padding: 0.45rem 0.9rem;
   border: 1.5px solid var(--hairline);
+  border-radius: 8px;
   color: var(--text);
   font-size: 0.8rem;
   font-weight: 600;

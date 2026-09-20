@@ -26,7 +26,7 @@ body {
   /* DO NOT set height:100% — it caps scrollable area to viewport */
   width: 100%;
   overflow-x: hidden;
-  background: #F3E9DA;
+  background: var(--bg, #F3E9DA);
 }
 
 #root {
@@ -40,5 +40,5 @@ body {
 
 .app {
   width: 100%;
-  background: #F3E9DA;
+  background: var(--bg, #F3E9DA);
 }
