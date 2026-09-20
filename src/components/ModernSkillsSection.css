@@ -6,9 +6,6 @@
   overflow: hidden;
 }
 
-.modern-skills-section .doodle-star { top: 4%; left: 4%; }
-.modern-skills-section .doodle-swirl { bottom: 6%; right: 5%; }
-
 .skills-rows-wrapper {
   display: flex;
   flex-direction: column;
@@ -22,8 +19,7 @@
   display: flex;
   align-items: stretch;
   background: var(--surface);
-  border: 2px solid var(--text);
-  border-radius: var(--r);
+  border: 2.5px solid var(--text);
   box-shadow: 5px 5px 0 var(--hairline);
   transition: box-shadow 0.2s ease, transform 0.2s ease;
   overflow: hidden;
@@ -35,19 +31,20 @@
 
 /* Category label */
 .category-side-label {
-  width: 140px;
+  width: 150px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.65rem;
-  font-weight: 800;
-  letter-spacing: 0.18em;
+  font-family: var(--pixel-font);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: #fff;
   padding: 1.25rem;
   text-align: center;
-  border-right: 2px solid var(--text);
+  border-right: 2.5px solid var(--text);
   background: var(--red);
 }
 
@@ -73,7 +70,6 @@
   gap: 0.5rem;
   background: var(--bg);
   padding: 0.45rem 0.9rem;
-  border-radius: 6px;
   border: 1.5px solid var(--hairline);
   color: var(--text);
   font-size: 0.8rem;
@@ -89,7 +85,7 @@
 
 .skill-chip-pill:hover {
   border-color: var(--red);
-  background: rgba(230,43,30,0.06);
+  background: rgba(230,43,30,0.07);
   transform: translateY(-2px);
 }
 
@@ -102,7 +98,7 @@
   .skill-row-container { flex-direction: column; }
   .category-side-label {
     width: 100%; border-right: none;
-    border-bottom: 2px solid var(--text);
+    border-bottom: 2.5px solid var(--text);
     padding: 0.75rem 1.25rem;
     justify-content: flex-start;
   }

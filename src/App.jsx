@@ -3,7 +3,8 @@ import './App.css';
 import ModernSkillsSection from './components/ModernSkillsSection';
 import Connect from './pages/Connect';
 import Resume from './pages/Resume';
-import { DoodleBulb, DoodleArrow, DoodleStar, DoodleSwirl, DoodleSpeechBubble, DoodleWave } from './components/Doodles';
+import { PixelBulb, PixelStar, PixelHeart, PixelPlay, PixelSkipBack, PixelKeyboard, PixelMouseScroll } from './components/PixelIcons';
+import PixelCursorWorm from './components/PixelCursorWorm';
 export default function App() {
   const base = import.meta.env.BASE_URL;
   const [scrollPos, setScrollPos] = useState(0);
@@ -86,6 +87,7 @@ export default function App() {
 
   return (
     <div className="app">
+      <PixelCursorWorm />
       {/* Navigation */}
       <nav className={`navbar ${scrollPos > 50 ? 'scrolled' : ''}`}>
         <div className="nav-container">
@@ -120,11 +122,29 @@ export default function App() {
         <>
           {/* Hero Section */}
           <section id="home" className="hero">
-            <DoodleBulb />
-            <DoodleStar />
-            <DoodleArrow />
+            <div className="power-bar-hud" aria-hidden="true">
+              <span className="power-label">POWER</span>
+              <div className="power-bar-track"><div className="power-bar-fill"></div></div>
+              <PixelBulb className="power-bolt" />
+            </div>
+            <div className="score-box-hud" aria-hidden="true">
+              <div className="score-title">SCORE</div>
+              <div className="score-rows"><span></span><span></span><span></span></div>
+            </div>
+            <div className="hearts-row-hud" aria-hidden="true">
+              <PixelHeart />
+              <PixelHeart />
+              <PixelHeart />
+              <PixelHeart filled={false} />
+            </div>
+            <div className="transport-controls" aria-hidden="true">
+              <button type="button" tabIndex={-1}><PixelSkipBack /></button>
+              <button type="button" tabIndex={-1}><PixelPlay /></button>
+              <button type="button" tabIndex={-1}><PixelKeyboard /></button>
+            </div>
             <div className="hero-content">
               <div className="hero-text">
+                <PixelBulb className="hero-bulb-icon" />
                 <div className="hero-eyebrow">
                   <span className="eyebrow-line"></span>
                   <span className="eyebrow-text">Portfolio</span>
@@ -160,6 +180,7 @@ export default function App() {
                 </div>
               </div>
               <div className="hero-right">
+                <PixelStar className="doodle doodle-star" />
                 <div className="image-container photo-frame">
                   <div className="photo-glow" aria-hidden="true"></div>
                   <img src={`${base}pic 1.jpeg`} alt="Allen John Isac" className="profile-photo"/>
@@ -179,6 +200,7 @@ export default function App() {
             <div className="scroll-indicator">
               <div className="scroll-text">Scroll to explore</div>
               <div className="scroll-icon">
+                <PixelMouseScroll />
                 <span></span>
               </div>
             </div>
@@ -186,8 +208,6 @@ export default function App() {
 
           {/* About Section */}
           <section id="about" className="about">
-            <DoodleStar />
-            <DoodleSwirl />
             <div className="section-container">
               <div className="section-header">
                 <span className="label">About Me</span>
@@ -259,8 +279,6 @@ export default function App() {
 
           {/* Projects Section */}
           <section id="projects" className="projects">
-            <DoodleSpeechBubble />
-            <DoodleBulb />
             <div className="section-container">
               <div className="section-header">
                 <span className="label">Work</span>
@@ -318,8 +336,6 @@ export default function App() {
 
           {/* Contact Section */}
           <section id="contact" className="contact">
-            <DoodleWave />
-            <DoodleStar />
             <div className="section-container">
               <div className="section-header">
                 <span className="label">Contact</span>
