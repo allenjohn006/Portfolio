@@ -197,6 +197,11 @@ export default function App() {
               <div className="hero-right">
                 <PixelStar className="doodle doodle-star" />
                 <div className="image-container photo-frame">
+                  <div className="window-titlebar" aria-hidden="true">
+                    <span className="win-btn win-min"></span>
+                    <span className="win-btn win-max"></span>
+                    <span className="win-btn win-close"></span>
+                  </div>
                   <div className="photo-glow" aria-hidden="true"></div>
                   <img src={`${base}pic 1.jpeg`} alt="Allen John Isac" className="profile-photo"/>
                   <div className="orbit-dots" aria-hidden="true">
