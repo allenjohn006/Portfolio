@@ -1,5 +1,6 @@
 import React from 'react';
 import './ModernSkillsSection.css';
+import { DoodleStar, DoodleSwirl } from './Doodles';
 
 const ModernSkillsSection = () => {
   const categories = [
@@ -58,6 +59,8 @@ const ModernSkillsSection = () => {
 
   return (
     <section id="skills" className="modern-skills-section">
+      <DoodleStar />
+      <DoodleSwirl />
       <div className="section-container">
         <div className="section-header">
           <span className="label">Expertise</span>
