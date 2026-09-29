@@ -1,47 +1,49 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import ModernSkillsSection from './components/ModernSkillsSection';
 import Connect from './pages/Connect';
 import Resume from './pages/Resume';
+
 export default function App() {
   const base = import.meta.env.BASE_URL;
   const [scrollPos, setScrollPos] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [menuExiting, setMenuExiting] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [typedText, setTypedText] = useState('');
   const [showConnect, setShowConnect] = useState(false);
   const [showResume, setShowResume] = useState(false);
-
+  const [hoveredItem, setHoveredItem] = useState(null);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrollPos(window.scrollY);
-      
-      // Update active section
-      const sections = ['home', 'about', 'skills', 'projects', 'contact', 'resume'];
+      const sections = ['home', 'about', 'skills', 'projects', 'contact'];
       for (let section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 150) {
-            setActiveSection(section);
-          }
+        const el = document.getElementById(section);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 150) setActiveSection(section);
         }
       }
     };
-    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Typewriter effect for hero subtitle
+  // Lock body scroll when menu open
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
+
+  // Typewriter effect
   useEffect(() => {
     const words = ['Web Developer', 'ML & AI Enthusiast', 'Prompt Engineer'];
     let wordIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
     let timeoutId;
-
     function tick() {
       const current = words[wordIndex];
       if (!isDeleting) {
@@ -60,61 +62,177 @@ export default function App() {
           wordIndex = (wordIndex + 1) % words.length;
         }
       }
-      const speed = isDeleting ? 60 : 110;
-      timeoutId = setTimeout(tick, speed);
+      timeoutId = setTimeout(tick, isDeleting ? 60 : 110);
     }
-
     tick();
     return () => clearTimeout(timeoutId);
   }, []);
 
-  const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-    element?.scrollIntoView({ behavior: 'smooth' });
-    setMenuOpen(false);
-    setActiveSection(id);
+  const openMenu = () => {
+    setMenuExiting(false);
+    setMenuOpen(true);
   };
 
-  const openConnect = () => {
-    setShowConnect(true);
-    setMenuOpen(false);
-  };
-  const closeConnect = () => setShowConnect(false);
+  const closeMenu = useCallback(() => {
+    setMenuExiting(true);
+    setTimeout(() => {
+      setMenuOpen(false);
+      setMenuExiting(false);
+    }, 500);
+  }, []);
 
+  const scrollToSection = useCallback((id) => {
+    setMenuExiting(true);
+    setTimeout(() => {
+      setMenuOpen(false);
+      setMenuExiting(false);
+      setActiveSection(id);
+      const el = document.getElementById(id);
+      el?.scrollIntoView({ behavior: 'smooth' });
+    }, 500);
+  }, []);
 
+  const openConnect = useCallback(() => {
+    setMenuExiting(true);
+    setTimeout(() => {
+      setMenuOpen(false);
+      setMenuExiting(false);
+      setShowConnect(true);
+    }, 500);
+  }, []);
+
+  const openResume = useCallback(() => {
+    setMenuExiting(true);
+    setTimeout(() => {
+      setMenuOpen(false);
+      setMenuExiting(false);
+      setShowResume(true);
+    }, 500);
+  }, []);
+
+  const navItems = [
+    { id: '01', label: 'Home',     action: () => scrollToSection('home') },
+    { id: '02', label: 'About',    action: () => scrollToSection('about') },
+    { id: '03', label: 'Skills',   action: () => scrollToSection('skills') },
+    { id: '04', label: 'Projects', action: () => scrollToSection('projects') },
+    { id: '05', label: 'Resume',   action: openResume },
+    { id: '06', label: 'Contact',  action: openConnect },
+  ];
+
+  const exploreLinks = [
+    { label: 'GitHub Profile',  href: 'https://github.com/allenjohn006', external: true },
+    { label: 'LinkedIn',        href: 'https://www.linkedin.com/in/allen-john-isac-7b6730363/', external: true },
+    { label: 'Direct Mail',     href: 'mailto:allen15022006@gmail.com', external: false },
+    { label: "Let's Connect",   action: openConnect },
+    { label: 'View Resume',     action: openResume },
+  ];
 
   return (
     <div className="app">
-      {/* Navigation */}
-      <nav className={`navbar ${scrollPos > 50 ? 'scrolled' : ''}`}>
-        <div className="nav-container">
-          <div className="logo-container">
-            <span className="nav-brand-text">AJI</span>
-          </div>
-          
-          <button 
-            className="hamburger"
-            onClick={() => setMenuOpen(!menuOpen)}
+
+      {/* ── TOP BAR (always visible) ── */}
+      <header className={`site-header ${scrollPos > 50 ? 'scrolled' : ''} ${menuOpen ? 'menu-is-open' : ''}`}>
+        <div className="site-header-inner">
+          <span className="header-brand">AJI</span>
+          <button
+            className={`menu-trigger ${menuOpen ? 'is-open' : ''}`}
+            onClick={menuOpen ? closeMenu : openMenu}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
           >
-            <span></span>
-            <span></span>
-            <span></span>
+            <span className="trigger-bar bar1" />
+            <span className="trigger-bar bar2" />
+            <span className="trigger-bar bar3" />
+          </button>
+        </div>
+      </header>
+
+      {/* ── FULLSCREEN NAVIGATION OVERLAY ── */}
+      {menuOpen && (
+        <div className={`nav-overlay ${menuExiting ? 'exiting' : 'entering'}`}>
+          {/* Close button top-right */}
+          <button
+            className={`overlay-close ${menuExiting ? 'exiting' : ''}`}
+            onClick={closeMenu}
+            aria-label="Close menu"
+          >
+            <span />
+            <span />
           </button>
 
-          <ul className={`nav-menu ${menuOpen ? 'active' : ''}`}>
-            <li><button onClick={() => scrollToSection('home')} className={activeSection === 'home' ? 'active' : ''}>Home</button></li>
-            <li><button onClick={() => scrollToSection('about')} className={activeSection === 'about' ? 'active' : ''}>About</button></li>
-            <li><button onClick={() => scrollToSection('skills')} className={activeSection === 'skills' ? 'active' : ''}>Skills</button></li>
-            <li><button onClick={() => scrollToSection('projects')} className={activeSection === 'projects' ? 'active' : ''}>Projects</button></li>
-            <li><button onClick={() => { setShowResume(true); setMenuOpen(false); }} className={showResume ? 'active' : ''}>Resume</button></li>
-            <li><button onClick={openConnect} className={showConnect ? 'active' : ''}>Connect</button></li>
-          </ul>
+          <div className="overlay-inner">
+            {/* LEFT — Main nav items */}
+            <nav className="overlay-nav" aria-label="Main navigation">
+              <ul className="overlay-nav-list">
+                {navItems.map((item, i) => (
+                  <li
+                    key={item.id}
+                    className={`overlay-nav-item ${menuExiting ? 'item-exit' : 'item-enter'}`}
+                    style={{
+                      animationDelay: menuExiting
+                        ? `${i * 35}ms`
+                        : `${i * 70 + 100}ms`,
+                    }}
+                    onMouseEnter={() => setHoveredItem(item.id)}
+                    onMouseLeave={() => setHoveredItem(null)}
+                  >
+                    <button
+                      className={`overlay-nav-btn ${
+                        hoveredItem && hoveredItem !== item.id ? 'dimmed' : ''
+                      } ${hoveredItem === item.id ? 'highlighted' : ''}`}
+                      onClick={item.action}
+                    >
+                      <span className="nav-num">{item.id}</span>
+                      <span className="nav-label">{item.label}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            {/* Vertical divider */}
+            <div className={`overlay-divider ${menuExiting ? 'div-exit' : 'div-enter'}`} />
+
+            {/* RIGHT — Explore links */}
+            <aside className={`overlay-explore ${menuExiting ? 'explore-exit' : 'explore-enter'}`}>
+              <p className="explore-heading">EXPLORE & CONNECT</p>
+              <ul className="explore-list">
+                {exploreLinks.map((link, i) => (
+                  <li key={i} style={{ animationDelay: `${i * 60 + 250}ms` }}>
+                    {link.action ? (
+                      <button className="explore-link" onClick={link.action}>
+                        {link.label}
+                      </button>
+                    ) : (
+                      <a
+                        className="explore-link"
+                        href={link.href}
+                        target={link.external ? '_blank' : undefined}
+                        rel={link.external ? 'noopener noreferrer' : undefined}
+                      >
+                        {link.label}
+                      </a>
+                    )}
+                  </li>
+                ))}
+              </ul>
+
+              {/* Social footer */}
+              <div className="overlay-socials">
+                <a href="https://github.com/allenjohn006" target="_blank" rel="noopener noreferrer" className="overlay-social-link">GitHub</a>
+                <a href="https://www.linkedin.com/in/allen-john-isac-7b6730363/" target="_blank" rel="noopener noreferrer" className="overlay-social-link">LinkedIn</a>
+                <a href="mailto:allen15022006@gmail.com" className="overlay-social-link">Mail</a>
+              </div>
+            </aside>
+          </div>
         </div>
-      </nav>
+      )}
+
+      {/* ── PAGE CONTENT ── */}
       {showResume ? (
         <Resume onBack={() => setShowResume(false)} />
       ) : showConnect ? (
-        <Connect onBack={closeConnect} />
+        <Connect onBack={() => setShowConnect(false)} />
       ) : (
         <>
           {/* Hero Section */}
@@ -122,7 +240,7 @@ export default function App() {
             <div className="hero-content">
               <div className="hero-text">
                 <div className="hero-eyebrow">
-                  <span className="eyebrow-line"></span>
+                  <span className="eyebrow-line" />
                   <span className="eyebrow-text">Portfolio</span>
                 </div>
                 <h1 className="hero-title">
@@ -134,7 +252,6 @@ export default function App() {
                   <span className="typed">{typedText}</span>
                   <span className="cursor" aria-hidden="true">|</span>
                 </div>
-                {/* Fix: no nested <p> inside <p> */}
                 <p className="hero-description">
                   Passionate about predictive analytics, data-driven decision making, and building end-to-end applications.
                   <br />
@@ -143,40 +260,32 @@ export default function App() {
                 <div className="hero-buttons">
                   <button className="btn btn-primary" onClick={() => scrollToSection('projects')}>
                     <span>View My Work</span>
-                    <i className="fas fa-arrow-right"></i>
+                    <i className="fas fa-arrow-right" />
                   </button>
                   <button className="btn btn-outline" onClick={openConnect}>
                     <span>Let's Connect</span>
-                    <i className="fas fa-arrow-down"></i>
+                    <i className="fas fa-arrow-down" />
                   </button>
-                  <button className="btn btn-outline" onClick={() => setShowResume(true)}>
-                     <i className="fas fa-file-pdf"></i> Resume
-
+                  <button className="btn btn-outline" onClick={openResume}>
+                    <i className="fas fa-file-pdf" /> Resume
                   </button>
                 </div>
               </div>
               <div className="hero-right">
                 <div className="image-container photo-frame">
-                  <div className="photo-glow" aria-hidden="true"></div>
-                  <img src={`${base}pic 1.jpeg`} alt="Allen John Isac" className="profile-photo"/>
+                  <div className="photo-glow" aria-hidden="true" />
+                  <img src={`${base}pic 1.jpeg`} alt="Allen John Isac" className="profile-photo" />
                   <div className="orbit-dots" aria-hidden="true">
-                    <span className="dot d1"></span>
-                    <span className="dot d2"></span>
-                    <span className="dot d3"></span>
-                    <span className="dot d4"></span>
-                    <span className="dot d5"></span>
-                    <span className="dot d6"></span>
-                    <span className="dot d7"></span>
+                    <span className="dot d1" />
+                    <span className="dot d2" />
+                    <span className="dot d3" />
                   </div>
                 </div>
-
               </div>
             </div>
             <div className="scroll-indicator">
               <div className="scroll-text">Scroll to explore</div>
-              <div className="scroll-icon">
-                <span></span>
-              </div>
+              <div className="scroll-icon"><span /></div>
             </div>
           </section>
 
@@ -188,17 +297,15 @@ export default function App() {
                 <h2>Who I Am</h2>
                 <p>Discover my journey and what drives me</p>
               </div>
-              
               <div className="about-content">
                 <div className="about-text">
                   <h3>Hi! I'm Allen John Isac</h3>
                   <p>
-                    I'm a passionate developer, AI & ML enthusiast currently in my 2nd year of B.Tech. I believe in the power of technology to solve complex problems and create meaningful experiences for users.
+                    I'm a passionate developer, AI &amp; ML enthusiast currently in my 2nd year of B.Tech. I believe in the power of technology to solve complex problems and create meaningful experiences for users.
                   </p>
                   <p>
                     My journey has been about continuous learning and pushing boundaries. Whether it's building intuitive web applications, diving into machine learning, or exploring IoT solutions, I'm always excited to tackle new challenges.
                   </p>
-                  
                   <div className="about-highlight">
                     <div className="highlight-item">
                       <div className="highlight-number">2nd</div>
@@ -213,34 +320,32 @@ export default function App() {
                       <div className="highlight-text">Technical Skills</div>
                     </div>
                   </div>
-
                   <div className="about-buttons">
                     <a href="https://github.com/allenjohn006" target="_blank" rel="noopener noreferrer" className="about-btn">
-                      <i className="fab fa-github"></i> GitHub Profile
+                      <i className="fab fa-github" /> GitHub Profile
                     </a>
                     <a href="https://www.linkedin.com/in/allen-john-isac-7b6730363/" target="_blank" rel="noopener noreferrer" className="about-btn">
-                      <i className="fab fa-linkedin"></i> LinkedIn
+                      <i className="fab fa-linkedin" /> LinkedIn
                     </a>
-                    <button onClick={() => setShowResume(true)} className="about-btn">
-                      <i className="fas fa-file-pdf"></i> Resume
+                    <button onClick={openResume} className="about-btn">
+                      <i className="fas fa-file-pdf" /> Resume
                     </button>
                   </div>
                 </div>
-                
                 <div className="about-info-cards-section">
                   <div className="about-info-card">
                     <div className="card-label">Education</div>
-                    <div className="about-info-card-icon"><i className="fas fa-graduation-cap"></i></div>
+                    <div className="about-info-card-icon"><i className="fas fa-graduation-cap" /></div>
                     <h4>Karunya Institute of Technology &amp; Sciences</h4>
                   </div>
                   <div className="about-info-card">
                     <div className="card-label">Focus</div>
-                    <div className="about-info-card-icon"><i className="fas fa-target"></i></div>
+                    <div className="about-info-card-icon"><i className="fas fa-bullseye" /></div>
                     <h4>AI, DS, ML &amp; Full Stack Development</h4>
                   </div>
                   <div className="about-info-card">
                     <div className="card-label">Beyond Code</div>
-                    <div className="about-info-card-icon"><i className="fas fa-flag"></i></div>
+                    <div className="about-info-card-icon"><i className="fas fa-flag" /></div>
                     <h4>NSS - Parade Team Member</h4>
                   </div>
                 </div>
@@ -248,7 +353,7 @@ export default function App() {
             </div>
           </section>
 
-          {/* Skills Section (modern) */}
+          {/* Skills Section */}
           <ModernSkillsSection />
 
           {/* Projects Section */}
@@ -259,38 +364,33 @@ export default function App() {
                 <h2>Featured Projects</h2>
                 <p>Showcasing my best work and contributions</p>
               </div>
-
               <div className="projects-grid">
                 {[
                   {
                     title: 'Vox',
                     desc: 'AI-driven accessibility-focused examination platform with 100% hands-free voice-controlled workflow. Enables voice-based navigation, biometric authentication, and supports hybrid question formats with real-time speech recognition.',
                     image: `${base}vox-demo.jpeg`,
-                    tags: ['React', 'FastAPI', 'Web Speech API', 'JWT Auth','MongoDB','Docker'],
-                    color: 'gradient-blue',
+                    tags: ['React', 'FastAPI', 'Web Speech API', 'JWT Auth', 'MongoDB', 'Docker'],
                     link: 'https://github.com/allenjohn006/VOX-'
                   },
                   {
                     title: 'OmniFlow Sales AI',
                     desc: 'Production-grade MLOps platform for large-scale sales forecasting with XGBoost, automated retraining, and intelligent drift detection using statistical hypothesis testing.',
                     image: `${base}omniflow-demo.jpeg`,
-                    tags: ['Pandas','XGBoost', 'FastAPI','Django','Python','Scikit-learn','Numpy','Docker'],
-                    color: 'gradient-purple',
+                    tags: ['Pandas', 'XGBoost', 'FastAPI', 'Django', 'Python', 'Scikit-learn', 'Docker'],
                     link: 'https://github.com/allenjohn006/OmniFlow'
                   },
                   {
                     title: 'CVScope',
                     desc: 'AI-powered resume evaluation system using semantic embeddings, FAISS vector search, and RAG pipeline to analyze resume-job compatibility with actionable recommendations.',
                     image: `${base}cvscope-demo.jpeg`,
-                    tags: ['RAG','Openrouter','FAISS'   , 'FastAPI', 'Streamlit','Embeddings','OCR','Python'],
-                    color: 'gradient-green',
+                    tags: ['RAG', 'Openrouter', 'FAISS', 'FastAPI', 'Streamlit', 'OCR', 'Python'],
                     link: 'https://github.com/allenjohn006/CVScope'
                   },
                 ].map((project, idx) => (
                   <div key={idx} className="project-card">
                     <div className="project-image-container">
                       <img src={project.image} alt={project.title} />
-                      <div className={`project-overlay ${project.color}`}></div>
                     </div>
                     <div className="project-info">
                       <h3>{project.title}</h3>
@@ -300,7 +400,9 @@ export default function App() {
                           <span key={i} className="project-tag">{tag}</span>
                         ))}
                       </div>
-                      <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-link">Learn More →</a>
+                      <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-link">
+                        Learn More →
+                      </a>
                     </div>
                   </div>
                 ))}
@@ -315,24 +417,20 @@ export default function App() {
                 <span className="label">Contact</span>
                 <h2>Get In Touch</h2>
                 <p>Let's connect and create something amazing together</p>
-                {/* Button moved above cards */}
                 <button className="btn-connect-now" onClick={openConnect}>Connect Now</button>
               </div>
-
               <div className="contact-wrapper">
-
-                {/* Connect With Me (icons only) */}
                 <div className="social-section">
                   <h3>Connect With Me</h3>
                   <div className="social-links">
                     <a className="social-link" href="https://github.com/allenjohn006" target="_blank" rel="noreferrer" aria-label="GitHub">
-                      <i className="fab fa-github"></i>
+                      <i className="fab fa-github" />
                     </a>
                     <a className="social-link" href="https://www.linkedin.com/in/allen-john-isac-7b6730363/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
-                      <i className="fab fa-linkedin-in"></i>
+                      <i className="fab fa-linkedin-in" />
                     </a>
                     <a className="social-link" href="mailto:allen15022006@gmail.com" aria-label="Email">
-                      <i className="fas fa-envelope"></i>
+                      <i className="fas fa-envelope" />
                     </a>
                   </div>
                 </div>
@@ -344,7 +442,6 @@ export default function App() {
           <footer className="footer">
             <div className="footer-content">
               <p>&copy; 2025 Allen John Isac. All rights reserved.</p>
-            
             </div>
           </footer>
         </>
