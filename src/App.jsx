@@ -4,6 +4,10 @@ import ModernSkillsSection from './components/ModernSkillsSection';
 import Connect from './pages/Connect';
 import Resume from './pages/Resume';
 import { DoodleBulb, DoodleArrow, DoodleStar, DoodleSwirl, DoodleSpeechBubble, DoodleWave } from './components/Doodles';
+import educationIcon from './assets/icons/Education.png';
+import focusIcon from './assets/icons/Focus.png';
+import beyondCodeIcon from './assets/icons/Beyond code.png';
+
 
 
 export default function App() {
@@ -132,22 +136,17 @@ export default function App() {
   return (
     <div className="app">
 
-      {/* ── TOP BAR (always visible) ── */}
-      <header className={`site-header ${scrollPos > 50 ? 'scrolled' : ''} ${menuOpen ? 'menu-is-open' : ''}`}>
-        <div className="site-header-inner">
-          <span className="header-brand">AJI</span>
-          <button
-            className={`menu-trigger ${menuOpen ? 'is-open' : ''}`}
-            onClick={menuOpen ? closeMenu : openMenu}
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={menuOpen}
-          >
-            <span className="trigger-bar bar1" />
-            <span className="trigger-bar bar2" />
-            <span className="trigger-bar bar3" />
-          </button>
-        </div>
-      </header>
+      {/* ── FLOATING MENU TRIGGER (always accessible, symmetrical) ── */}
+      <button
+        className={`menu-trigger ${menuOpen ? 'is-open' : ''}`}
+        onClick={menuOpen ? closeMenu : openMenu}
+        aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+        aria-expanded={menuOpen}
+      >
+        <span className="trigger-bar bar1" />
+        <span className="trigger-bar bar2" />
+        <span className="trigger-bar bar3" />
+      </button>
 
       {/* ── FULLSCREEN NAVIGATION OVERLAY ── */}
       {menuOpen && (
@@ -340,20 +339,64 @@ export default function App() {
                   </div>
                 </div>
                 <div className="about-info-cards-section">
+                  {/* Card 1: Education */}
                   <div className="about-info-card">
-                    <div className="card-label">Education</div>
-                    <div className="about-info-card-icon"><i className="fas fa-graduation-cap" /></div>
-                    <h4>Karunya Institute of Technology &amp; Sciences</h4>
+                    <div className="card-label">EDUCATION</div>
+                    <div className="about-info-card-icon">
+                      <img src={educationIcon} alt="Education" className="about-info-card-icon-img" />
+                    </div>
+                    <h4>Education &amp; Leadership</h4>
+                    <div className="about-card-expandable">
+                      <p className="about-card-desc">
+                        Currently pursuing my B.Tech in Artificial Intelligence and Data Science at Karunya Institute of Technology and Sciences (2024–2028). Academic journey spanning India and Nepal, complemented by active student leadership.
+                      </p>
+                      <ul className="about-card-bullets">
+                        <li><strong>Undergraduate:</strong> B.Tech in AI &amp; Data Science (2024–2028)</li>
+                        <li><strong>DotDev, ATOM:</strong> Full-Stack Development Club Coordinator</li>
+                        <li><strong>TEDxKarunyaUniversity:</strong> Core Student Member</li>
+                        <li><strong>Schooling:</strong> M.G.M. Higher Secondary (Jharkhand) &amp; Modern Indian School (Kathmandu)</li>
+                      </ul>
+                    </div>
                   </div>
+
+                  {/* Card 2: Focus */}
                   <div className="about-info-card">
-                    <div className="card-label">Focus</div>
-                    <div className="about-info-card-icon"><i className="fas fa-bullseye" /></div>
-                    <h4>AI, DS, ML &amp; Full Stack Development</h4>
+                    <div className="card-label">FOCUS</div>
+                    <div className="about-info-card-icon">
+                      <img src={focusIcon} alt="Technical Focus" className="about-info-card-icon-img" />
+                    </div>
+                    <h4>Technical Focus</h4>
+                    <div className="about-card-expandable">
+                      <p className="about-card-desc">
+                        Exploring the intersection of software engineering and applied AI through practical systems, experimenting with emerging tech, and turning ideas into functional applications.
+                      </p>
+                      <ul className="about-card-bullets">
+                        <li><strong>Web Development:</strong> Building responsive, user-focused applications &amp; full-stack solutions</li>
+                        <li><strong>Artificial Intelligence &amp; ML:</strong> Intelligent systems, LLM pipelines &amp; predictive models</li>
+                        <li><strong>Data Science:</strong> Exploratory analytics, FAISS embeddings &amp; insight extraction</li>
+                      </ul>
+                      <p className="about-card-quote">"Learn continuously. Build practically. Improve iteratively."</p>
+                    </div>
                   </div>
+
+                  {/* Card 3: Beyond Code */}
                   <div className="about-info-card">
-                    <div className="card-label">Beyond Code</div>
-                    <div className="about-info-card-icon"><i className="fas fa-flag" /></div>
-                    <h4>NSS - Parade Team Member</h4>
+                    <div className="card-label">BEYOND CODE</div>
+                    <div className="about-info-card-icon">
+                      <img src={beyondCodeIcon} alt="Leadership & Community" className="about-info-card-icon-img" />
+                    </div>
+                    <h4>Leadership &amp; Community</h4>
+                    <div className="about-card-expandable">
+                      <p className="about-card-desc">
+                        Beyond technology, I enjoy taking responsibility, working with teams, and contributing to community initiatives. My involvement in NSS has helped develop discipline, coordination, and team leadership.
+                      </p>
+                      <ul className="about-card-bullets">
+                        <li><strong>NSS Karunya — Parade Team Head:</strong> Leading drill coordination, discipline &amp; teamwork</li>
+                        <li><strong>NSS Karunya — MC Team:</strong> Event hosting, stage coordination &amp; institutional communication</li>
+                        <li>Institutional &amp; community outreach initiatives and social service drives</li>
+                      </ul>
+                      <p className="about-card-quote">"Leadership is not just about taking charge; it's about bringing people together."</p>
+                    </div>
                   </div>
                 </div>
               </div>
