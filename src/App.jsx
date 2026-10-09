@@ -3,6 +3,8 @@ import './App.css';
 import ModernSkillsSection from './components/ModernSkillsSection';
 import Connect from './pages/Connect';
 import Resume from './pages/Resume';
+import { DoodleBulb, DoodleArrow, DoodleStar, DoodleSwirl, DoodleSpeechBubble, DoodleWave } from './components/Doodles';
+
 
 export default function App() {
   const base = import.meta.env.BASE_URL;
@@ -237,6 +239,9 @@ export default function App() {
         <>
           {/* Hero Section */}
           <section id="home" className="hero">
+            <DoodleBulb />
+            <DoodleStar />
+            <DoodleArrow />
             <div className="hero-content">
               <div className="hero-text">
                 <div className="hero-eyebrow">
@@ -291,6 +296,8 @@ export default function App() {
 
           {/* About Section */}
           <section id="about" className="about">
+            <DoodleStar />
+            <DoodleSwirl />
             <div className="section-container">
               <div className="section-header">
                 <span className="label">About Me</span>
@@ -358,6 +365,8 @@ export default function App() {
 
           {/* Projects Section */}
           <section id="projects" className="projects">
+            <DoodleSpeechBubble />
+            <DoodleBulb />
             <div className="section-container">
               <div className="section-header">
                 <span className="label">Work</span>
@@ -412,6 +421,8 @@ export default function App() {
 
           {/* Contact Section */}
           <section id="contact" className="contact">
+            <DoodleWave />
+            <DoodleStar />
             <div className="section-container">
               <div className="section-header">
                 <span className="label">Contact</span>
