@@ -4,9 +4,10 @@ import ModernSkillsSection from './components/ModernSkillsSection';
 import Connect from './pages/Connect';
 import Resume from './pages/Resume';
 import { DoodleBulb, DoodleArrow, DoodleStar, DoodleSwirl, DoodleSpeechBubble, DoodleWave } from './components/Doodles';
-import educationIcon from './assets/icons/Education.png';
-import focusIcon from './assets/icons/Focus.png';
-import beyondCodeIcon from './assets/icons/Beyond code.png';
+import educationIcon from './assets/icons/Education-removebg-preview.png';
+import focusIcon from './assets/icons/Focus-removebg-preview.png';
+import beyondCodeIcon from './assets/icons/Beyond_code-removebg-preview.png';
+import GlitchName from './components/GlitchName';
 
 
 
@@ -247,11 +248,7 @@ export default function App() {
                   <span className="eyebrow-line" />
                   <span className="eyebrow-text">Portfolio</span>
                 </div>
-                <h1 className="hero-title">
-                  <span className="title-word">Allen</span>{' '}
-                  <span className="title-word">John</span>{' '}
-                  <span className="title-word gradient">Isac</span>
-                </h1>
+                <GlitchName />
                 <div className="hero-subtitle typewriter">
                   <span className="typed">{typedText}</span>
                   <span className="cursor" aria-hidden="true">|</span>
