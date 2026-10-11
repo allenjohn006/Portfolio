@@ -64,25 +64,6 @@ body {
   border-radius:var(--rl);
 }
 
-/* ── DOODLES (decorative accents in newbie red & subtle white) ── */
-.doodle { position:absolute; pointer-events:none; z-index:1; opacity:.75; }
-.doodle-bulb   { width:46px; height:46px; color:var(--red); }
-.doodle-arrow  { width:64px; height:32px; color:var(--red); }
-.doodle-star   { width:34px; height:34px; color:rgba(255,255,255,0.25); }
-.doodle-swirl  { width:44px; height:44px; color:var(--red); }
-.doodle-speech { width:52px; height:42px; color:rgba(255,255,255,0.25); }
-.doodle-wave   { width:80px; height:20px; color:var(--red); }
-
-/* Doodle section placements */
-.hero .doodle-bulb   { top:10%; left:3%; transform:rotate(-8deg); }
-.hero .doodle-star   { top:18%; right:6%; }
-.hero .doodle-arrow  { bottom:14%; left:8%; transform:scaleX(-1) rotate(4deg); }
-.about .doodle-star  { top:2%; right:4%; }
-.about .doodle-swirl { bottom:6%; left:2%; }
-.projects .doodle-speech { top:0; right:6%; }
-.projects .doodle-bulb   { bottom:4%; left:3%; }
-.contact .doodle-wave    { top:4%; left:4%; }
-.contact .doodle-star    { bottom:8%; right:5%; }
 
 
 /* ══════════════════════════════════════════

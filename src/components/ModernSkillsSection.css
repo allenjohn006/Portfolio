@@ -6,8 +6,6 @@
   overflow: hidden;
 }
 
-.modern-skills-section .doodle-star  { top: 4%; left: 4%; }
-.modern-skills-section .doodle-swirl { bottom: 6%; right: 5%; }
 
 .skills-rows-wrapper {
   display: flex;
