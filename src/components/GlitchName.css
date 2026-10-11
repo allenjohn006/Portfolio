@@ -1,22 +1,24 @@
-@import url("https://fonts.googleapis.com/css2?family=Silkscreen:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800;900&family=Inter:wght@700;800;900&display=swap");
 
 .gn {
   --red: #FF3B30;
-  --white: #F8F8F4;
-  margin: 0 0 1.25rem 0;
+  --white: #FFFFFF;
+  margin: 0 0 0.5rem 0;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  font-family: "Silkscreen", monospace;
-  font-weight: 700;
-  font-size: clamp(2.8rem, 6.4vw, 5.2rem);
-  line-height: 0.96;
-  letter-spacing: 0.03em;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.32em;
+  row-gap: 0.05em;
+  font-family: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 850;
+  font-size: clamp(3.2rem, 6.8vw, 6.2rem);
+  line-height: 1.0;
+  letter-spacing: -0.04em;
   user-select: none;
 }
 
-.gn-line {
-  display: flex;
+.gn-word {
+  display: inline-flex;
   position: relative;
 }
 
@@ -24,19 +26,18 @@
   position: relative;
   display: inline-block;
   cursor: pointer;
-  /* hard pixel outline matching 8-bit retro aesthetic */
-  text-shadow:
-    0.05em 0 #000, -0.05em 0 #000,
-    0 0.05em #000, 0 -0.05em #000,
-    0.05em 0.05em #000, -0.05em -0.05em #000,
-    0.05em -0.05em #000, -0.05em 0.05em #000;
   transition: transform 0.1s ease;
 }
 
-.gn-white .gn-char { color: var(--white); }
-.gn-red   .gn-char { color: var(--red); }
+.gn-white .gn-char {
+  color: var(--white);
+}
 
-/* Glitch aberration pseudo-layers */
+.gn-red .gn-char {
+  color: var(--red);
+}
+
+/* Chromatic aberration pseudo-layers for glitch effect */
 .gn-char::before,
 .gn-char::after {
   content: attr(data-char);
@@ -44,67 +45,66 @@
   inset: 0;
   opacity: 0;
   pointer-events: none;
-  text-shadow: none;
+  font-family: inherit;
+  font-weight: inherit;
 }
 
-.gn-char::before { color: var(--red); }
-.gn-char::after  { color: #28E6FF; }
-.gn-red .gn-char::before { color: var(--white); }
+.gn-char::before {
+  color: var(--red);
+}
 
-/* Active glitch animations on hover/pointer-enter */
+.gn-char::after {
+  color: #28E6FF;
+}
+
+.gn-red .gn-char::before {
+  color: #FFFFFF;
+}
+
+/* Active glitch animations on hover/pointer sweep */
 .gn-char.glitching {
-  animation: gn-jitter 0.4s steps(1, end);
+  animation: gn-jitter 0.36s steps(1, end);
 }
+
 .gn-char.glitching::before {
-  opacity: 1;
-  animation: gn-slice-a 0.4s steps(1, end);
+  opacity: 0.95;
+  animation: gn-slice-a 0.36s steps(1, end);
 }
+
 .gn-char.glitching::after {
-  opacity: 1;
-  animation: gn-slice-b 0.4s steps(1, end);
+  opacity: 0.95;
+  animation: gn-slice-b 0.36s steps(1, end);
 }
 
 @keyframes gn-jitter {
-  0%   { transform: translate(-0.05em, 0.03em) skewX(-7deg); }
-  20%  { transform: translate(0.06em, -0.03em); }
-  40%  { transform: translate(-0.04em, -0.05em) skewX(6deg); }
-  60%  { transform: translate(0.05em, 0.02em); }
-  80%  { transform: translate(-0.03em, 0.01em); }
+  0%   { transform: translate(-0.04em, 0.02em) skewX(-4deg); }
+  20%  { transform: translate(0.05em, -0.02em); }
+  40%  { transform: translate(-0.03em, -0.03em) skewX(4deg); }
+  60%  { transform: translate(0.04em, 0.02em); }
+  80%  { transform: translate(-0.02em, 0.01em); }
   100% { transform: none; }
 }
 
 @keyframes gn-slice-a {
-  0%   { clip-path: inset(10% 0 60% 0); transform: translate(-0.09em, 0); }
-  25%  { clip-path: inset(55% 0 15% 0); transform: translate(0.08em, 0); }
-  50%  { clip-path: inset(30% 0 40% 0); transform: translate(-0.11em, 0.02em); }
-  75%  { clip-path: inset(70% 0 5% 0);  transform: translate(0.07em, 0); }
+  0%   { clip-path: inset(10% 0 60% 0); transform: translate(-0.08em, 0); }
+  25%  { clip-path: inset(55% 0 15% 0); transform: translate(0.07em, 0); }
+  50%  { clip-path: inset(30% 0 40% 0); transform: translate(-0.1em, 0.02em); }
+  75%  { clip-path: inset(70% 0 5% 0);  transform: translate(0.06em, 0); }
   100% { clip-path: inset(0 0 100% 0);  transform: none; }
 }
 
 @keyframes gn-slice-b {
-  0%   { clip-path: inset(60% 0 10% 0); transform: translate(0.09em, 0); }
-  25%  { clip-path: inset(15% 0 55% 0); transform: translate(-0.08em, 0); }
-  50%  { clip-path: inset(45% 0 30% 0); transform: translate(0.11em, -0.02em); }
-  75%  { clip-path: inset(5% 0 75% 0);  transform: translate(-0.07em, 0); }
+  0%   { clip-path: inset(60% 0 10% 0); transform: translate(0.08em, 0); }
+  25%  { clip-path: inset(15% 0 55% 0); transform: translate(-0.07em, 0); }
+  50%  { clip-path: inset(45% 0 30% 0); transform: translate(0.1em, -0.02em); }
+  75%  { clip-path: inset(5% 0 75% 0);  transform: translate(-0.06em, 0); }
   100% { clip-path: inset(0 0 100% 0);  transform: none; }
 }
-
-/* Subtle idle tick on random letters to feel alive */
-@keyframes gn-idle-pulse {
-  0%, 94%, 100% { transform: none; }
-  96% { transform: translate(-2px, 1px) skewX(-4deg); }
-  98% { transform: translate(2px, -1px); }
-}
-
-.gn-char:nth-child(2) { animation: gn-idle-pulse 6s infinite 1.2s; }
-.gn-char:nth-child(4) { animation: gn-idle-pulse 7s infinite 3.5s; }
 
 @media (prefers-reduced-motion: reduce) {
   .gn-char.glitching,
   .gn-char.glitching::before,
-  .gn-char.glitching::after,
-  .gn-char:nth-child(2),
-  .gn-char:nth-child(4) {
+  .gn-char.glitching::after {
     animation: none;
   }
 }

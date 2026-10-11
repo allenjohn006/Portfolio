@@ -1,24 +1,24 @@
 import React from "react";
 import "./GlitchName.css";
 
-const LINES = [
-  { text: "ALLEN", variant: "white" },
-  { text: "JOHN", variant: "white" },
-  { text: "ISAC", variant: "red" },
+const WORDS = [
+  { text: "Allen", variant: "white" },
+  { text: "John", variant: "white" },
+  { text: "Isac.", variant: "red" },
 ];
 
 const fire = (el) => {
   if (!el) return;
   el.classList.remove("glitching");
-  void el.offsetWidth; // restart animation
+  void el.offsetWidth; // force reflow to restart animation
   el.classList.add("glitching");
 };
 
 export default function GlitchName() {
   return (
-    <h1 className="gn" aria-label="Allen John Isac">
-      {LINES.map(({ text, variant }) => (
-        <span key={text} className={`gn-line gn-${variant}`} aria-hidden="true">
+    <h1 className="gn" aria-label="Allen John Isac.">
+      {WORDS.map(({ text, variant }) => (
+        <span key={text} className={`gn-word gn-${variant}`}>
           {[...text].map((ch, i) => (
             <span
               key={i}

@@ -8,6 +8,7 @@ import educationIcon from './assets/icons/Education-removebg-preview.png';
 import focusIcon from './assets/icons/Focus-removebg-preview.png';
 import beyondCodeIcon from './assets/icons/Beyond_code-removebg-preview.png';
 import GlitchName from './components/GlitchName';
+import heroCutout from './assets/allen-cutout.png';
 
 
 
@@ -273,14 +274,12 @@ export default function App() {
                 </div>
               </div>
               <div className="hero-right">
-                <div className="image-container photo-frame">
-                  <div className="photo-glow" aria-hidden="true" />
-                  <img src={`${base}pic 1.jpeg`} alt="Allen John Isac" className="profile-photo" />
-                  <div className="orbit-dots" aria-hidden="true">
-                    <span className="dot d1" />
-                    <span className="dot d2" />
-                    <span className="dot d3" />
-                  </div>
+                <div className="hero-photo-wrapper">
+                  <img
+                    src={heroCutout}
+                    alt="Allen John Isac"
+                    className="hero-photo-clean"
+                  />
                 </div>
               </div>
             </div>
