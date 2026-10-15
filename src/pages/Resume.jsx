@@ -11,14 +11,14 @@ export default function Resume({ onBack }) {
 
         <div className="resume-header">
           <div className="section-header">
-            <span className="label">Resume</span>
-            <h2>My Professional Profile</h2>
-            <p>Download or view my full resume</p>
+            <span className="label" data-reveal>Resume</span>
+            <h2 className="chrome-text" data-split>My Professional Profile</h2>
+            <p data-reveal data-delay="0.15">Download or view my full resume</p>
           </div>
         </div>
 
         <div className="resume-content">
-          <div className="resume-viewer">
+          <div className="resume-viewer" data-reveal>
             <iframe
               src={resumePdf}
               title="Resume"
@@ -26,7 +26,7 @@ export default function Resume({ onBack }) {
             ></iframe>
           </div>
 
-          <div className="resume-download">
+          <div className="resume-download" data-reveal data-delay="0.1">
             <a href={resumePdf} download="ALLEN_RESUME.pdf" className="download-btn">
               <i className="fas fa-download"></i>
               Download Resume

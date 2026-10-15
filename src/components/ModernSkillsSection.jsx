@@ -60,18 +60,18 @@ const ModernSkillsSection = () => {
     <section id="skills" className="modern-skills-section">
       <div className="section-container">
         <div className="section-header">
-          <span className="label">Expertise</span>
-          <h2>Technical Skills</h2>
-          <p>Technologies and expertise demonstrated through real-world projects</p>
+          <span className="label" data-reveal>Expertise</span>
+          <h2 className="chrome-text" data-split>Technical Skills</h2>
+          <p data-reveal data-delay="0.15">Technologies and expertise demonstrated through real-world projects</p>
         </div>
 
-        <div className="skills-rows-wrapper">
+        <div className="skills-rows-wrapper" data-stagger>
           {categories.map((cat, idx) => (
-            <div key={idx} className="skill-row-container">
+            <div key={idx} className="skill-row-container fx-card">
               <div className={`category-side-label ${cat.class}`}>
                 {cat.title}
               </div>
-              <div className="skills-chips-list">
+              <div className="skills-chips-list" data-stagger="pop">
                 {cat.skills.map((skill, sIdx) => (
                   <div key={sIdx} className="skill-chip-pill">
                     <i className={skill.icon}></i>

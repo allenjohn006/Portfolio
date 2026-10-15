@@ -39,17 +39,17 @@ export default function Connect({ onBack }) {
     <section id="connect" className="connect-page">
       <div className="section-container">
         <div className="section-header">
-          <span className="label">Connect</span>
-          <h2>Let's <span className="gradient-text">Talk</span></h2>
-          <p>Have a project in mind or want to collaborate? I'd love to hear from you.</p>
+          <span className="label" data-reveal>Connect</span>
+          <h2 data-split>Let's <span className="gradient-text">Talk</span></h2>
+          <p data-reveal data-delay="0.15">Have a project in mind or want to collaborate? I'd love to hear from you.</p>
         </div>
 
         <div className="connect-grid">
-          <div className="connect-info">
+          <div className="connect-info" data-stagger>
             <h3>Get in Touch</h3>
             <p>Feel free to reach out through any of the following channels. I typically respond within 24 hours.</p>
 
-            <div className="connect-card">
+            <div className="connect-card fx-card">
               <div className="connect-icon"><i className="fas fa-envelope"></i></div>
               <div className="connect-details">
                 <div className="connect-label">EMAIL</div>
@@ -57,7 +57,7 @@ export default function Connect({ onBack }) {
               </div>
             </div>
 
-            <div className="connect-card">
+            <div className="connect-card fx-card">
               <div className="connect-icon"><i className="fas fa-phone"></i></div>
               <div className="connect-details">
                 <div className="connect-label">PHONE</div>
@@ -68,7 +68,7 @@ export default function Connect({ onBack }) {
             <button className="btn btn-outline" onClick={onBack}>← Back</button>
           </div>
 
-          <div className="connect-form">
+          <div className="connect-form" data-reveal data-delay="0.2">
             <h3>Send a Message</h3>
             <form
               onSubmit={handleSubmit}

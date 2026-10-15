@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useLayoutEffect, useRef } from 'react';
 import './App.css';
+import './motion.css';
 import ModernSkillsSection from './components/ModernSkillsSection';
 import Connect from './pages/Connect';
 import Resume from './pages/Resume';
@@ -8,12 +9,24 @@ import focusIcon from './assets/icons/Focus-removebg-preview.png';
 import beyondCodeIcon from './assets/icons/Beyond_code-removebg-preview.png';
 import GlitchName from './components/GlitchName';
 import heroCutout from './assets/allen-cutout.png';
+import Loader from './components/Loader';
+import Cursor from './components/Cursor';
+import Marquee from './components/Marquee';
+import { useReveals } from './motion/useReveals';
+import {
+  gsap, ScrollTrigger, initScroll, destroyScroll, getLenis, scrollToTarget,
+  stopScroll, startScroll, reduced, isTouch, glitchChar,
+} from './motion/scroll';
+
+const SECTION_LABELS = {
+  home: ['01', 'Home'], about: ['02', 'About'], skills: ['03', 'Skills'],
+  projects: ['04', 'Projects'], contact: ['06', 'Contact'],
+};
 
 
 
 export default function App() {
   const base = import.meta.env.BASE_URL;
-  const [scrollPos, setScrollPos] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuExiting, setMenuExiting] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
@@ -21,28 +34,134 @@ export default function App() {
   const [showConnect, setShowConnect] = useState(false);
   const [showResume, setShowResume] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
+  const [loading, setLoading] = useState(() => !reduced());
+  const [heroReady, setHeroReady] = useState(() => reduced());
+  const [barHidden, setBarHidden] = useState(false);
+  const [barSolid, setBarSolid] = useState(false);
 
+  const rootRef = useRef(null);
+  const triggerRef = useRef(null);
+  const progressRef = useRef(null);
+  const curtainRef = useRef(null);
+  const curtainLabelRef = useRef(null);
+  const busyRef = useRef(false);
+  const pageRef = useRef(false);
+  const menuOpenRef = useRef(false);
   useEffect(() => {
+    pageRef.current = showResume || showConnect;
+    menuOpenRef.current = menuOpen;
+  });
+
+  // scroll-driven reveals (re-bound whenever the visible page changes)
+  useReveals([showResume, showConnect]);
+
+  // smooth scroll
+  useEffect(() => {
+    initScroll();
+    const refresh = () => ScrollTrigger.refresh();
+    window.addEventListener('load', refresh);
+    return () => {
+      window.removeEventListener('load', refresh);
+      destroyScroll();
+    };
+  }, []);
+
+  // hide hero content until the loader splits open
+  useLayoutEffect(() => {
+    if (!loading) return;
+    gsap.set('.hero [data-hero], .hero .gn-char', { autoAlpha: 0 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // hero entrance
+  useEffect(() => {
+    if (!heroReady || reduced()) return undefined;
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
+      tl.fromTo('.hero [data-hero="eyebrow"]', { autoAlpha: 0, x: -30 }, { autoAlpha: 1, x: 0, duration: 1 })
+        .fromTo('.hero .gn-char',
+          { autoAlpha: 0, y: 70, skewX: -8 },
+          { autoAlpha: 1, y: 0, skewX: 0, duration: 1.1, stagger: 0.035, clearProps: 'transform' }, '-=0.7')
+        .add(() => {
+          gsap.utils.toArray('.hero .gn-char').forEach((c, i) =>
+            gsap.delayedCall(i * 0.03, () => glitchChar(c)));
+        }, '-=0.5')
+        .fromTo('.hero [data-hero="sub"]', { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 1 }, '-=0.6')
+        .fromTo('.hero [data-hero="desc"]', { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 1 }, '-=0.8')
+        .fromTo('.hero [data-hero="cta"]', { autoAlpha: 0, y: 30 },
+          { autoAlpha: 1, y: 0, duration: 1, clearProps: 'transform' }, '-=0.8')
+        .fromTo('.hero [data-hero="photo"]',
+          { autoAlpha: 0, y: 80, clipPath: 'inset(18% 0% 0% 0%)' },
+          { autoAlpha: 1, y: 0, clipPath: 'inset(0% 0% 0% 0%)', duration: 1.6, clearProps: 'clipPath,transform' }, 0.1)
+        .fromTo('.hero [data-hero="scroll"]', { autoAlpha: 0 }, { autoAlpha: 1, duration: 1 }, '-=0.6');
+    }, rootRef);
+    return () => ctx.revert();
+  }, [heroReady]);
+
+  // scroll state: active section, topbar behaviour, progress line
+  useEffect(() => {
+    let last = window.scrollY;
+    const sections = ['home', 'about', 'skills', 'projects', 'contact'];
     const handleScroll = () => {
-      setScrollPos(window.scrollY);
-      const sections = ['home', 'about', 'skills', 'projects', 'contact'];
-      for (let section of sections) {
-        const el = document.getElementById(section);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= 150) setActiveSection(section);
-        }
+      const y = window.scrollY;
+      setBarSolid(y > 40);
+      setBarHidden(y > 160 && y > last);
+      if (y < last || y <= 160) setBarHidden(false);
+      last = y;
+      if (progressRef.current) {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        progressRef.current.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max) : 0})`;
+      }
+      for (const id of sections) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= 150) setActiveSection(id);
       }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Lock body scroll when menu open
+  // Lock scroll when menu open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    if (menuOpen) stopScroll(); else startScroll();
+    return () => { document.body.style.overflow = ''; startScroll(); };
   }, [menuOpen]);
+
+  // magnetic menu trigger
+  useEffect(() => {
+    const el = triggerRef.current;
+    if (!el || reduced() || isTouch()) return undefined;
+    const xTo = gsap.quickTo(el, 'x', { duration: 0.6, ease: 'power3' });
+    const yTo = gsap.quickTo(el, 'y', { duration: 0.6, ease: 'power3' });
+    const move = (e) => {
+      const r = el.getBoundingClientRect();
+      const dx = e.clientX - (r.left + r.width / 2);
+      const dy = e.clientY - (r.top + r.height / 2);
+      if (Math.hypot(dx, dy) < 90) { xTo(dx * 0.35); yTo(dy * 0.35); } else { xTo(0); yTo(0); }
+    };
+    window.addEventListener('pointermove', move, { passive: true });
+    return () => window.removeEventListener('pointermove', move);
+  }, []);
+
+  // card spotlight + image drift (one delegated listener)
+  useEffect(() => {
+    if (isTouch()) return undefined;
+    let current = null;
+    const reset = (c) => { c?.style.setProperty('--px', 0); c?.style.setProperty('--py', 0); };
+    const move = (e) => {
+      const card = e.target.closest?.('.fx-card') || null;
+      if (card !== current) { reset(current); current = card; }
+      if (!card) return;
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', `${e.clientX - r.left}px`);
+      card.style.setProperty('--my', `${e.clientY - r.top}px`);
+      card.style.setProperty('--px', ((e.clientX - r.left) / r.width - 0.5) * 2);
+      card.style.setProperty('--py', ((e.clientY - r.top) / r.height - 0.5) * 2);
+    };
+    window.addEventListener('pointermove', move, { passive: true });
+    return () => window.removeEventListener('pointermove', move);
+  }, []);
 
   // Typewriter effect
   useEffect(() => {
@@ -88,34 +207,73 @@ export default function App() {
     }, 500);
   }, []);
 
-  const scrollToSection = useCallback((id) => {
+  // run fn after the menu (if open) has closed
+  const closeThen = useCallback((fn) => {
+    if (!menuOpenRef.current) { fn(); return; }
     setMenuExiting(true);
     setTimeout(() => {
       setMenuOpen(false);
       setMenuExiting(false);
-      setActiveSection(id);
-      const el = document.getElementById(id);
-      el?.scrollIntoView({ behavior: 'smooth' });
+      document.body.style.overflow = '';
+      startScroll();
+      fn();
     }, 500);
   }, []);
 
-  const openConnect = useCallback(() => {
-    setMenuExiting(true);
-    setTimeout(() => {
-      setMenuOpen(false);
-      setMenuExiting(false);
-      setShowConnect(true);
-    }, 500);
+  // curtain wipe between pages; `mid` swaps the content while the screen is covered
+  const transition = useCallback((label, mid) => {
+    if (reduced()) { mid(); return; }
+    if (busyRef.current) return;
+    busyRef.current = true;
+    const curtain = curtainRef.current;
+    const text = curtainLabelRef.current;
+    text.textContent = label;
+    gsap.timeline({ onComplete: () => { busyRef.current = false; } })
+      .set(curtain, { display: 'flex', yPercent: 100 })
+      .to(curtain, { yPercent: 0, duration: 0.75, ease: 'expo.inOut' })
+      .fromTo(text, { yPercent: 110 }, { yPercent: 0, duration: 0.6, ease: 'expo.out' }, '-=0.35')
+      .add(() => {
+        mid();
+        const l = getLenis();
+        if (l) l.scrollTo(0, { immediate: true, force: true });
+        window.scrollTo(0, 0);
+      }, '+=0.1')
+      .to(text, { yPercent: -110, duration: 0.45, ease: 'expo.in' }, '+=0.3')
+      .to(curtain, { yPercent: -100, duration: 0.75, ease: 'expo.inOut' }, '-=0.25')
+      .set(curtain, { display: 'none' });
   }, []);
 
-  const openResume = useCallback(() => {
-    setMenuExiting(true);
-    setTimeout(() => {
-      setMenuOpen(false);
-      setMenuExiting(false);
-      setShowResume(true);
-    }, 500);
-  }, []);
+  const goSection = useCallback((id) => {
+    if (pageRef.current) {
+      transition(SECTION_LABELS[id]?.[1] || 'Home', () => {
+        setShowResume(false);
+        setShowConnect(false);
+        setTimeout(() => scrollToTarget(`#${id}`, { immediate: true, force: true }), 80);
+      });
+    } else {
+      scrollToTarget(`#${id}`);
+    }
+    setActiveSection(id);
+  }, [transition]);
+
+  const scrollToSection = useCallback((id) => closeThen(() => goSection(id)), [closeThen, goSection]);
+
+  const openConnect = useCallback(
+    () => closeThen(() => transition('Connect', () => { setShowResume(false); setShowConnect(true); })),
+    [closeThen, transition]
+  );
+
+  const openResume = useCallback(
+    () => closeThen(() => transition('Resume', () => { setShowConnect(false); setShowResume(true); })),
+    [closeThen, transition]
+  );
+
+  const goHome = useCallback(
+    () => transition('Home', () => { setShowResume(false); setShowConnect(false); setActiveSection('home'); }),
+    [transition]
+  );
+
+  const barLabel = showResume ? ['05', 'Resume'] : showConnect ? ['06', 'Connect'] : SECTION_LABELS[activeSection];
 
   const navItems = [
     { id: '01', label: 'Home',     action: () => scrollToSection('home') },
@@ -135,10 +293,47 @@ export default function App() {
   ];
 
   return (
-    <div className="app">
+    <div className="app" ref={rootRef}>
+
+      {loading && (
+        <Loader
+          onReveal={() => setHeroReady(true)}
+          onDone={() => { setLoading(false); ScrollTrigger.refresh(); }}
+        />
+      )}
+      <Cursor />
+      <div className="page-curtain" ref={curtainRef} aria-hidden="true">
+        <div className="curtain-label"><span ref={curtainLabelRef} /></div>
+      </div>
+
+      {/* ── TOP BAR ── */}
+      <header className={`topbar ${barSolid ? 'is-scrolled' : ''} ${barHidden && !menuOpen ? 'is-hidden' : ''}`}>
+        <button
+          className="topbar-logo"
+          aria-label="Back to top"
+          onClick={() => (pageRef.current ? goHome() : scrollToTarget(0))}
+        >
+          {['A', 'J'].map((ch) => (
+            <span
+              key={ch}
+              className="gn-char"
+              data-char={ch}
+              onPointerEnter={(e) => glitchChar(e.currentTarget)}
+              onAnimationEnd={(e) => e.currentTarget.classList.remove('glitching')}
+            >{ch}</span>
+          ))}
+          <span className="dot">.</span>
+        </button>
+        <div className="topbar-section" key={barLabel?.[1]} aria-hidden="true">
+          <span className="ts-num">{barLabel?.[0]}</span>
+          <span className="ts-label">{barLabel?.[1]}</span>
+        </div>
+        <div className="topbar-progress" ref={progressRef} />
+      </header>
 
       {/* ── FLOATING MENU TRIGGER (always accessible, symmetrical) ── */}
       <button
+        ref={triggerRef}
         className={`menu-trigger ${menuOpen ? 'is-open' : ''}`}
         onClick={menuOpen ? closeMenu : openMenu}
         aria-label={menuOpen ? 'Close menu' : 'Open menu'}
@@ -185,7 +380,7 @@ export default function App() {
                       onClick={item.action}
                     >
                       <span className="nav-num">{item.id}</span>
-                      <span className="nav-label">{item.label}</span>
+                      <span className="nav-label"><span className="roll" data-text={item.label}>{item.label}</span></span>
                     </button>
                   </li>
                 ))}
@@ -232,30 +427,30 @@ export default function App() {
 
       {/* ── PAGE CONTENT ── */}
       {showResume ? (
-        <Resume onBack={() => setShowResume(false)} />
+        <Resume onBack={goHome} />
       ) : showConnect ? (
-        <Connect onBack={() => setShowConnect(false)} />
+        <Connect onBack={goHome} />
       ) : (
         <>
           {/* Hero Section */}
           <section id="home" className="hero">
             <div className="hero-content">
-              <div className="hero-text">
-                <div className="hero-eyebrow">
+              <div className="hero-text" data-parallax="-4">
+                <div className="hero-eyebrow" data-hero="eyebrow">
                   <span className="eyebrow-line" />
                   <span className="eyebrow-text">Portfolio</span>
                 </div>
                 <GlitchName />
-                <div className="hero-subtitle typewriter">
+                <div className="hero-subtitle typewriter" data-hero="sub">
                   <span className="typed">{typedText}</span>
                   <span className="cursor" aria-hidden="true">|</span>
                 </div>
-                <p className="hero-description">
+                <p className="hero-description" data-hero="desc">
                   Passionate about predictive analytics, data-driven decision making, and building end-to-end applications.
                   <br />
                   Currently pursuing my B.Tech degree with AI &amp; DS Specialization.
                 </p>
-                <div className="hero-buttons">
+                <div className="hero-buttons" data-hero="cta">
                   <button className="btn btn-primary" onClick={() => scrollToSection('projects')}>
                     <span>View My Work</span>
                     <i className="fas fa-arrow-right" />
@@ -269,8 +464,8 @@ export default function App() {
                   </button>
                 </div>
               </div>
-              <div className="hero-right">
-                <div className="hero-photo-wrapper">
+              <div className="hero-right" data-hero="photo">
+                <div className="hero-photo-wrapper" data-parallax="-7">
                   <img
                     src={heroCutout}
                     alt="Allen John Isac"
@@ -279,44 +474,46 @@ export default function App() {
                 </div>
               </div>
             </div>
-            <div className="scroll-indicator">
+            <div className="scroll-indicator" data-hero="scroll">
               <div className="scroll-text">Scroll to explore</div>
               <div className="scroll-icon"><span /></div>
             </div>
           </section>
 
+          <Marquee />
+
           {/* About Section */}
           <section id="about" className="about">
             <div className="section-container">
               <div className="section-header">
-                <span className="label">About Me</span>
-                <h2>Who I Am</h2>
-                <p>Discover my journey and what drives me</p>
+                <span className="label" data-reveal>About Me</span>
+                <h2 className="chrome-text" data-split>Who I Am</h2>
+                <p data-reveal data-delay="0.15">Discover my journey and what drives me</p>
               </div>
               <div className="about-content">
                 <div className="about-text">
-                  <h3>Hi! I'm Allen John Isac</h3>
-                  <p>
+                  <h3 className="chrome-text" data-split>Hi! I'm Allen John Isac</h3>
+                  <p data-words>
                     I'm a passionate developer, AI &amp; ML enthusiast currently in my 2nd year of B.Tech. I believe in the power of technology to solve complex problems and create meaningful experiences for users.
                   </p>
-                  <p>
+                  <p data-words>
                     My journey has been about continuous learning and pushing boundaries. Whether it's building intuitive web applications, diving into machine learning, or exploring IoT solutions, I'm always excited to tackle new challenges.
                   </p>
-                  <div className="about-highlight">
-                    <div className="highlight-item">
-                      <div className="highlight-number">2nd</div>
+                  <div className="about-highlight" data-stagger>
+                    <div className="highlight-item fx-card">
+                      <div className="highlight-number" data-count="2" data-suffix="nd">2nd</div>
                       <div className="highlight-text">Years B-tech</div>
                     </div>
-                    <div className="highlight-item">
-                      <div className="highlight-number">5+</div>
+                    <div className="highlight-item fx-card">
+                      <div className="highlight-number" data-count="5" data-suffix="+">5+</div>
                       <div className="highlight-text">Completed Projects</div>
                     </div>
-                    <div className="highlight-item">
-                      <div className="highlight-number">10+</div>
+                    <div className="highlight-item fx-card">
+                      <div className="highlight-number" data-count="10" data-suffix="+">10+</div>
                       <div className="highlight-text">Technical Skills</div>
                     </div>
                   </div>
-                  <div className="about-buttons">
+                  <div className="about-buttons" data-reveal>
                     <a href="https://github.com/allenjohn006" target="_blank" rel="noopener noreferrer" className="about-btn">
                       <i className="fab fa-github" /> GitHub Profile
                     </a>
@@ -328,9 +525,9 @@ export default function App() {
                     </button>
                   </div>
                 </div>
-                <div className="about-info-cards-section">
+                <div className="about-info-cards-section" data-stagger="right">
                   {/* Card 1: Education */}
-                  <div className="about-info-card">
+                  <div className="about-info-card fx-card">
                     <div className="card-label">EDUCATION</div>
                     <div className="about-info-card-icon">
                       <img src={educationIcon} alt="Education" className="about-info-card-icon-img" />
@@ -350,7 +547,7 @@ export default function App() {
                   </div>
 
                   {/* Card 2: Focus */}
-                  <div className="about-info-card">
+                  <div className="about-info-card fx-card">
                     <div className="card-label">FOCUS</div>
                     <div className="about-info-card-icon">
                       <img src={focusIcon} alt="Technical Focus" className="about-info-card-icon-img" />
@@ -370,7 +567,7 @@ export default function App() {
                   </div>
 
                   {/* Card 3: Beyond Code */}
-                  <div className="about-info-card">
+                  <div className="about-info-card fx-card">
                     <div className="card-label">BEYOND CODE</div>
                     <div className="about-info-card-icon">
                       <img src={beyondCodeIcon} alt="Leadership & Community" className="about-info-card-icon-img" />
@@ -400,11 +597,11 @@ export default function App() {
           <section id="projects" className="projects">
             <div className="section-container">
               <div className="section-header">
-                <span className="label">Work</span>
-                <h2>Featured Projects</h2>
-                <p>Showcasing my best work and contributions</p>
+                <span className="label" data-reveal>Work</span>
+                <h2 className="chrome-text" data-split>Featured Projects</h2>
+                <p data-reveal data-delay="0.15">Showcasing my best work and contributions</p>
               </div>
-              <div className="projects-grid">
+              <div className="projects-grid" data-stagger>
                 {[
                   {
                     title: 'Vox',
@@ -428,7 +625,7 @@ export default function App() {
                     link: 'https://github.com/allenjohn006/CVScope'
                   },
                 ].map((project, idx) => (
-                  <div key={idx} className="project-card">
+                  <div key={idx} className="project-card fx-card">
                     <div className="project-image-container">
                       <img src={project.image} alt={project.title} />
                     </div>
@@ -454,15 +651,15 @@ export default function App() {
           <section id="contact" className="contact">
             <div className="section-container">
               <div className="section-header">
-                <span className="label">Contact</span>
-                <h2>Get In Touch</h2>
-                <p>Let's connect and create something amazing together</p>
-                <button className="btn-connect-now" onClick={openConnect}>Connect Now</button>
+                <span className="label" data-reveal>Contact</span>
+                <h2 className="chrome-text" data-split>Get In Touch</h2>
+                <p data-reveal data-delay="0.15">Let's connect and create something amazing together</p>
+                <button className="btn-connect-now" data-reveal data-delay="0.25" onClick={openConnect}>Connect Now</button>
               </div>
               <div className="contact-wrapper">
-                <div className="social-section">
+                <div className="social-section" data-reveal>
                   <h3>Connect With Me</h3>
-                  <div className="social-links">
+                  <div className="social-links" data-stagger="pop">
                     <a className="social-link" href="https://github.com/allenjohn006" target="_blank" rel="noreferrer" aria-label="GitHub">
                       <i className="fab fa-github" />
                     </a>
