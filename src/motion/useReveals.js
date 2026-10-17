@@ -129,12 +129,18 @@ export function useReveals(deps) {
         gsap.utils.toArray('[data-fillx]').forEach((el) => {
           const box = el.parentElement;
           const dots = [...box.querySelectorAll('.jr-dot')];
+          const proxy = { p: 0 };
+          const apply = () => {
+            el.style.transform = `scaleX(${proxy.p})`;
+            dots.forEach((d, i) => {
+              const lit = proxy.p >= i / (dots.length - 1) - 0.001;
+              d.classList.toggle('lit', lit);
+              d.parentElement.classList.toggle('lit', lit);
+            });
+          };
           ScrollTrigger.create({
-            trigger: box, start: 'top 82%', end: 'bottom 55%',
-            onUpdate: (self) => {
-              el.style.transform = `scaleX(${self.progress})`;
-              dots.forEach((d, i) => d.classList.toggle('lit', self.progress >= i / (dots.length - 1) - 0.001));
-            },
+            trigger: box, start: 'top 88%', end: 'top 14%',
+            onUpdate: (self) => gsap.to(proxy, { p: self.progress, duration: 0.7, ease: 'power2.out', overwrite: true, onUpdate: apply }),
           });
         });
 

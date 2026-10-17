@@ -310,3 +310,6 @@
 /* a document / portrait is on screen: let it breathe, text steps further back */
 .has-photos.photo-on.photo-doc > :not(.cp):not(.tl-dot) { opacity: .26; }
 .has-photos.photo-doc .cp-slide.fit img { filter: brightness(.9); }
+
+.jr-stop { opacity: .4; transition: opacity .7s ease; }
+.jr-stop.lit { opacity: 1; }

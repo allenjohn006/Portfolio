@@ -19,7 +19,7 @@
 .sk-name { flex: 1; font-size: 1.05rem; font-weight: 700; letter-spacing: -.01em; }
 .sk-count { font-size: .62rem; font-weight: 700; color: var(--silver); border: 1px solid var(--hairline); border-radius: 999px; padding: .15rem .55rem; }
 
-.sk-panel { min-height: 440px; }
+.sk-panel { min-height: 600px; }
 .sk-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: .6rem 1rem; margin-bottom: 1.6rem; padding-bottom: 1.2rem; border-bottom: 1px solid var(--hairline); }
 .sk-head > i { color: var(--red); font-size: 1rem; }
 .sk-head h3 { font-family: 'Plus Jakarta Sans','Inter',sans-serif; font-size: 1.7rem; font-weight: 800; letter-spacing: -.03em; color: var(--text); }

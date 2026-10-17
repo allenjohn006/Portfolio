@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { gsap, reduced } from '../motion/scroll';
+import { gsap, ScrollTrigger, reduced, getLenis } from '../motion/scroll';
 import { SKILLS } from '../data/content';
 import './SkillsExplorer.css';
 
@@ -7,7 +7,9 @@ import './SkillsExplorer.css';
 export default function SkillsExplorer() {
   const [active, setActive] = useState(0);
   const panel = useRef(null);
+  const layout = useRef(null);
   const first = useRef(true);
+  const st = useRef(null);
   const cat = SKILLS[active];
 
   useEffect(() => {
@@ -21,9 +23,39 @@ export default function SkillsExplorer() {
     return () => ctx.revert();
   }, [active]);
 
+  /* desktop: pin the explorer and let scrolling walk through the categories */
+  useEffect(() => {
+    if (reduced()) return undefined;
+    const mm = gsap.matchMedia();
+    mm.add('(min-width: 901px) and (min-height: 640px)', () => {
+      const n = SKILLS.length;
+      st.current = ScrollTrigger.create({
+        trigger: layout.current,
+        start: 'center center',
+        end: `+=${n * 65}%`,
+        pin: true,
+        anticipatePin: 1,
+        onUpdate: (self) => setActive(Math.min(n - 1, Math.floor(self.progress * n))),
+      });
+      return () => { st.current = null; };
+    });
+    return () => mm.revert();
+  }, []);
+
+  const pick = (i) => {
+    const t = st.current;
+    if (t) {
+      const y = t.start + ((i + 0.5) / SKILLS.length) * (t.end - t.start);
+      const l = getLenis();
+      if (l) l.scrollTo(y, { duration: 1.1, force: true }); else window.scrollTo({ top: y, behavior: 'smooth' });
+    } else {
+      setActive(i);
+    }
+  };
+
   const onKey = (e) => {
-    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); setActive((a) => (a + 1) % SKILLS.length); }
-    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); setActive((a) => (a - 1 + SKILLS.length) % SKILLS.length); }
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); pick((active + 1) % SKILLS.length); }
+    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); pick((active - 1 + SKILLS.length) % SKILLS.length); }
   };
 
   return (
@@ -32,10 +64,10 @@ export default function SkillsExplorer() {
         <div className="section-header">
           <span className="label" data-reveal>Expertise</span>
           <h2 className="chrome-text" data-split>Technical Skills</h2>
-          <p data-reveal data-delay="0.15">Pick a category &mdash; every skill shows where I actually used it</p>
+          <p data-reveal data-delay="0.15">Scroll to move through categories &mdash; every skill shows where I used it</p>
         </div>
 
-        <div className="sk-layout" data-reveal>
+        <div className="sk-layout" ref={layout}>
           <div className="sk-rail" role="tablist" aria-orientation="vertical" onKeyDown={onKey}>
             <span className="sk-indicator" style={{ '--i': active }} />
             {SKILLS.map((c, i) => (
@@ -45,7 +77,7 @@ export default function SkillsExplorer() {
                 aria-selected={i === active}
                 tabIndex={i === active ? 0 : -1}
                 className={`sk-tab ${i === active ? 'is-active' : ''}`}
-                onClick={() => setActive(i)}
+                onClick={() => pick(i)}
               >
                 <span className="sk-num">{String(i + 1).padStart(2, '0')}</span>
                 <span className="sk-name">{c.title}</span>
