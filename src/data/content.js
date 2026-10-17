@@ -106,6 +106,7 @@ export const INTERNSHIPS = [
   {
     period: 'May – Jun 2026',
     role: 'Data Science Intern',
+    slug: 'codmetric',
     org: 'Codmetric',
     meta: 'Remote · 2 months',
     points: [
@@ -117,6 +118,7 @@ export const INTERNSHIPS = [
   {
     period: 'May – Jun 2026',
     role: 'Full Stack Developer Intern',
+    slug: 'codtech',
     org: 'CODTECH IT Solutions',
     meta: 'Remote · 2 months',
     points: [
@@ -128,6 +130,7 @@ export const INTERNSHIPS = [
   {
     period: 'Jun 2025',
     role: 'Artificial Intelligence Intern',
+    slug: 'kaashiv',
     org: 'KaaShiv InfoTech',
     meta: 'Remote · 1 month · Grade A',
     points: [
@@ -141,6 +144,7 @@ export const LEADERSHIP = [
   {
     period: 'Aug 2026 – Present',
     role: 'Coordinator, DotDev',
+    slug: 'dotdev-coordinator',
     org: 'ATOM · Karunya',
     meta: 'Appointed at the ATOM Inauguration, 25 Aug 2026',
     points: [
@@ -152,6 +156,7 @@ export const LEADERSHIP = [
   {
     period: 'Jul 2026 – Present',
     role: 'Head, NSS Parade Team',
+    slug: 'nss-parade-head',
     org: 'NSS · Karunya',
     meta: 'Parade Member → MC Team → Head',
     points: [
@@ -163,6 +168,7 @@ export const LEADERSHIP = [
   {
     period: 'Jul 2025 – Present',
     role: 'MC Team Member',
+    slug: 'nss-mc-team',
     org: 'NSS Core Team · Karunya',
     meta: 'Anchoring & hosting',
     points: ['Selected to host and anchor NSS events and programmes on campus.'],
@@ -172,6 +178,7 @@ export const LEADERSHIP = [
     period: 'Sep 2026 – Present',
     role: 'Member',
     org: 'IEEE TEMS',
+    slug: 'ieee-tems',
     meta: 'Technology & Engineering Management Society',
     points: ['Active member; preparing a candidacy for the IEEE CIS student-chapter Secretary role.'],
     tags: ['IEEE'],
@@ -179,17 +186,90 @@ export const LEADERSHIP = [
 ];
 
 export const ACHIEVEMENTS = [
-  { icon: 'fa-award', title: 'Certificate of Leadership', org: 'ATOM Achievers Day 2026', note: 'For leading Team Glitch in building and presenting VOX at MindKraft 2026.' },
-  { icon: 'fa-trophy', title: 'Top Innovator Shortlist', org: 'AI for Bharat Hackathon', note: 'Led Team LNX to the prototype-development phase of this national, AWS-powered hackathon.' },
-  { icon: 'fa-medal', title: 'NSS Merit Award + Medal', org: 'Karunya NSS · 2025–26', note: 'Outstanding performance with the NSS Parade Team.' },
-  { icon: 'fa-microphone-lines', title: 'MindKraft 2026', org: 'International Techno-Management Fest', note: 'Presented VOX and received industry evaluation feedback.' },
-  { icon: 'fa-bullhorn', title: 'HALO 2026 Organiser & MC', org: 'Department hackathon', note: 'Two-day, ₹10,000 prize-pool hackathon on human-centric AI for public safety.' },
-  { icon: 'fa-flag', title: 'Republic Day 2025', org: 'NSS Certificate of Recognition', note: 'Represented Karunya at the 26 Jan 2025 celebrations.' },
+  { icon: 'fa-award', title: 'Certificate of Leadership', slug: 'certificate-of-leadership', org: 'ATOM Achievers Day 2026', note: 'For leading Team Glitch in building and presenting VOX at MindKraft 2026.' },
+  { icon: 'fa-trophy', title: 'Top Innovator Shortlist', slug: 'ai-for-bharat', org: 'AI for Bharat Hackathon', note: 'Led Team LNX to the prototype-development phase of this national, AWS-powered hackathon.' },
+  { icon: 'fa-medal', title: 'NSS Merit Award + Medal', slug: 'nss-merit-award', org: 'Karunya NSS · 2025–26', note: 'Outstanding performance with the NSS Parade Team.' },
+  { icon: 'fa-microphone-lines', title: 'MindKraft 2026', slug: 'mindkraft-2026', org: 'International Techno-Management Fest', note: 'Presented VOX and received industry evaluation feedback.' },
+  { icon: 'fa-bullhorn', title: 'HALO 2026 Organiser & MC', slug: 'halo-2026', org: 'Department hackathon', note: 'Two-day, ₹10,000 prize-pool hackathon on human-centric AI for public safety.' },
+  { icon: 'fa-flag', title: 'Republic Day 2025', slug: 'republic-day-2025', org: 'NSS Certificate of Recognition', note: 'Represented Karunya at the 26 Jan 2025 celebrations.' },
 ];
 
 export const CERTS = [
-  ['Business Intelligence & Analytics', 'NPTEL · IIT Madras', '2026'],
-  ['Data Analytics Job Simulation', 'Deloitte Australia · Forage', '2026'],
-  ['Introduction to Industry 4.0 & IIoT', 'NPTEL', 'Oct 2025'],
-  ['Artificial Intelligence Internship', 'KaaShiv InfoTech', 'Jun 2025'],
+  { slug: 'nptel-business-analytics', name: 'Business Intelligence & Analytics', issuer: 'NPTEL · IIT Madras', year: '2026', note: '12-week course: data mining, regression, decision trees, clustering, ANN and text mining.' },
+  { slug: 'deloitte-forage', name: 'Data Analytics Job Simulation', issuer: 'Deloitte Australia · Forage', year: '2026', note: 'Virtual job simulation in data analysis and client-ready insight delivery.' },
+  { slug: 'nptel-industry-4', name: 'Industry 4.0 & Industrial IoT', issuer: 'NPTEL', year: 'Oct 2025', note: 'Foundations of Industry 4.0 and industrial IoT systems.' },
+  { slug: 'kaashiv-ai', name: 'Artificial Intelligence Internship', issuer: 'KaaShiv InfoTech', year: 'Jun 2025', note: 'Grade A · supervised learning, NLP pipelines and TensorFlow.' },
+];
+
+export const ABOUT = {
+  lead: 'I build end-to-end AI systems — not just notebooks. MLOps pipelines, voice-first platforms and full-stack products, designed for the people who actually use them.',
+  journey: [
+    { place: 'Kathmandu', where: 'Nepal', note: 'Modern Indian School', tag: 'Secondary' },
+    { place: 'Bokaro', where: 'Jharkhand, India', note: 'M.G.M. Higher Secondary', tag: 'Higher secondary' },
+    { place: 'Coimbatore', where: 'Tamil Nadu, India', note: 'Karunya · B.Tech AI & Data Science', tag: '2024 – 2028' },
+  ],
+  pillars: [
+    { icon: 'fa-gears', title: 'MLOps', text: 'Drift detection, champion–challenger retraining, MLflow.' },
+    { icon: 'fa-brain', title: 'GenAI & NLP', text: 'RAG, FAISS embeddings, voice-first AI.' },
+    { icon: 'fa-layer-group', title: 'Full Stack', text: 'FastAPI, React, React Native, Docker.' },
+  ],
+  now: [
+    'Rebuilding the ATOM public website',
+    'SIH 2026 — offline multilingual TTS/STT walkie-talkie (iTantra)',
+    'Preparing an IEEE CIS Secretary candidacy',
+    'Coordinating DotDev & leading the NSS Parade Team',
+  ],
+  languages: ['Malayalam', 'English', 'Hindi', 'Tamil'],
+};
+
+export const SKILLS = [
+  { title: 'Languages', icon: 'fa-code', blurb: 'The foundations everything else is built on.', items: [
+    ['Python', 'fab fa-python', 'VOX · Sahayak · OmniFlow · CVScope · RetailSense'],
+    ['Java', 'fab fa-java', 'FoodBridge · Student Management System'],
+    ['C', 'fas fa-microchip', 'Systems foundations & coursework'],
+    ['SQL', 'fas fa-database', 'Sahayak · RetailSense · FoodBridge'],
+    ['TypeScript', 'fas fa-code', 'VOX · Smart AI Tetris'],
+  ] },
+  { title: 'AI / ML', icon: 'fa-brain', blurb: 'From classical models to retrieval-augmented systems.', items: [
+    ['Scikit-learn', 'fas fa-flask', 'OmniFlow · CVScope · CineMetric · FlowerLens'],
+    ['TensorFlow', 'fas fa-brain', 'KaaShiv AI internship'],
+    ['XGBoost', 'fas fa-chart-line', 'OmniFlow (R² 0.88)'],
+    ['Prophet', 'fas fa-chart-area', 'RetailSense forecasting'],
+    ['NLP', 'fas fa-language', 'CVScope · Fake-News Detector'],
+    ['RAG', 'fas fa-diagram-project', 'CVScope'],
+    ['FAISS', 'fas fa-magnifying-glass', 'CVScope vector search'],
+    ['Computer Vision', 'fas fa-eye', 'VOX face authentication'],
+    ['AWS Bedrock', 'fab fa-aws', 'Sahayak field extraction'],
+  ] },
+  { title: 'Frameworks', icon: 'fa-layer-group', blurb: 'Backends, frontends and mobile — end to end.', items: [
+    ['FastAPI', 'fas fa-bolt', 'VOX · Sahayak · OmniFlow · RetailSense · CineMetric'],
+    ['Django', 'fas fa-server', 'OmniFlow · ATOM Platform'],
+    ['React', 'fab fa-react', 'VOX · Sahayak · RetailSense · Tetris'],
+    ['React Native', 'fas fa-mobile-alt', 'WorkConnect'],
+    ['Streamlit', 'fas fa-stream', 'CVScope · Sales Predictor'],
+    ['Expo', 'fas fa-cube', 'WorkConnect'],
+  ] },
+  { title: 'Databases', icon: 'fa-database', blurb: 'Relational, document, real-time and vector.', items: [
+    ['PostgreSQL', 'fas fa-database', 'Sahayak · RetailSense · ATOM Platform'],
+    ['MySQL', 'fas fa-database', 'FoodBridge'],
+    ['MongoDB', 'fas fa-leaf', 'VOX'],
+    ['Firestore', 'fas fa-fire', 'WorkConnect real-time tracking'],
+    ['Vector DBs', 'fas fa-vector-square', 'CVScope (FAISS)'],
+  ] },
+  { title: 'Analytics', icon: 'fa-chart-pie', blurb: 'Turning raw data into decisions.', items: [
+    ['Power BI', 'fas fa-chart-column', 'Dashboards & reporting'],
+    ['Tableau', 'fas fa-chart-pie', 'Dashboards & reporting'],
+    ['Matplotlib', 'fas fa-chart-simple', 'EDA notebooks'],
+    ['Seaborn', 'fas fa-chart-simple', 'EDA notebooks'],
+    ['Recharts', 'fas fa-chart-line', 'RetailSense · CineMetric · FlowerLens'],
+  ] },
+  { title: 'DevOps & Testing', icon: 'fa-rocket', blurb: 'Shipping it, and proving it works.', items: [
+    ['Docker', 'fab fa-docker', 'VOX · Sahayak · OmniFlow · RetailSense'],
+    ['MLflow', 'fas fa-code-branch', 'OmniFlow'],
+    ['Celery + Redis', 'fas fa-layer-group', 'RetailSense · ATOM Platform'],
+    ['Nginx', 'fas fa-network-wired', 'VOX · Sahayak'],
+    ['Playwright', 'fas fa-vial', 'Sahayak — 128 E2E tests'],
+    ['CI/CD', 'fas fa-rotate', 'Pipelines & automated builds'],
+    ['Git', 'fab fa-git-alt', 'Everything'],
+  ] },
 ];

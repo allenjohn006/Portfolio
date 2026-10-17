@@ -2,7 +2,9 @@ import React, { useState, useEffect, useCallback, useLayoutEffect, useRef } from
 import './App.css';
 import './motion.css';
 import './sections.css';
-import ModernSkillsSection from './components/ModernSkillsSection';
+import SkillsExplorer from './components/SkillsExplorer';
+import CardPhotos from './components/CardPhotos';
+import { photoClass } from './data/cardPhotos';
 import Connect from './pages/Connect';
 import Resume from './pages/Resume';
 import educationIcon from './assets/icons/Education-removebg-preview.png';
@@ -13,7 +15,7 @@ import heroCutout from './assets/allen-cutout.png';
 import Loader from './components/Loader';
 import ProjectModal from './components/ProjectModal';
 import {
-  PROFILE, TYPED_WORDS, STATS, FEATURED, MORE_BUILDS, INTERNSHIPS, LEADERSHIP, ACHIEVEMENTS, CERTS,
+  PROFILE, TYPED_WORDS, STATS, ABOUT, FEATURED, MORE_BUILDS, INTERNSHIPS, LEADERSHIP, ACHIEVEMENTS, CERTS,
 } from './data/content';
 import Marquee from './components/Marquee';
 import { useReveals } from './motion/useReveals';
@@ -30,13 +32,27 @@ const SECTION_LABELS = {
 
 
 
+const fmtTime = () =>
+  new Intl.DateTimeFormat('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'Asia/Kolkata' }).format(new Date());
+
+function LocalTime() {
+  const [t, setT] = useState(fmtTime);
+  useEffect(() => {
+    const id = setInterval(() => setT(fmtTime()), 20000);
+    return () => clearInterval(id);
+  }, []);
+  return <span>{t}</span>;
+}
+
 function Timeline({ items }) {
   return (
-    <div className="timeline">
-      <span className="tl-line" data-draw />
+    <div className="timeline" data-timeline>
+      <span className="tl-track" />
+      <span className="tl-fill" />
       <div className="tl-items" data-stagger>
         {items.map((it) => (
-          <article className="tl-item fx-card" key={it.role + it.org}>
+          <article className={`tl-item fx-card ${photoClass(it.slug)}`} key={it.slug} tabIndex={0}>
+            <CardPhotos slug={it.slug} />
             <span className="tl-dot" />
             <div className="tl-period">{it.period}</div>
             <h4>{it.role}</h4>
@@ -526,90 +542,86 @@ export default function App() {
                 <h2 className="chrome-text" data-split>Who I Am</h2>
                 <p data-reveal data-delay="0.15">An engineer who ships &mdash; and cares who it&rsquo;s for</p>
               </div>
-              <div className="about-content">
-                <div className="about-text">
-                  <h3 className="chrome-text" data-split>Hi! I'm Allen John Isac</h3>
-                  <p data-words>
-                    I&rsquo;m a 3rd-year B.Tech student in AI &amp; Data Science at Karunya Institute of Technology and Sciences, Coimbatore. I build production-grade systems end to end &mdash; MLOps pipelines with drift detection, RAG-based evaluators, voice-first platforms and mobile apps.
-                  </p>
-                  <p data-words>
-                    I grew up between Kathmandu and Bokaro Steel City, and I care about technology that solves real accessibility and social problems &mdash; from replacing the scribe system for students with disabilities to bringing offline banking to rural branches.
-                  </p>
-                  <div className="about-highlight" data-stagger>
-                    {STATS.map((st) => (
-                      <div className="highlight-item fx-card" key={st.label}>
-                        <div className="highlight-number" data-count={st.n} data-suffix={st.suffix}>{st.n}{st.suffix}</div>
-                        <div className="highlight-text">{st.label}</div>
+
+              <p className="about-lead" data-words>{ABOUT.lead}</p>
+
+              <div className="bento" data-stagger>
+                <div className="bt bt-journey fx-card">
+                  <div className="bt-head">
+                    <img src={educationIcon} alt="" className="bt-icon" />
+                    <span className="bt-label">The path</span>
+                  </div>
+                  <h4>Three places, one direction</h4>
+                  <div className="journey">
+                    <span className="jr-track" />
+                    <span className="jr-fill" data-fillx />
+                    {ABOUT.journey.map((j) => (
+                      <div className="jr-stop" key={j.place}>
+                        <span className="jr-dot" />
+                        <strong>{j.place}</strong>
+                        <em>{j.where}</em>
+                        <span>{j.note}</span>
+                        <small>{j.tag}</small>
                       </div>
                     ))}
                   </div>
-                  <div className="about-buttons" data-reveal>
-                    <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" className="about-btn">
-                      <i className="fab fa-github" /> GitHub Profile
-                    </a>
-                    <a href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer" className="about-btn">
-                      <i className="fab fa-linkedin" /> LinkedIn
-                    </a>
-                    <button onClick={openResume} className="about-btn">
-                      <i className="fas fa-file-pdf" /> Resume
-                    </button>
+                </div>
+
+                <div className="bt bt-stats fx-card">
+                  {STATS.map((st) => (
+                    <div className="bt-stat" key={st.label}>
+                      <div className="highlight-number" data-count={st.n} data-suffix={st.suffix}>{st.n}{st.suffix}</div>
+                      <div className="highlight-text">{st.label}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="bt bt-focus fx-card">
+                  <div className="bt-head">
+                    <img src={focusIcon} alt="" className="bt-icon" />
+                    <span className="bt-label">Focus</span>
+                  </div>
+                  <ul className="pillars">
+                    {ABOUT.pillars.map((p) => (
+                      <li key={p.title}>
+                        <i className={`fas ${p.icon}`} />
+                        <div><strong>{p.title}</strong><span>{p.text}</span></div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="bt bt-now fx-card">
+                  <div className="bt-head">
+                    <img src={beyondCodeIcon} alt="" className="bt-icon" />
+                    <span className="bt-label"><span className="pulse" /> Right now</span>
+                  </div>
+                  <ul className="now-list">
+                    {ABOUT.now.map((n) => <li key={n}>{n}</li>)}
+                  </ul>
+                </div>
+
+                <div className="bt bt-facts fx-card">
+                  <span className="bt-label">Based in</span>
+                  <div className="fact-city">Coimbatore, IN</div>
+                  <div className="fact-time"><i className="far fa-clock" /> <LocalTime /> IST</div>
+                  <span className="bt-label fact-gap">Languages</span>
+                  <div className="project-tags">
+                    {ABOUT.languages.map((l) => <span key={l} className="project-tag">{l}</span>)}
                   </div>
                 </div>
-                <div className="about-info-cards-section" data-stagger="right">
-                  <div className="about-info-card fx-card">
-                    <div className="card-label">EDUCATION</div>
-                    <div className="about-info-card-icon">
-                      <img src={educationIcon} alt="Education" className="about-info-card-icon-img" />
-                    </div>
-                    <h4>Education &amp; Languages</h4>
-                    <div className="about-card-expandable">
-                      <p className="about-card-desc">
-                        B.Tech in Artificial Intelligence &amp; Data Science (2024&ndash;2028) at Karunya. Schooling across India and Nepal.
-                      </p>
-                      <ul className="about-card-bullets">
-                        <li><strong>College:</strong> Karunya Institute of Technology &amp; Sciences, Coimbatore</li>
-                        <li><strong>Schooling:</strong> M.G.M. Higher Secondary (Jharkhand) &amp; Modern Indian School (Kathmandu)</li>
-                        <li><strong>Languages:</strong> Malayalam, English, Hindi, Tamil</li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="about-info-card fx-card">
-                    <div className="card-label">FOCUS</div>
-                    <div className="about-info-card-icon">
-                      <img src={focusIcon} alt="Technical Focus" className="about-info-card-icon-img" />
-                    </div>
-                    <h4>Technical Focus</h4>
-                    <div className="about-card-expandable">
-                      <p className="about-card-desc">
-                        Taking ideas from notebook to production &mdash; models, APIs, dashboards and the infrastructure that keeps them honest.
-                      </p>
-                      <ul className="about-card-bullets">
-                        <li><strong>MLOps:</strong> drift detection, champion&ndash;challenger retraining, MLflow</li>
-                        <li><strong>GenAI &amp; NLP:</strong> RAG, FAISS embeddings, voice AI</li>
-                        <li><strong>Full Stack:</strong> FastAPI, React, React Native, Docker</li>
-                      </ul>
-                      <p className="about-card-quote">"Ship fast. Learn faster."</p>
-                    </div>
-                  </div>
-                  <div className="about-info-card fx-card">
-                    <div className="card-label">BEYOND CODE</div>
-                    <div className="about-info-card-icon">
-                      <img src={beyondCodeIcon} alt="Leadership & Community" className="about-info-card-icon-img" />
-                    </div>
-                    <h4>Leadership &amp; Community</h4>
-                    <div className="about-card-expandable">
-                      <p className="about-card-desc">
-                        I lead because I like building teams as much as systems.
-                      </p>
-                      <ul className="about-card-bullets">
-                        <li><strong>DotDev Coordinator, ATOM:</strong> full-stack club at Karunya</li>
-                        <li><strong>Head, NSS Parade Team:</strong> drill, discipline &amp; teamwork</li>
-                        <li><strong>NSS MC Team &amp; IEEE TEMS:</strong> hosting and professional community</li>
-                      </ul>
-                      <p className="about-card-quote">"Leadership is bringing people together."</p>
-                    </div>
-                  </div>
-                </div>
+              </div>
+
+              <div className="about-buttons about-cta" data-reveal>
+                <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" className="about-btn">
+                  <i className="fab fa-github" /> GitHub Profile
+                </a>
+                <a href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer" className="about-btn">
+                  <i className="fab fa-linkedin" /> LinkedIn
+                </a>
+                <button onClick={openResume} className="about-btn">
+                  <i className="fas fa-file-pdf" /> Resume
+                </button>
               </div>
             </div>
           </section>
@@ -700,7 +712,7 @@ export default function App() {
           </section>
 
           {/* Skills Section */}
-          <ModernSkillsSection />
+          <SkillsExplorer />
 
           {/* Achievements Section */}
           <section id="achievements" className="achievements">
@@ -712,7 +724,8 @@ export default function App() {
               </div>
               <div className="ach-grid" data-stagger>
                 {ACHIEVEMENTS.map((a) => (
-                  <div className="ach-card fx-card" key={a.title}>
+                  <div className={`ach-card fx-card ${photoClass(a.slug)}`} key={a.slug} tabIndex={0}>
+                    <CardPhotos slug={a.slug} />
                     <i className={`fas ${a.icon} ach-icon`} />
                     <h4>{a.title}</h4>
                     <div className="ach-org">{a.org}</div>
@@ -722,11 +735,12 @@ export default function App() {
               </div>
               <h3 className="subhead more-title" data-reveal>Certifications</h3>
               <div className="cert-list" data-stagger>
-                {CERTS.map(([name, issuer, year]) => (
-                  <div className="cert-row fx-card" key={name}>
-                    <span className="cert-name">{name}</span>
-                    <span className="cert-issuer">{issuer}</span>
-                    <span className="cert-year">{year}</span>
+                {CERTS.map((c) => (
+                  <div className={`cert-card fx-card ${photoClass(c.slug)}`} key={c.slug} tabIndex={0}>
+                    <CardPhotos slug={c.slug} />
+                    <div className="cert-top"><span className="cert-issuer">{c.issuer}</span><span className="cert-year">{c.year}</span></div>
+                    <h4>{c.name}</h4>
+                    <p>{c.note}</p>
                   </div>
                 ))}
               </div>

@@ -99,31 +99,31 @@ section:not(.hero)::before {
 
 /* ══ CARDS — black → silver-gray fill sweeping from the pointer, text gray → black ══ */
 .fx-card { position: relative; --mx: 50%; --my: 50%; --px: 0; --py: 0; isolation: isolate; }
-.fx-card::before {
+.fx-card:not(.has-photos)::before {
   content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: -1;
   background: linear-gradient(155deg, #dcdfe3, #bfc3c9);
   clip-path: circle(0% at var(--mx) var(--my));
   transition: clip-path .75s var(--ease);
 }
-.fx-card:hover::before, .fx-card:focus-visible::before { clip-path: circle(150% at var(--mx) var(--my)); }
+.fx-card:not(.has-photos):hover::before, .fx-card:not(.has-photos):focus-visible::before { clip-path: circle(150% at var(--mx) var(--my)); }
 .fx-card :is(h3, h4, p, li, strong, span, i, a, em, .highlight-number, .highlight-text, .card-label, .ach-org, .tl-period, .tl-org, .project-role, .mini-stack) {
   transition: color .45s ease .1s, -webkit-text-fill-color .45s ease .1s, border-color .45s ease, background-color .45s ease, gap .2s;
 }
-.fx-card:hover *, .fx-card:focus-visible * {
+.fx-card:not(.has-photos):hover *, .fx-card:not(.has-photos):focus-visible * {
   color: #0b0b0c !important; -webkit-text-fill-color: #0b0b0c !important;
 }
-.fx-card:hover .project-info h3, .fx-card:hover h4, .fx-card:hover h3 { background: none !important; }
-.fx-card:hover .card-label, .fx-card:hover .tl-period, .fx-card:hover .project-role,
-.fx-card:hover .mini-num, .fx-card:hover .ach-icon, .fx-card:hover .project-link,
-.fx-card:hover .highlight-number, .fx-card:hover .skill-chip-pill i {
+.fx-card:not(.has-photos):hover .project-info h3, .fx-card:not(.has-photos):hover h4, .fx-card:not(.has-photos):hover h3 { background: none !important; }
+.fx-card:not(.has-photos):hover .card-label, .fx-card:not(.has-photos):hover .tl-period, .fx-card:not(.has-photos):hover .project-role,
+.fx-card:not(.has-photos):hover .mini-num, .fx-card:not(.has-photos):hover .ach-icon, .fx-card:not(.has-photos):hover .project-link,
+.fx-card:not(.has-photos):hover .highlight-number, .fx-card:not(.has-photos):hover .skill-chip-pill i {
   color: #b3190f !important; -webkit-text-fill-color: #b3190f !important;
 }
-.fx-card:hover .project-tag, .fx-card:hover .skill-chip-pill, .fx-card:hover .mini-tag {
+.fx-card:not(.has-photos):hover .project-tag, .fx-card:not(.has-photos):hover .skill-chip-pill, .fx-card:not(.has-photos):hover .mini-tag {
   border-color: rgba(11,11,12,.35) !important; background: rgba(11,11,12,.05) !important;
 }
-.fx-card:hover .about-card-bullets li::before { color: #b3190f; }
-.fx-card:hover .about-card-quote { border-top-color: rgba(11,11,12,.25); }
-.fx-card:hover .category-side-label { background: rgba(11,11,12,.07) !important; }
+.fx-card:not(.has-photos):hover .about-card-bullets li::before { color: #b3190f; }
+.fx-card:not(.has-photos):hover .about-card-quote { border-top-color: rgba(11,11,12,.25); }
+.fx-card:not(.has-photos):hover .category-side-label { background: rgba(11,11,12,.07) !important; }
 
 .project-card .project-image-container img {
   transform: scale(1.1) translate(calc(var(--px) * -10px), calc(var(--py) * -8px));

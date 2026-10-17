@@ -1,5 +1,5 @@
 import { useLayoutEffect } from 'react';
-import { gsap, SplitText, reduced } from './scroll';
+import { gsap, ScrollTrigger, SplitText, reduced } from './scroll';
 
 const once = (trigger, start = 'top 88%') => ({ trigger, start, once: true });
 
@@ -11,7 +11,7 @@ const once = (trigger, start = 'top 88%') => ({ trigger, start, once: true });
     data-stagger[=right|pop]  children enter one after another
     data-count            number counts up (data-suffix for trailing text)
     data-parallax=<n>     yPercent drift while scrolling
-    data-draw             timeline line draws as you scroll
+    data-timeline         vertical line fills + dots glow as you scroll
 */
 export function useReveals(deps) {
   useLayoutEffect(() => {
@@ -98,11 +98,43 @@ export function useReveals(deps) {
           });
         });
 
-        gsap.utils.toArray('[data-draw]').forEach((el) => {
-          gsap.fromTo(el, { scaleY: 0 }, {
-            scaleY: 1,
-            ease: 'none',
-            scrollTrigger: { trigger: el.parentElement, start: 'top 75%', end: 'bottom 70%', scrub: true },
+        gsap.utils.toArray('[data-timeline]').forEach((tl) => {
+          const track = tl.querySelector('.tl-track');
+          const fill = tl.querySelector('.tl-fill');
+          const dots = [...tl.querySelectorAll('.tl-dot')];
+          if (!dots.length) return;
+          let ys = [];
+          // dot centres measured with offsets, so entrance transforms don't skew them
+          const layout = () => {
+            ys = dots.map((d) => d.parentElement.offsetTop + d.offsetTop + d.offsetHeight / 2);
+            const len = ys[ys.length - 1] - ys[0];
+            [track, fill].forEach((el) => { el.style.top = `${ys[0]}px`; el.style.height = `${len}px`; });
+          };
+          const update = () => {
+            const marker = window.innerHeight * 0.62 - tl.getBoundingClientRect().top;
+            const len = ys[ys.length - 1] - ys[0] || 1;
+            const p = Math.min(1, Math.max(0, (marker - ys[0]) / len));
+            fill.style.transform = `scaleY(${p})`;
+            dots.forEach((d, i) => d.classList.toggle('lit', marker >= ys[i]));
+          };
+          layout();
+          ScrollTrigger.create({
+            trigger: tl, start: 'top bottom', end: 'bottom top',
+            onUpdate: update,
+            onRefresh: () => { layout(); update(); },
+          });
+          update();
+        });
+
+        gsap.utils.toArray('[data-fillx]').forEach((el) => {
+          const box = el.parentElement;
+          const dots = [...box.querySelectorAll('.jr-dot')];
+          ScrollTrigger.create({
+            trigger: box, start: 'top 82%', end: 'bottom 55%',
+            onUpdate: (self) => {
+              el.style.transform = `scaleX(${self.progress})`;
+              dots.forEach((d, i) => d.classList.toggle('lit', self.progress >= i / (dots.length - 1) - 0.001));
+            },
           });
         });
 
