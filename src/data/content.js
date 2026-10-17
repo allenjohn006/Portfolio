@@ -176,11 +176,11 @@ export const LEADERSHIP = [
   },
   {
     period: 'Sep 2026 – Present',
-    role: 'Member',
+    role: 'Executive Member',
     org: 'IEEE TEMS',
     slug: 'ieee-tems',
     meta: 'Technology & Engineering Management Society',
-    points: ['Active member; preparing a candidacy for the IEEE CIS student-chapter Secretary role.'],
+    points: ['Executive member of the IEEE Technology & Engineering Management Society; preparing a candidacy for the IEEE CIS student-chapter Secretary role.'],
     tags: ['IEEE'],
   },
 ];
@@ -202,7 +202,7 @@ export const CERTS = [
 ];
 
 export const ABOUT = {
-  lead: 'I build end-to-end AI systems — not just notebooks. MLOps pipelines, voice-first platforms and full-stack products, designed for the people who actually use them.',
+  lead: 'AI & Data Science undergraduate focused on building production-grade machine learning systems and full-stack products, from MLOps pipelines to voice-first accessibility platforms.',
   journey: [
     { place: 'Kathmandu', where: 'Nepal', note: 'Modern Indian School', tag: 'Secondary' },
     { place: 'Bokaro', where: 'Jharkhand, India', note: 'M.G.M. Higher Secondary', tag: 'Higher secondary' },
@@ -214,11 +214,12 @@ export const ABOUT = {
     { icon: 'fa-layer-group', title: 'Full Stack', text: 'FastAPI, React, React Native, Docker.' },
   ],
   now: [
-    'Rebuilding the ATOM public website',
-    'SIH 2026 — offline multilingual TTS/STT walkie-talkie (iTantra)',
-    'Preparing an IEEE CIS Secretary candidacy',
-    'Coordinating DotDev & leading the NSS Parade Team',
+    ['DotDev Coordinator', 'ATOM'],
+    ['Head', 'NSS Parade Team'],
+    ['Executive Member', 'IEEE TEMS Society'],
+    ['Student Lead', 'TEDxKarunyaUniversity'],
   ],
+
   languages: ['Malayalam', 'English', 'Hindi', 'Tamil'],
 };
 

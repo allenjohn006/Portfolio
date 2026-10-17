@@ -549,9 +549,8 @@ export default function App() {
                 <div className="bt bt-journey fx-card">
                   <div className="bt-head">
                     <img src={educationIcon} alt="" className="bt-icon" />
-                    <span className="bt-label">The path</span>
+                    <span className="bt-label">Education</span>
                   </div>
-                  <h4>Three places, one direction</h4>
                   <div className="journey">
                     <span className="jr-track" />
                     <span className="jr-fill" data-fillx />
@@ -597,7 +596,7 @@ export default function App() {
                     <span className="bt-label"><span className="pulse" /> Right now</span>
                   </div>
                   <ul className="now-list">
-                    {ABOUT.now.map((n) => <li key={n}>{n}</li>)}
+                    {ABOUT.now.map(([role, org]) => <li key={role}><strong>{role}</strong><span>{org}</span></li>)}
                   </ul>
                 </div>
 
