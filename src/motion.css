@@ -23,12 +23,6 @@ html { scroll-behavior: auto; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: linear-gradient(#6b7075, #3a3d41); border-radius: 10px; border: 2px solid var(--bg); }
 
-/* film grain */
-body::after {
-  content: ''; position: fixed; inset: 0; z-index: 4000; pointer-events: none; opacity: .045;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-}
-
 /* ── CHROME TYPE ── */
 .chrome-text,
 [data-split].chrome-text .split-word {
@@ -52,11 +46,6 @@ section:not(.hero)::before {
 
 /* ── LOADER → HERO HAND-OFF: GSAP owns hero entrance now ── */
 .hero-text, .hero-right { animation: none; }
-.hero-photo-wrapper { position: relative; }
-.hero-photo-wrapper::before {
-  content: ''; position: absolute; inset: 8% 0 0; pointer-events: none;
-  background: radial-gradient(ellipse at 50% 38%, rgba(214,218,224,.16), transparent 64%);
-}
 .hero-photo-clean { position: relative; z-index: 1; }
 
 /* ══ TOP BAR ══ */
@@ -108,37 +97,33 @@ section:not(.hero)::before {
 .overlay-nav-btn:hover .roll { transform: translateY(-100%); }
 .overlay-nav-btn.highlighted .nav-label { color: var(--nav-red); }
 
-/* ══ CURSOR ══ */
-.has-cursor, .has-cursor * { cursor: none !important; }
-.has-cursor input, .has-cursor textarea { cursor: text !important; }
-.cursor-dot, .cursor-ring, .cursor-glow {
-  position: fixed; top: 0; left: 0; pointer-events: none; opacity: 0; transition: opacity .3s ease;
-}
-.cursor-dot  { z-index: 5001; width: 6px; height: 6px; border-radius: 50%; background: var(--red); }
-.cursor-ring {
-  z-index: 5000; width: 38px; height: 38px; border-radius: 50%;
-  border: 1.5px solid rgba(220,224,230,.85); mix-blend-mode: difference;
-  transition: opacity .3s ease, width .35s var(--ease), height .35s var(--ease), background .3s ease, border-color .3s ease;
-}
-.cursor-glow {
-  z-index: 1; width: 520px; height: 520px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(205,210,218,.07), transparent 62%);
-}
-html.cursor-live .cursor-dot, html.cursor-live .cursor-ring, html.cursor-live .cursor-glow { opacity: 1; }
-html.cursor-link .cursor-ring { width: 68px; height: 68px; background: rgba(255,255,255,.12); }
-html.cursor-link .cursor-dot { transform: scale(.5); }
-html.cursor-down .cursor-ring { width: 28px; height: 28px; }
-html.cursor-text .cursor-dot, html.cursor-text .cursor-ring { opacity: 0 !important; }
-
-/* ══ CARDS — pointer spotlight, tint wash, image drift ══ */
+/* ══ CARDS — black → silver-gray fill sweeping from the pointer, text gray → black ══ */
 .fx-card { position: relative; --mx: 50%; --my: 50%; --px: 0; --py: 0; isolation: isolate; }
-.fx-card::before, .fx-card::after {
-  content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
-  opacity: 0; transition: opacity .5s var(--ease); z-index: 2;
+.fx-card::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: -1;
+  background: linear-gradient(155deg, #dcdfe3, #bfc3c9);
+  clip-path: circle(0% at var(--mx) var(--my));
+  transition: clip-path .75s var(--ease);
 }
-.fx-card::before { background: radial-gradient(420px circle at var(--mx) var(--my), rgba(224,228,234,.13), transparent 62%); }
-.fx-card::after  { background: linear-gradient(150deg, rgba(200,204,212,.07), rgba(255,59,48,.05) 70%); }
-.fx-card:hover::before, .fx-card:hover::after { opacity: 1; }
+.fx-card:hover::before, .fx-card:focus-visible::before { clip-path: circle(150% at var(--mx) var(--my)); }
+.fx-card :is(h3, h4, p, li, strong, span, i, a, em, .highlight-number, .highlight-text, .card-label, .ach-org, .tl-period, .tl-org, .project-role, .mini-stack) {
+  transition: color .45s ease .1s, -webkit-text-fill-color .45s ease .1s, border-color .45s ease, background-color .45s ease, gap .2s;
+}
+.fx-card:hover *, .fx-card:focus-visible * {
+  color: #0b0b0c !important; -webkit-text-fill-color: #0b0b0c !important;
+}
+.fx-card:hover .project-info h3, .fx-card:hover h4, .fx-card:hover h3 { background: none !important; }
+.fx-card:hover .card-label, .fx-card:hover .tl-period, .fx-card:hover .project-role,
+.fx-card:hover .mini-num, .fx-card:hover .ach-icon, .fx-card:hover .project-link,
+.fx-card:hover .highlight-number, .fx-card:hover .skill-chip-pill i {
+  color: #b3190f !important; -webkit-text-fill-color: #b3190f !important;
+}
+.fx-card:hover .project-tag, .fx-card:hover .skill-chip-pill, .fx-card:hover .mini-tag {
+  border-color: rgba(11,11,12,.35) !important; background: rgba(11,11,12,.05) !important;
+}
+.fx-card:hover .about-card-bullets li::before { color: #b3190f; }
+.fx-card:hover .about-card-quote { border-top-color: rgba(11,11,12,.25); }
+.fx-card:hover .category-side-label { background: rgba(11,11,12,.07) !important; }
 
 .project-card .project-image-container img {
   transform: scale(1.1) translate(calc(var(--px) * -10px), calc(var(--py) * -8px));
@@ -147,9 +132,6 @@ html.cursor-text .cursor-dot, html.cursor-text .cursor-ring { opacity: 0 !import
 .project-card:hover .project-image-container img { transform: scale(1.1) translate(calc(var(--px) * -10px), calc(var(--py) * -8px)); }
 
 .section-header h2, .about-text h3 { font-family: 'Plus Jakarta Sans','Inter',sans-serif; }
-.about-info-card:hover h4, .project-info h3 { background: var(--chrome); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-.about-info-card:hover .card-label { color: #fff; }
-.highlight-item:hover { background: linear-gradient(160deg, rgba(200,204,212,.08), rgba(255,59,48,.07)); }
 
 /* ══ MARQUEE ══ */
 .marquee {
@@ -185,7 +167,6 @@ html.cursor-text .cursor-dot, html.cursor-text .cursor-ring { opacity: 0 !import
 @media (max-width: 768px) {
   .topbar { padding: 0 calc(1.5rem + 46px + 1rem) 0 1.25rem; height: 70px; }
   .topbar-section { display: none; }
-  .cursor-glow { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .chrome-text, [data-split].chrome-text .split-word { animation: none; }

@@ -11,6 +11,7 @@ const once = (trigger, start = 'top 88%') => ({ trigger, start, once: true });
     data-stagger[=right|pop]  children enter one after another
     data-count            number counts up (data-suffix for trailing text)
     data-parallax=<n>     yPercent drift while scrolling
+    data-draw             timeline line draws as you scroll
 */
 export function useReveals(deps) {
   useLayoutEffect(() => {
@@ -94,6 +95,14 @@ export function useReveals(deps) {
               el.textContent = `${Math.round(o.v)}${suffix}`;
             },
             scrollTrigger: once(el, 'top 94%'),
+          });
+        });
+
+        gsap.utils.toArray('[data-draw]').forEach((el) => {
+          gsap.fromTo(el, { scaleY: 0 }, {
+            scaleY: 1,
+            ease: 'none',
+            scrollTrigger: { trigger: el.parentElement, start: 'top 75%', end: 'bottom 70%', scrub: true },
           });
         });
 

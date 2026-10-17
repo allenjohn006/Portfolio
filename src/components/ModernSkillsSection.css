@@ -52,7 +52,7 @@
   -webkit-backdrop-filter: blur(10px);
 }
 
-.languages, .frontend, .backend, .devops, .database {
+.languages, .aiml, .frameworks, .analytics, .frontend, .backend, .devops, .database {
   background: rgba(255, 59, 48, 0.12);
 }
 

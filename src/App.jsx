@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useLayoutEffect, useRef } from 'react';
 import './App.css';
 import './motion.css';
+import './sections.css';
 import ModernSkillsSection from './components/ModernSkillsSection';
 import Connect from './pages/Connect';
 import Resume from './pages/Resume';
@@ -10,7 +11,10 @@ import beyondCodeIcon from './assets/icons/Beyond_code-removebg-preview.png';
 import GlitchName from './components/GlitchName';
 import heroCutout from './assets/allen-cutout.png';
 import Loader from './components/Loader';
-import Cursor from './components/Cursor';
+import ProjectModal from './components/ProjectModal';
+import {
+  PROFILE, TYPED_WORDS, STATS, FEATURED, MORE_BUILDS, INTERNSHIPS, LEADERSHIP, ACHIEVEMENTS, CERTS,
+} from './data/content';
 import Marquee from './components/Marquee';
 import { useReveals } from './motion/useReveals';
 import {
@@ -19,11 +23,34 @@ import {
 } from './motion/scroll';
 
 const SECTION_LABELS = {
-  home: ['01', 'Home'], about: ['02', 'About'], skills: ['03', 'Skills'],
-  projects: ['04', 'Projects'], contact: ['06', 'Contact'],
+  home: ['01', 'Home'], about: ['02', 'About'], experience: ['03', 'Experience'],
+  projects: ['04', 'Work'], skills: ['05', 'Skills'], achievements: ['06', 'Recognition'],
+  contact: ['08', 'Contact'],
 };
 
 
+
+function Timeline({ items }) {
+  return (
+    <div className="timeline">
+      <span className="tl-line" data-draw />
+      <div className="tl-items" data-stagger>
+        {items.map((it) => (
+          <article className="tl-item fx-card" key={it.role + it.org}>
+            <span className="tl-dot" />
+            <div className="tl-period">{it.period}</div>
+            <h4>{it.role}</h4>
+            <div className="tl-org">{it.org} <i>&middot;</i> {it.meta}</div>
+            <ul>{it.points.map((pt) => <li key={pt}>{pt}</li>)}</ul>
+            <div className="project-tags">
+              {it.tags.map((t) => <span key={t} className="project-tag">{t}</span>)}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function App() {
   const base = import.meta.env.BASE_URL;
@@ -38,6 +65,8 @@ export default function App() {
   const [heroReady, setHeroReady] = useState(() => reduced());
   const [barHidden, setBarHidden] = useState(false);
   const [barSolid, setBarSolid] = useState(false);
+  const [project, setProject] = useState(null);
+  const [copied, setCopied] = useState(false);
 
   const rootRef = useRef(null);
   const triggerRef = useRef(null);
@@ -101,7 +130,7 @@ export default function App() {
   // scroll state: active section, topbar behaviour, progress line
   useEffect(() => {
     let last = window.scrollY;
-    const sections = ['home', 'about', 'skills', 'projects', 'contact'];
+    const sections = ['home', 'about', 'experience', 'projects', 'skills', 'achievements', 'contact'];
     const handleScroll = () => {
       const y = window.scrollY;
       setBarSolid(y > 40);
@@ -165,7 +194,7 @@ export default function App() {
 
   // Typewriter effect
   useEffect(() => {
-    const words = ['Web Developer', 'ML & AI Enthusiast', 'Prompt Engineer'];
+    const words = TYPED_WORDS;
     let wordIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
@@ -273,19 +302,27 @@ export default function App() {
     [transition]
   );
 
-  const barLabel = showResume ? ['05', 'Resume'] : showConnect ? ['06', 'Connect'] : SECTION_LABELS[activeSection];
+  const barLabel = showResume ? ['07', 'Resume'] : showConnect ? ['08', 'Connect'] : SECTION_LABELS[activeSection];
+
+  const copyEmail = useCallback(() => {
+    navigator.clipboard?.writeText(PROFILE.email).catch(() => {});
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2200);
+  }, []);
 
   const navItems = [
-    { id: '01', label: 'Home',     action: () => scrollToSection('home') },
-    { id: '02', label: 'About',    action: () => scrollToSection('about') },
-    { id: '03', label: 'Skills',   action: () => scrollToSection('skills') },
-    { id: '04', label: 'Projects', action: () => scrollToSection('projects') },
-    { id: '05', label: 'Resume',   action: openResume },
-    { id: '06', label: 'Contact',  action: openConnect },
+    { id: '01', label: 'Home',        action: () => scrollToSection('home') },
+    { id: '02', label: 'About',       action: () => scrollToSection('about') },
+    { id: '03', label: 'Experience',  action: () => scrollToSection('experience') },
+    { id: '04', label: 'Work',        action: () => scrollToSection('projects') },
+    { id: '05', label: 'Skills',      action: () => scrollToSection('skills') },
+    { id: '06', label: 'Recognition', action: () => scrollToSection('achievements') },
+    { id: '07', label: 'Resume',      action: openResume },
+    { id: '08', label: 'Contact',     action: openConnect },
   ];
 
   const exploreLinks = [
-    { label: 'GitHub Profile',  href: 'https://github.com/allenjohn006', external: true },
+    { label: 'GitHub Profile',  href: PROFILE.github, external: true },
     { label: 'LinkedIn',        href: 'https://www.linkedin.com/in/allen-john-isac-7b6730363/', external: true },
     { label: 'Direct Mail',     href: 'mailto:allen15022006@gmail.com', external: false },
     { label: "Let's Connect",   action: openConnect },
@@ -301,7 +338,6 @@ export default function App() {
           onDone={() => { setLoading(false); ScrollTrigger.refresh(); }}
         />
       )}
-      <Cursor />
       <div className="page-curtain" ref={curtainRef} aria-hidden="true">
         <div className="curtain-label"><span ref={curtainLabelRef} /></div>
       </div>
@@ -446,9 +482,9 @@ export default function App() {
                   <span className="cursor" aria-hidden="true">|</span>
                 </div>
                 <p className="hero-description" data-hero="desc">
-                  Passionate about predictive analytics, data-driven decision making, and building end-to-end applications.
+                  I build end-to-end AI systems &mdash; MLOps pipelines, voice-first platforms and full-stack products &mdash; not just notebooks.
                   <br />
-                  Currently pursuing my B.Tech degree with AI &amp; DS Specialization.
+                  3rd-year B.Tech in AI &amp; Data Science at Karunya Institute.
                 </p>
                 <div className="hero-buttons" data-hero="cta">
                   <button className="btn btn-primary" onClick={() => scrollToSection('projects')}>
@@ -488,36 +524,30 @@ export default function App() {
               <div className="section-header">
                 <span className="label" data-reveal>About Me</span>
                 <h2 className="chrome-text" data-split>Who I Am</h2>
-                <p data-reveal data-delay="0.15">Discover my journey and what drives me</p>
+                <p data-reveal data-delay="0.15">An engineer who ships &mdash; and cares who it&rsquo;s for</p>
               </div>
               <div className="about-content">
                 <div className="about-text">
                   <h3 className="chrome-text" data-split>Hi! I'm Allen John Isac</h3>
                   <p data-words>
-                    I'm a passionate developer, AI &amp; ML enthusiast currently in my 2nd year of B.Tech. I believe in the power of technology to solve complex problems and create meaningful experiences for users.
+                    I&rsquo;m a 3rd-year B.Tech student in AI &amp; Data Science at Karunya Institute of Technology and Sciences, Coimbatore. I build production-grade systems end to end &mdash; MLOps pipelines with drift detection, RAG-based evaluators, voice-first platforms and mobile apps.
                   </p>
                   <p data-words>
-                    My journey has been about continuous learning and pushing boundaries. Whether it's building intuitive web applications, diving into machine learning, or exploring IoT solutions, I'm always excited to tackle new challenges.
+                    I grew up between Kathmandu and Bokaro Steel City, and I care about technology that solves real accessibility and social problems &mdash; from replacing the scribe system for students with disabilities to bringing offline banking to rural branches.
                   </p>
                   <div className="about-highlight" data-stagger>
-                    <div className="highlight-item fx-card">
-                      <div className="highlight-number" data-count="2" data-suffix="nd">2nd</div>
-                      <div className="highlight-text">Years B-tech</div>
-                    </div>
-                    <div className="highlight-item fx-card">
-                      <div className="highlight-number" data-count="5" data-suffix="+">5+</div>
-                      <div className="highlight-text">Completed Projects</div>
-                    </div>
-                    <div className="highlight-item fx-card">
-                      <div className="highlight-number" data-count="10" data-suffix="+">10+</div>
-                      <div className="highlight-text">Technical Skills</div>
-                    </div>
+                    {STATS.map((st) => (
+                      <div className="highlight-item fx-card" key={st.label}>
+                        <div className="highlight-number" data-count={st.n} data-suffix={st.suffix}>{st.n}{st.suffix}</div>
+                        <div className="highlight-text">{st.label}</div>
+                      </div>
+                    ))}
                   </div>
                   <div className="about-buttons" data-reveal>
-                    <a href="https://github.com/allenjohn006" target="_blank" rel="noopener noreferrer" className="about-btn">
+                    <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" className="about-btn">
                       <i className="fab fa-github" /> GitHub Profile
                     </a>
-                    <a href="https://www.linkedin.com/in/allen-john-isac-7b6730363/" target="_blank" rel="noopener noreferrer" className="about-btn">
+                    <a href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer" className="about-btn">
                       <i className="fab fa-linkedin" /> LinkedIn
                     </a>
                     <button onClick={openResume} className="about-btn">
@@ -526,27 +556,23 @@ export default function App() {
                   </div>
                 </div>
                 <div className="about-info-cards-section" data-stagger="right">
-                  {/* Card 1: Education */}
                   <div className="about-info-card fx-card">
                     <div className="card-label">EDUCATION</div>
                     <div className="about-info-card-icon">
                       <img src={educationIcon} alt="Education" className="about-info-card-icon-img" />
                     </div>
-                    <h4>Education &amp; Leadership</h4>
+                    <h4>Education &amp; Languages</h4>
                     <div className="about-card-expandable">
                       <p className="about-card-desc">
-                        Currently pursuing my B.Tech in Artificial Intelligence and Data Science at Karunya Institute of Technology and Sciences (2024–2028). Academic journey spanning India and Nepal, complemented by active student leadership.
+                        B.Tech in Artificial Intelligence &amp; Data Science (2024&ndash;2028) at Karunya. Schooling across India and Nepal.
                       </p>
                       <ul className="about-card-bullets">
-                        <li><strong>Undergraduate:</strong> B.Tech in AI &amp; Data Science (2024–2028)</li>
-                        <li><strong>DotDev, ATOM:</strong> Full-Stack Development Club Coordinator</li>
-                        <li><strong>TEDxKarunyaUniversity:</strong> Core Student Member</li>
+                        <li><strong>College:</strong> Karunya Institute of Technology &amp; Sciences, Coimbatore</li>
                         <li><strong>Schooling:</strong> M.G.M. Higher Secondary (Jharkhand) &amp; Modern Indian School (Kathmandu)</li>
+                        <li><strong>Languages:</strong> Malayalam, English, Hindi, Tamil</li>
                       </ul>
                     </div>
                   </div>
-
-                  {/* Card 2: Focus */}
                   <div className="about-info-card fx-card">
                     <div className="card-label">FOCUS</div>
                     <div className="about-info-card-icon">
@@ -555,18 +581,16 @@ export default function App() {
                     <h4>Technical Focus</h4>
                     <div className="about-card-expandable">
                       <p className="about-card-desc">
-                        Exploring the intersection of software engineering and applied AI through practical systems, experimenting with emerging tech, and turning ideas into functional applications.
+                        Taking ideas from notebook to production &mdash; models, APIs, dashboards and the infrastructure that keeps them honest.
                       </p>
                       <ul className="about-card-bullets">
-                        <li><strong>Web Development:</strong> Building responsive, user-focused applications &amp; full-stack solutions</li>
-                        <li><strong>Artificial Intelligence &amp; ML:</strong> Intelligent systems, LLM pipelines &amp; predictive models</li>
-                        <li><strong>Data Science:</strong> Exploratory analytics, FAISS embeddings &amp; insight extraction</li>
+                        <li><strong>MLOps:</strong> drift detection, champion&ndash;challenger retraining, MLflow</li>
+                        <li><strong>GenAI &amp; NLP:</strong> RAG, FAISS embeddings, voice AI</li>
+                        <li><strong>Full Stack:</strong> FastAPI, React, React Native, Docker</li>
                       </ul>
-                      <p className="about-card-quote">"Learn continuously. Build practically. Improve iteratively."</p>
+                      <p className="about-card-quote">"Ship fast. Learn faster."</p>
                     </div>
                   </div>
-
-                  {/* Card 3: Beyond Code */}
                   <div className="about-info-card fx-card">
                     <div className="card-label">BEYOND CODE</div>
                     <div className="about-info-card-icon">
@@ -575,14 +599,14 @@ export default function App() {
                     <h4>Leadership &amp; Community</h4>
                     <div className="about-card-expandable">
                       <p className="about-card-desc">
-                        Beyond technology, I enjoy taking responsibility, working with teams, and contributing to community initiatives. My involvement in NSS has helped develop discipline, coordination, and team leadership.
+                        I lead because I like building teams as much as systems.
                       </p>
                       <ul className="about-card-bullets">
-                        <li><strong>NSS Karunya — Parade Team Head:</strong> Leading drill coordination, discipline &amp; teamwork</li>
-                        <li><strong>NSS Karunya — MC Team:</strong> Event hosting, stage coordination &amp; institutional communication</li>
-                        <li>Institutional &amp; community outreach initiatives and social service drives</li>
+                        <li><strong>DotDev Coordinator, ATOM:</strong> full-stack club at Karunya</li>
+                        <li><strong>Head, NSS Parade Team:</strong> drill, discipline &amp; teamwork</li>
+                        <li><strong>NSS MC Team &amp; IEEE TEMS:</strong> hosting and professional community</li>
                       </ul>
-                      <p className="about-card-quote">"Leadership is not just about taking charge; it's about bringing people together."</p>
+                      <p className="about-card-quote">"Leadership is bringing people together."</p>
                     </div>
                   </div>
                 </div>
@@ -590,57 +614,119 @@ export default function App() {
             </div>
           </section>
 
-          {/* Skills Section */}
-          <ModernSkillsSection />
+          {/* Experience Section */}
+          <section id="experience" className="experience">
+            <div className="section-container">
+              <div className="section-header">
+                <span className="label" data-reveal>Experience</span>
+                <h2 className="chrome-text" data-split>Internships &amp; Leadership</h2>
+                <p data-reveal data-delay="0.15">Three internships, a club to run and a parade team to lead</p>
+              </div>
+              <div className="exp-grid">
+                <div>
+                  <h3 className="subhead" data-reveal>Internships</h3>
+                  <Timeline items={INTERNSHIPS} />
+                </div>
+                <div>
+                  <h3 className="subhead" data-reveal>Leadership</h3>
+                  <Timeline items={LEADERSHIP} />
+                </div>
+              </div>
+            </div>
+          </section>
 
           {/* Projects Section */}
           <section id="projects" className="projects">
             <div className="section-container">
               <div className="section-header">
                 <span className="label" data-reveal>Work</span>
-                <h2 className="chrome-text" data-split>Featured Projects</h2>
-                <p data-reveal data-delay="0.15">Showcasing my best work and contributions</p>
+                <h2 className="chrome-text" data-split>Selected Projects</h2>
+                <p data-reveal data-delay="0.15">Systems built end to end &mdash; open any card for the case study</p>
               </div>
               <div className="projects-grid" data-stagger>
-                {[
-                  {
-                    title: 'Vox',
-                    desc: 'AI-driven accessibility-focused examination platform with 100% hands-free voice-controlled workflow. Enables voice-based navigation, biometric authentication, and supports hybrid question formats with real-time speech recognition.',
-                    image: `${base}vox-demo.jpeg`,
-                    tags: ['React', 'FastAPI', 'Web Speech API', 'JWT Auth', 'MongoDB', 'Docker'],
-                    link: 'https://github.com/allenjohn006/VOX-'
-                  },
-                  {
-                    title: 'OmniFlow Sales AI',
-                    desc: 'Production-grade MLOps platform for large-scale sales forecasting with XGBoost, automated retraining, and intelligent drift detection using statistical hypothesis testing.',
-                    image: `${base}omniflow-demo.jpeg`,
-                    tags: ['Pandas', 'XGBoost', 'FastAPI', 'Django', 'Python', 'Scikit-learn', 'Docker'],
-                    link: 'https://github.com/allenjohn006/OmniFlow'
-                  },
-                  {
-                    title: 'CVScope',
-                    desc: 'AI-powered resume evaluation system using semantic embeddings, FAISS vector search, and RAG pipeline to analyze resume-job compatibility with actionable recommendations.',
-                    image: `${base}cvscope-demo.jpeg`,
-                    tags: ['RAG', 'Openrouter', 'FAISS', 'FastAPI', 'Streamlit', 'OCR', 'Python'],
-                    link: 'https://github.com/allenjohn006/CVScope'
-                  },
-                ].map((project, idx) => (
-                  <div key={idx} className="project-card fx-card">
+                {FEATURED.map((p) => (
+                  <article
+                    key={p.id}
+                    className="project-card fx-card"
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`Open ${p.title} case study`}
+                    onClick={() => setProject(p)}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setProject(p); } }}
+                  >
                     <div className="project-image-container">
-                      <img src={project.image} alt={project.title} />
+                      {p.image ? (
+                        <img src={`${base}${p.image}`} alt={p.title} />
+                      ) : (
+                        <div className="arch" aria-hidden="true">
+                          {p.arch.map((n) => <span key={n}>{n}</span>)}
+                        </div>
+                      )}
+                      <span className="project-kind">{p.kind}</span>
                     </div>
                     <div className="project-info">
-                      <h3>{project.title}</h3>
-                      <p>{project.desc}</p>
-                      <div className="project-tags">
-                        {project.tags.map((tag, i) => (
-                          <span key={i} className="project-tag">{tag}</span>
+                      <div className="project-role">{p.role}</div>
+                      <h3>{p.title}</h3>
+                      <p>{p.short}</p>
+                      <div className="project-metrics">
+                        {p.metrics.map(([v, l]) => (
+                          <div key={l}><strong>{v}</strong><span>{l}</span></div>
                         ))}
                       </div>
-                      <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-link">
-                        Learn More →
-                      </a>
+                      <span className="project-link">Read case study <i className="fas fa-arrow-right" /></span>
                     </div>
+                  </article>
+                ))}
+              </div>
+
+              <h3 className="subhead more-title" data-reveal>More Builds</h3>
+              <div className="mini-grid" data-stagger>
+                {MORE_BUILDS.map((m, i) => (
+                  <a key={m.title} className="mini-card fx-card" href={m.link} target="_blank" rel="noopener noreferrer">
+                    <div className="mini-top">
+                      <span className="mini-num">{String(i + 1).padStart(2, '0')}</span>
+                      <span className="mini-tag">{m.tag}</span>
+                    </div>
+                    <h4>{m.title}</h4>
+                    <p>{m.note}</p>
+                    <div className="mini-bottom">
+                      <span className="mini-stack">{m.tags.join(' · ')}</span>
+                      <i className="fas fa-arrow-up-right-from-square" />
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Skills Section */}
+          <ModernSkillsSection />
+
+          {/* Achievements Section */}
+          <section id="achievements" className="achievements">
+            <div className="section-container">
+              <div className="section-header">
+                <span className="label" data-reveal>Recognition</span>
+                <h2 className="chrome-text" data-split>Achievements &amp; Certifications</h2>
+                <p data-reveal data-delay="0.15">Hackathons, awards and the courses behind the work</p>
+              </div>
+              <div className="ach-grid" data-stagger>
+                {ACHIEVEMENTS.map((a) => (
+                  <div className="ach-card fx-card" key={a.title}>
+                    <i className={`fas ${a.icon} ach-icon`} />
+                    <h4>{a.title}</h4>
+                    <div className="ach-org">{a.org}</div>
+                    <p>{a.note}</p>
+                  </div>
+                ))}
+              </div>
+              <h3 className="subhead more-title" data-reveal>Certifications</h3>
+              <div className="cert-list" data-stagger>
+                {CERTS.map(([name, issuer, year]) => (
+                  <div className="cert-row fx-card" key={name}>
+                    <span className="cert-name">{name}</span>
+                    <span className="cert-issuer">{issuer}</span>
+                    <span className="cert-year">{year}</span>
                   </div>
                 ))}
               </div>
@@ -652,21 +738,31 @@ export default function App() {
             <div className="section-container">
               <div className="section-header">
                 <span className="label" data-reveal>Contact</span>
-                <h2 className="chrome-text" data-split>Get In Touch</h2>
-                <p data-reveal data-delay="0.15">Let's connect and create something amazing together</p>
-                <button className="btn-connect-now" data-reveal data-delay="0.25" onClick={openConnect}>Connect Now</button>
+                <h2 className="chrome-text" data-split>Let&rsquo;s Build Something</h2>
+                <p data-reveal data-delay="0.15">Open to AI/ML and full-stack internships, 2026&ndash;27</p>
+                <div className="contact-status" data-reveal data-delay="0.2">
+                  <span className="pulse" /> Available for internships
+                </div>
+                <a className="contact-mail" href={`mailto:${PROFILE.email}`} data-reveal data-delay="0.25">
+                  <span className="roll" data-text={PROFILE.email}>{PROFILE.email}</span>
+                  <i className="fas fa-arrow-up-right-from-square" />
+                </a>
+                <div className="contact-actions" data-reveal data-delay="0.3">
+                  <button className="btn-connect-now" onClick={openConnect}>Connect Now</button>
+                  <button className="btn btn-outline" onClick={copyEmail}><i className="far fa-copy" /> Copy email</button>
+                </div>
               </div>
               <div className="contact-wrapper">
                 <div className="social-section" data-reveal>
                   <h3>Connect With Me</h3>
                   <div className="social-links" data-stagger="pop">
-                    <a className="social-link" href="https://github.com/allenjohn006" target="_blank" rel="noreferrer" aria-label="GitHub">
+                    <a className="social-link" href={PROFILE.github} target="_blank" rel="noreferrer" aria-label="GitHub">
                       <i className="fab fa-github" />
                     </a>
-                    <a className="social-link" href="https://www.linkedin.com/in/allen-john-isac-7b6730363/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+                    <a className="social-link" href={PROFILE.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
                       <i className="fab fa-linkedin-in" />
                     </a>
-                    <a className="social-link" href="mailto:allen15022006@gmail.com" aria-label="Email">
+                    <a className="social-link" href={`mailto:${PROFILE.email}`} aria-label="Email">
                       <i className="fas fa-envelope" />
                     </a>
                   </div>
@@ -678,11 +774,14 @@ export default function App() {
           {/* Footer */}
           <footer className="footer">
             <div className="footer-content">
-              <p>&copy; 2025 Allen John Isac. All rights reserved.</p>
+              <p>&copy; 2026 Allen John Isac &middot; Coimbatore, India</p>
             </div>
           </footer>
         </>
       )}
+
+      {project && <ProjectModal project={project} onClose={() => setProject(null)} />}
+      <div className={`toast ${copied ? 'show' : ''}`} role="status" aria-live="polite">Email copied to clipboard</div>
     </div>
   );
 }

@@ -300,22 +300,7 @@ body {
   display:flex; align-items:center; justify-content:center;
   padding:6.5rem 2.5rem 3.5rem;
   background:var(--bg);
-  /* subtle high-tech dot grid matching reference screenshot */
-  background-image:radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
-  background-size:28px 28px;
   position:relative; overflow:hidden;
-}
-.hero::before {
-  content:''; position:absolute;
-  width:600px; height:600px;
-  background:radial-gradient(circle, rgba(255,59,48,.05) 0%, transparent 68%);
-  top:-120px; right:-120px; pointer-events:none;
-}
-.hero::after {
-  content:''; position:absolute;
-  width:400px; height:400px;
-  background:radial-gradient(circle, rgba(255,59,48,.03) 0%, transparent 68%);
-  bottom:-80px; left:-80px; pointer-events:none;
 }
 .hero-bg,.neural-network-canvas,.global-bg { display:none; }
 
@@ -454,7 +439,7 @@ body {
 
 .hero-photo-wrapper:hover .hero-photo-clean {
   transform:translateY(-8px) scale(1.015);
-  filter:drop-shadow(0 30px 55px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 40px rgba(255, 59, 48, 0.22));
+  filter:drop-shadow(0 30px 55px rgba(0, 0, 0, 0.95));
 }
 
 /* scroll indicator */
