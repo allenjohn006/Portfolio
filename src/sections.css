@@ -214,14 +214,23 @@
 .cp { position: absolute; inset: 0; z-index: 0; border-radius: inherit; overflow: hidden; opacity: 0; transition: opacity .7s ease; pointer-events: none; }
 .cp::after {
   content: ''; position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(8,8,9,.18) 0%, rgba(8,8,9,.55) 100%);
+  background: linear-gradient(180deg, rgba(8,8,9,.2) 0%, rgba(8,8,9,.58) 100%);
 }
-.cp img {
-  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.12);
-  filter: saturate(1.05) brightness(.82);
-  transition: opacity 1.1s ease, transform 7s linear;
+.cp-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.1s ease; }
+.cp-slide.on { opacity: 1; }
+.cp-slide img {
+  position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+  transform: scale(1.1); transition: transform 7s linear;
 }
-.cp img.on { opacity: 1; transform: scale(1); }
+.cp-slide.on img { transform: scale(1); }
+.cp-slide.fill img { object-fit: cover; object-position: center 28%; filter: saturate(1.05) brightness(.8); }
+/* whole document / portrait: sharp image over its own blurred, darkened copy */
+.cp-slide.fit::before {
+  content: ''; position: absolute; inset: -30px; background: var(--bg) center / cover no-repeat;
+  filter: blur(22px) brightness(.38) saturate(1.1);
+}
+.cp-slide.fit img { object-fit: contain; padding: 14px; filter: brightness(.78); }
+.cp-slide.fit.on img { transform: scale(1); }
 .has-photos > :not(.cp):not(.tl-dot) { position: relative; z-index: 1; transition: opacity .6s ease; }
 .has-photos.photo-on .cp { opacity: 1; }
 .has-photos.photo-on > :not(.cp):not(.tl-dot) { opacity: .52; }
@@ -295,3 +304,7 @@
   .jr-stop { padding: 0 0 0 1.6rem; }
   .jr-dot { top: .35rem; }
 }
+
+/* a document / portrait is on screen: let it breathe, text steps further back */
+.has-photos.photo-on.photo-doc > :not(.cp):not(.tl-dot) { opacity: .26; }
+.has-photos.photo-doc .cp-slide.fit img { filter: brightness(.9); }

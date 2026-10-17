@@ -1,7 +1,7 @@
 # Card photos
 
-Drop photos into the folder that matches the card, named `1.jpg`, `2.jpg`, `3.jpg` … (1–5 per card).
-`.jpg`, `.jpeg`, `.png` and `.webp` all work. No code changes needed — they are picked up automatically.
+Drop photos into the folder that matches the card, any filename works (sorted by name). Use `.webp` where you can — it is 10x smaller than PNG.
+`.webp`, `.jpg`, `.jpeg` and `.png` all work. No code changes needed — they are picked up automatically.
 Landscape, about 1600×900 px, under ~400 KB each.
 
 | Folder | Card |

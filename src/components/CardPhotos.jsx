@@ -12,12 +12,13 @@ export default function CardPhotos({ slug }) {
   const root = useRef(null);
   const [idx, setIdx] = useState(0);
   const [on, setOn] = useState(false);
+  const [portrait, setPortrait] = useState({});
 
   useEffect(() => {
     const card = root.current?.parentElement;
     if (!card || !photos.length) return undefined;
     const enter = () => setOn(true);
-    const leave = () => setOn(false);
+    const leave = () => { setOn(false); setIdx(0); };
     card.addEventListener('pointerenter', enter);
     card.addEventListener('pointerleave', leave);
     card.addEventListener('focusin', enter);
@@ -44,12 +45,34 @@ export default function CardPhotos({ slug }) {
     return () => clearInterval(t);
   }, [on, photos.length]);
 
+  useEffect(() => {
+    const cur = photos[idx];
+    root.current?.parentElement?.classList.toggle('photo-doc', !!cur && (cur.doc || !!portrait[cur.src]));
+  }, [idx, portrait, photos]);
+
   if (!photos.length) return null;
   return (
     <div className="cp" ref={root} aria-hidden="true">
-      {photos.map((src, i) => (
-        <img key={src} src={src} alt="" loading="lazy" className={i === idx ? 'on' : ''} />
-      ))}
+      {photos.map(({ src, doc }, i) => {
+        const fit = doc || portrait[src];
+        return (
+          <div
+            key={src}
+            className={`cp-slide ${fit ? 'fit' : 'fill'} ${i === idx ? 'on' : ''}`}
+            style={{ '--bg': `url("${src}")` }}
+          >
+            <img
+              src={src}
+              alt=""
+              loading="lazy"
+              onLoad={(e) => {
+                const { naturalWidth: w, naturalHeight: h } = e.currentTarget;
+                if (w / h < 1.15) setPortrait((p) => ({ ...p, [src]: true }));
+              }}
+            />
+          </div>
+        );
+      })}
     </div>
   );
 }
